@@ -24,15 +24,20 @@ typedef struct {
 
 typedef struct 
 {
-	ElType TI [MaxRow][MaxCol]; /* memori tempat penyimpan elemen (container) */
-} TabBoard;
+	ElType Board [MaxRow][MaxCol]; /* memori tempat penyimpan elemen (container) */
+} ChessBoard;
 
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor : create tabel kosong */
-void MakeBoard (TabBoard *T);
+void MakeBoard (ChessBoard *T);
 /* I.S. sembarang */
 /* F.S. Terbentuk tabel T kosong dengan kapasitas [MaxRow][MaxCol] */
 
+/* Untuk menampilkan papan catur */
+void DisplayBoard();
+
+/* Untuk menampilkan papan catur setelah pemain bergerak */
+void ChangeBoard(int, int, int, int);
 /* ********** SELEKTOR ********** */
 /* *** Menghasilkan sebuah elemen *** */
 ElType GetElmt (TabInt T, IdxType i);
