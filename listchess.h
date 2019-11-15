@@ -6,21 +6,12 @@
 
 /* Modul yang digunakan */
 #include "boolean.h"
+#include "chess-master.h"
 
 #define Nil NULL
 
 /* Definisi Tipe  */
-typedef struct{
-    char PName;
-    char PType;
-} Bidak;
-typedef int posisi;
 typedef struct tElmtlist *address;
-typedef struct {
-    Bidak BInfo;
-    posisi X;
-    posisi Y;
-} Piece;
 typedef struct tElmtlist {
     Piece PInfo;
     address Next;
@@ -38,6 +29,8 @@ typedef struct {
 #define PInfo(E) (E)->PInfo
 #define Next(E) (E)->Next
 #define First(L) (L).First
+#define BName(P) (P).BInfo.PName
+#define BType(P) (P).BInfo.PType
 
 /****************** PEMBUATAN LIST KOSONG ******************/
 void CreateEmpty (List *L);

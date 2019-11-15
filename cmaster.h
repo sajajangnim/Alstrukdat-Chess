@@ -1,6 +1,14 @@
 #ifndef CHESS_
 #define CHESS_
 
+// ADT dan library yang digunakan
+#include "listchess.h"
+#include "chessboard.h"
+#include "stackchess.h"
+#include "boolean.h"
+#include <stdio.h>
+#include <stdlib.h>
+
 /*bolehkah ini kugantii? karena udh byk yg pake adt di bawah di list
 kuliat di stack ga terlalu byk make*/ 
 typedef struct{
@@ -34,5 +42,8 @@ typedef struct {
 #define ROOK_B 'R'
 #define QUEEN_W 'q'
 #define QUEEN_B 'Q'
+
+void scanBidak (List L, List *ML);
+
 
 #endif
