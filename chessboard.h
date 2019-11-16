@@ -8,6 +8,18 @@
 #define MaxRow 8
 #define MaxCol 8
 #define MaxStatus 8
+#define PAWN_W 'p'
+#define PAWN_B 'P'
+#define KING_W 'k'
+#define KING_B 'K'
+#define KNIGHT_W 'h'
+#define KNIGHT_B 'H'
+#define BISHOP_W 'b'
+#define BISHOP_B 'B'
+#define ROOK_W 'r'
+#define ROOK_B 'R'
+#define QUEEN_W 'q'
+#define QUEEN_B 'Q'
 
 /* Definisi elemen dan koleksi objek */
 typedef char ElType;
@@ -19,7 +31,7 @@ typedef struct {
 } WhiteStatus;
 
 typedef struct {
-    PlayBlack PB [MaxStatus]
+    PlayBlack PB [MaxStatus];
 } BlackStatus;
 
 typedef struct 
@@ -34,14 +46,11 @@ void MakeBoard (ChessBoard *T);
 /* F.S. Terbentuk tabel T kosong dengan kapasitas [MaxRow][MaxCol] */
 
 /* Untuk menampilkan papan catur */
-void DisplayBoard();
+void DisplayBoard(ChessBoard T);
 
 /* Untuk menampilkan papan catur setelah pemain bergerak */
 void ChangeBoard(int, int, int, int);
 /* ********** SELEKTOR ********** */
 /* *** Menghasilkan sebuah elemen *** */
-ElType GetElmt (TabInt T, IdxType i);
-/* Prekondisi : Tabel tidak kosong, i antara FirstIdx(T)..LastIdx(T) */
-/* Mengirimkan elemen tabel yang ke-i */
 
 #endif
