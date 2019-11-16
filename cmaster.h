@@ -9,8 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*bolehkah ini kugantii? karena udh byk yg pake adt di bawah di list
-kuliat di stack ga terlalu byk make*/ 
 typedef struct{
     char PName;
     char PType;
@@ -22,13 +20,13 @@ typedef struct {
     posisi Y;
 } Piece;
 
-#define PName(B) (B)->PName
-#define PType(B) (B)->PType
+#define BName(B) (B)->PName
+#define BType(B) (B)->PType
 #define BInfo(P)  (P).BInfo
 #define X(P) (P).X
 #define Y(P) (P).Y
-#define BName(P) (P).BInfo.PName
-#define BType(P) (P).BInfo.PType
+#define PName(P) (P).BInfo.PName
+#define PType(P) (P).BInfo.PType
 
 #define PAWN_W 'm'
 #define PAWN_B 'M'
@@ -43,7 +41,16 @@ typedef struct {
 #define QUEEN_W 'q'
 #define QUEEN_B 'Q'
 
-void scanBidak (List L, List *ML);
+char cBoard[8][8] = {
+                    { 'R' , 'H' , 'C' , 'K' , 'Q' , 'C' , 'H' , 'R' },
+                    { 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' },
+                    { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
+                    { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
+                    { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
+                    { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
+                    { 'p' , 'p' , 'p' , 'p' , 'p' , 'p' , 'p' , 'p' },
+                    { 'r' , 'h' , 'c' , 'k' , 'q' , 'c' , 'h' , 'r' }
+                    };
 
-
+void scanArray();
 #endif
