@@ -1,4 +1,4 @@
-
+//implementasi cmaster.h
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -86,27 +86,29 @@ void scRook(List *ML, int i, int j, char warnaBdk){
         benteng.PName = r;
     }
     benteng.PType = warnaBdk;
-    int n = j;
-    while (cBoard[i][j+1] == ' '){ //cek kanan
-        if (n == 9){break; }
+    int n = 1;
+    while (cBoard[i][j+n] == ' '){ //cek kanan
+        if (n == 8){break; }
         A = Alokasi(benteng, i, j);
         InsertFirst(ML, A);
         n += 1;
     }
-    while (cBoard[i][j-1] == ' '){ //cek kiri
+    n = 1;
+    while (cBoard[i][j-n] == ' '){ //cek kiri
         if (n == 0){break; }
         A = Alokasi(benteng, i, j);
         InsertFirst(ML, A);
         n -= 1;
     }
 
-    n = i;
-    while (cBoard[i+1][j] == ' '){ //cek depan
+    n = 1;
+    while (cBoard[i+n][j] == ' '){ //cek depan
         if (n == 8){break; }
         A = Alokasi(benteng, i, j);
         InsertFirst(ML, A);
         n += 1;
     }
+    n=1;
     while (cBoard[i-1][j] == ' '){ //cek blkg
         if (n == 0){break; }
         A = Alokasi(benteng, i, j);
@@ -191,7 +193,7 @@ void scBishop (List *ML, int i, int j, char warnaBdk){
         }
         m = Alokasi(menteri, i, j);
         InsertFirst(ML, m);
-        i += 1;
+        intv += 1;
     }
     while (cBoard[i-1][j-1] == ' '){
         if ((i < 0) && (j < 0)){
@@ -199,7 +201,7 @@ void scBishop (List *ML, int i, int j, char warnaBdk){
         }
         m = Alokasi(menteri, i, j);
         InsertFirst(ML, m);
-        i += 1;
+        intv += 1;
     }
     while (cBoard[i+1][j-1] == ' '){
         if ((i > 7) && (j < 0)){
@@ -207,7 +209,7 @@ void scBishop (List *ML, int i, int j, char warnaBdk){
         }
         m = Alokasi(menteri, i, j);
         InsertFirst(ML, m);
-        i += 1;
+        intv += 1;
     }
     while (cBoard[i-1][j+1] == ' '){
         if ((i < 0) && (j > 7)){
@@ -215,7 +217,7 @@ void scBishop (List *ML, int i, int j, char warnaBdk){
         }
         m = Alokasi(menteri, i, j);
         InsertFirst(ML, m);
-        i += 1;
+        intv += 1;
     }
 }
 
@@ -278,3 +280,76 @@ void scKing (List *ML, int i, int j, char warnaBdk){
     }
 }
 
+void scQueen(List *ML, int i, int j, char warnaBdk){
+    address Alok;
+    char Q, q;
+    Bidak queen; queen.PType = warnaBdk;
+    if (warnaBdk == 'B')    {queen.PName = Q;}
+    else    {queen.PName = q; }
+
+    //INISIALISASI BIDAK ^. NGECEK BISA JALAN GA >
+    int intv = 1;   //interval
+        //cek serong
+    while (cBoard[i+1][j+1] == ' '){
+        if ((i > 7) && (j > 7)){
+            break; }
+        Alok = Alokasi(queen, i, j);
+        InsertFirst(ML, Alok);
+        intv += 1;
+    }
+    while (cBoard[i-1][j-1] == ' '){
+        if ((i < 0) && (j < 0)){
+            break;
+        }
+        Alok = Alokasi(queen, i, j);
+        InsertFirst(ML, Alok);
+        intv += 1;
+    }
+    while (cBoard[i+1][j-1] == ' '){
+        if ((i > 7) && (j < 0)){
+            break;
+        }
+        Alok = Alokasi(queen, i, j);
+        InsertFirst(ML, Alok);
+        intv += 1;
+    }
+    while (cBoard[i-1][j+1] == ' '){
+        if ((i < 0) && (j > 7)){
+            break;
+        }
+        Alok = Alokasi(queen, i, j);
+        InsertFirst(ML, Alok);
+        intv += 1;
+    }
+
+        //cek kanan,kiri, depan, blkg
+    int n = 1;
+    while (cBoard[i][j+n] == ' '){ //cek kanan
+        if (n == 8){break; }
+        Alok = Alokasi(queen, i, j);
+        InsertFirst(ML, Alok);
+        n += 1;
+    }
+    n = 1;
+    while (cBoard[i][j-n] == ' '){ //cek kiri
+        if (n == 0){break; }
+        Alok = Alokasi(queen, i, j);
+        InsertFirst(ML, Alok);
+        n -= 1;
+    }
+
+    n = 1;
+    while (cBoard[i+n][j] == ' '){ //cek depan
+        if (n == 8){break; }
+        Alok = Alokasi(queen, i, j);
+        InsertFirst(ML, Alok);
+        n += 1;
+    }
+    n=1;
+    while (cBoard[i-1][j] == ' '){ //cek blkg
+        if (n == 0){break; }
+        Alok = Alokasi(queen, i, j);
+        InsertFirst(ML, Alok);
+        n -= 1;
+    }
+}
