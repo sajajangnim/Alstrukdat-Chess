@@ -28,29 +28,31 @@ typedef struct {
 #define PName(P) (P).BInfo.PName
 #define PType(P) (P).BInfo.PType
 
-#define PAWN_W 'm'
-#define PAWN_B 'M'
+#define PAWN_W 'p' //pion
+#define PAWN_B 'P'
 #define KING_W 'k'
 #define KING_B 'K'
-#define KNIGHT_W 'n'
-#define KNIGHT_B 'N'
-#define BISHOP_W 'b'
+#define KNIGHT_W 'h' //kuda
+#define KNIGHT_B 'H'
+#define BISHOP_W 'b' //menteri
 #define BISHOP_B 'B'
-#define ROOK_W 'r'
+#define ROOK_W 'r' //benteng
 #define ROOK_B 'R'
 #define QUEEN_W 'q'
 #define QUEEN_B 'Q'
 
 char cBoard[8][8] = {
-                    { 'R' , 'H' , 'C' , 'K' , 'Q' , 'C' , 'H' , 'R' },
+                    { 'R' , 'H' , 'B' , 'K' , 'Q' , 'B' , 'H' , 'R' },
                     { 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' },
                     { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
                     { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
                     { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
                     { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
                     { 'p' , 'p' , 'p' , 'p' , 'p' , 'p' , 'p' , 'p' },
-                    { 'r' , 'h' , 'c' , 'k' , 'q' , 'c' , 'h' , 'r' }
+                    { 'r' , 'h' , 'b' , 'k' , 'q' , 'b' , 'h' , 'r' }
                     };
 
-void scanArray();
+void scanList(List L, List * ML);
+void scPawn(List *ML, int i, int j, char warnaBdk);
+void scRook(List *ML, int i, int j, char warnaBdk);
 #endif
