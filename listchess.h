@@ -26,8 +26,8 @@ typedef struct {
 #define BInfo(P)  (P).BInfo
 #define X(P) (P).X
 #define Y(P) (P).Y
-#define PInfo(E) (E).PInfo
-#define Next(E) (E).Next
+#define PInfo(E) (E)->PInfo
+#define Next(E) (E)->Next
 #define First(L) (L).First
 #define BName(P) (P).BInfo.PName
 #define BType(P) (P).BInfo.PType
