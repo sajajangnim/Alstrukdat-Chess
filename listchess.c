@@ -12,6 +12,82 @@ void CreateEmpty (List *L){
 /* I.S. sembarang             */
 /* F.S. Terbentuk list kosong */
 
+void CreateList(List *L, char warnaBidak){
+    address P = Nil;
+    Bidak Bdk; Bdk.PType = warnaBidak;
+    for (int j = 0;j <= 7;j++){
+        if (warnaBidak = 'B'){
+            Bdk.PName = 'P';
+            int i = 6;
+            P = Alokasi(Bdk, i, j);
+        }
+        else {
+            Bdk.PName = 'p';
+            int i = 1;
+            P = Alokasi(Bdk, i, j);
+        }
+        InsertFirst(L, P);
+    }
+    if (warnaBidak = 'B'){
+        int i = 0; int j = 0;
+        char B, R, H, K, Q;
+        Bdk.PType = B;
+        while (j <= 7){
+            switch (j){
+            case (0):
+                Bdk.PName = R; break;
+            case (1):
+                Bdk.PName = H; break;
+            case (2):
+                Bdk.PName = B;break;
+            case (3):
+                Bdk.PName = K; break;
+            case (4):
+                Bdk.PName = Q; break;
+            case (5):
+                Bdk.PName = B;break;
+            case (6):
+                Bdk.PName = H; break;
+            case (7):
+                Bdk.PName = R; break;
+            default: break;
+            }
+            j += 1;
+        }
+        P = Alokasi(Bdk, i, j);
+        InsertFirst(L, P);
+    }
+    else{
+        int i = 0; int j = 0;
+        char b, r, h, k, q, w;
+        Bdk.PType = w;
+        while (j <= 7){
+            switch (j){
+            case (0):
+                Bdk.PName = r; break;
+            case (1):
+                Bdk.PName = h; break;
+            case (2):
+                Bdk.PName = b;break;
+            case (3):
+                Bdk.PName = k; break;
+            case (4):
+                Bdk.PName = q; break;
+            case (5):
+                Bdk.PName = b;break;
+            case (6):
+                Bdk.PName = h; break;
+            case (7):
+                Bdk.PName = r; break;
+            default: break;
+            }
+            j += 1;
+        }
+        P = Alokasi(Bdk, i, j);
+        InsertFirst(L, P);
+    }
+    
+}
 /****************** Manajemen Memori ******************/
 /*Piece AlokPiece (Bidak Bdk, posisi absis, posisi ord){
     Piece temp;

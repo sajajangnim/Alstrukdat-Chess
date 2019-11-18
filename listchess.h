@@ -37,6 +37,7 @@ void CreateEmpty (List *L);
 /* I.S. sembarang             */
 /* F.S. Terbentuk list kosong */
 
+void CreateList(List *L, char warnaBidak);
 /****************** Manajemen Memori ******************/
 //Piece AlokPiece (Bidak Bdk, posisi absis, posisi ord);
 address Alokasi (Bidak Bdk, posisi absis, posisi ord);
