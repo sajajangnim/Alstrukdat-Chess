@@ -1,4 +1,4 @@
-//implementasi cmaster.h
+//Implementasi cmaster.h
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,23 +16,23 @@ void scanList (List L, List *ML){
         int i = temp.X; int j = temp.Y;
         if (PType(temp) == 'B'){
             switch (cBoard[i][j]) {
-            case ('P'): scPawn(ML, i, j, PType(temp)); break;
-            case ('R'): scRook(ML, i, j, PType(temp)); break;
-            case ('H'): scHorse(ML, i, j, PType(temp)); break;
-            case ('B'): scCamel(ML, i, j, PType(temp)); break;
-            case ('K'): scKing(ML, i, j, PType(temp)); break;
-            case ('Q'): scQueen(ML, i, j, PType(temp)); break; 
+            case ('P'): scPawn(ML, i, j, BType(temp)); break;
+            case ('R'): scRook(ML, i, j, BType(temp)); break;
+            case ('H'): scHorse(ML, i, j, BType(temp)); break;
+            case ('B'): scCamel(ML, i, j, BType(temp)); break;
+            case ('K'): scKing(ML, i, j, BType(temp)); break;
+            case ('Q'): scQueen(ML, i, j, BType(temp)); break; 
             default: break;
             }
         }
         else {
             switch (cBoard[i][j]) {
-            case ('p'): scPawn(ML, i, j, PType(temp)); break;
-            case ('r'): scRook(ML, i, j, PType(temp)); break;
-            case ('h'): scHorse(ML, i, j, PType(temp)); break;
-            case ('b'): scCamel(ML, i, j, PType(temp)); break;
-            case ('k'): scKing(ML, i, j, PType(temp)); break;
-            case ('q'): scQueen(ML, i, j, PType(temp)); break; 
+            case ('p'): scPawn(ML, i, j, BType(temp)); break;
+            case ('r'): scRook(ML, i, j, BType(temp)); break;
+            case ('h'): scHorse(ML, i, j, BType(temp)); break;
+            case ('b'): scCamel(ML, i, j, BType(temp)); break;
+            case ('k'): scKing(ML, i, j, BType(temp)); break;
+            case ('q'): scQueen(ML, i, j, BType(temp)); break; 
             default: break;
             }
         }
@@ -86,29 +86,27 @@ void scRook(List *ML, int i, int j, char warnaBdk){
         benteng.PName = r;
     }
     benteng.PType = warnaBdk;
-    int n = 1;
-    while (cBoard[i][j+n] == ' '){ //cek kanan
-        if (n == 8){break; }
+    int n = j;
+    while (cBoard[i][j+1] == ' '){ //cek kanan
+        if (n == 9){break; }
         A = Alokasi(benteng, i, j);
         InsertFirst(ML, A);
         n += 1;
     }
-    n = 1;
-    while (cBoard[i][j-n] == ' '){ //cek kiri
+    while (cBoard[i][j-1] == ' '){ //cek kiri
         if (n == 0){break; }
         A = Alokasi(benteng, i, j);
         InsertFirst(ML, A);
         n -= 1;
     }
 
-    n = 1;
-    while (cBoard[i+n][j] == ' '){ //cek depan
+    n = i;
+    while (cBoard[i+1][j] == ' '){ //cek depan
         if (n == 8){break; }
         A = Alokasi(benteng, i, j);
         InsertFirst(ML, A);
         n += 1;
     }
-    n=1;
     while (cBoard[i-1][j] == ' '){ //cek blkg
         if (n == 0){break; }
         A = Alokasi(benteng, i, j);
@@ -193,7 +191,7 @@ void scBishop (List *ML, int i, int j, char warnaBdk){
         }
         m = Alokasi(menteri, i, j);
         InsertFirst(ML, m);
-        intv += 1;
+        i += 1;
     }
     while (cBoard[i-1][j-1] == ' '){
         if ((i < 0) && (j < 0)){
@@ -201,7 +199,7 @@ void scBishop (List *ML, int i, int j, char warnaBdk){
         }
         m = Alokasi(menteri, i, j);
         InsertFirst(ML, m);
-        intv += 1;
+        i += 1;
     }
     while (cBoard[i+1][j-1] == ' '){
         if ((i > 7) && (j < 0)){
@@ -209,7 +207,7 @@ void scBishop (List *ML, int i, int j, char warnaBdk){
         }
         m = Alokasi(menteri, i, j);
         InsertFirst(ML, m);
-        intv += 1;
+        i += 1;
     }
     while (cBoard[i-1][j+1] == ' '){
         if ((i < 0) && (j > 7)){
@@ -217,7 +215,7 @@ void scBishop (List *ML, int i, int j, char warnaBdk){
         }
         m = Alokasi(menteri, i, j);
         InsertFirst(ML, m);
-        intv += 1;
+        i += 1;
     }
 }
 
@@ -277,79 +275,5 @@ void scKing (List *ML, int i, int j, char warnaBdk){
             Alok = Alokasi(raja, i, j);
             InsertFirst(ML, Alok);
         } 
-    }
-}
-
-void scQueen(List *ML, int i, int j, char warnaBdk){
-    address Alok;
-    char Q, q;
-    Bidak queen; queen.PType = warnaBdk;
-    if (warnaBdk == 'B')    {queen.PName = Q;}
-    else    {queen.PName = q; }
-
-    //INISIALISASI BIDAK ^. NGECEK BISA JALAN GA >
-    int intv = 1;   //interval
-        //cek serong
-    while (cBoard[i+1][j+1] == ' '){
-        if ((i > 7) && (j > 7)){
-            break; }
-        Alok = Alokasi(queen, i, j);
-        InsertFirst(ML, Alok);
-        intv += 1;
-    }
-    while (cBoard[i-1][j-1] == ' '){
-        if ((i < 0) && (j < 0)){
-            break;
-        }
-        Alok = Alokasi(queen, i, j);
-        InsertFirst(ML, Alok);
-        intv += 1;
-    }
-    while (cBoard[i+1][j-1] == ' '){
-        if ((i > 7) && (j < 0)){
-            break;
-        }
-        Alok = Alokasi(queen, i, j);
-        InsertFirst(ML, Alok);
-        intv += 1;
-    }
-    while (cBoard[i-1][j+1] == ' '){
-        if ((i < 0) && (j > 7)){
-            break;
-        }
-        Alok = Alokasi(queen, i, j);
-        InsertFirst(ML, Alok);
-        intv += 1;
-    }
-
-        //cek kanan,kiri, depan, blkg
-    int n = 1;
-    while (cBoard[i][j+n] == ' '){ //cek kanan
-        if (n == 8){break; }
-        Alok = Alokasi(queen, i, j);
-        InsertFirst(ML, Alok);
-        n += 1;
-    }
-    n = 1;
-    while (cBoard[i][j-n] == ' '){ //cek kiri
-        if (n == 0){break; }
-        Alok = Alokasi(queen, i, j);
-        InsertFirst(ML, Alok);
-        n -= 1;
-    }
-
-    n = 1;
-    while (cBoard[i+n][j] == ' '){ //cek depan
-        if (n == 8){break; }
-        Alok = Alokasi(queen, i, j);
-        InsertFirst(ML, Alok);
-        n += 1;
-    }
-    n=1;
-    while (cBoard[i-1][j] == ' '){ //cek blkg
-        if (n == 0){break; }
-        Alok = Alokasi(queen, i, j);
-        InsertFirst(ML, Alok);
-        n -= 1;
     }
 }
