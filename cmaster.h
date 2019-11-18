@@ -1,6 +1,3 @@
-#ifndef CHESS_
-#define CHESS_
-
 // ADT dan library yang digunakan
 #include "listchess.h"
 #include "chessboard.h"
@@ -8,6 +5,9 @@
 #include "boolean.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+#ifndef CHESS_
+#define CHESS_
 
 typedef struct{
     char PName;
@@ -55,4 +55,9 @@ char cBoard[8][8] = {
 void scanList(List L, List * ML);
 void scPawn(List *ML, int i, int j, char warnaBdk);
 void scRook(List *ML, int i, int j, char warnaBdk);
+void scHorse (List *ML, int i, int j, char warnaBdk);
+void scBishop (List *ML, int i, int j, char warnaBdk);
+void scKing (List *ML, int i, int j, char warnaBdk);
+void scQueen(List *ML, int i, int j, char warnaBdk);
+
 #endif
