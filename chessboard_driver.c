@@ -3,9 +3,9 @@
 #include "chessboard.h"
 
 int main() {
-    ChessBoard T;
-    MakeBoard(*T);
-    DisplayBoard(T);
+    MATRIKS CBoard;
+    MakeBoard(&CBoard);
+    DisplayBoard(&CBoard);
 
     return 0;
 }
