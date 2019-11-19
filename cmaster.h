@@ -1,7 +1,8 @@
 // ADT dan library yang digunakan
-#include "listchess.h"
+/*#include "listchess.h"
 #include "chessboard.h"
-#include "stackchess.h"
+// benerin include nya rapihin antara queue stack list boolean mainceunah sama cmaster
+*/
 #include "boolean.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,13 +14,17 @@ typedef struct{
     char PName;
     char PType;
 } Bidak;
-typedef int posisi;
+typedef struct {
+    int X;
+    int Y;
+} posisi;
 typedef struct {
     Bidak BInfo;
-    posisi X;
-    posisi Y;
+    posisi CurrLoc;
+    posisi NextLoc;
 } Piece;
 
+#define Nil 0
 #define BName(B) (B)->PName
 #define BType(B) (B)->PType
 #define BInfo(P)  (P).BInfo
@@ -41,6 +46,7 @@ typedef struct {
 #define QUEEN_W 'q'
 #define QUEEN_B 'Q'
 
+/*
 char cBoard[8][8] = {
                     { 'R' , 'H' , 'B' , 'K' , 'Q' , 'B' , 'H' , 'R' },
                     { 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' },
@@ -59,5 +65,5 @@ void scHorse (List *ML, int i, int j, char warnaBdk);
 void scBishop (List *ML, int i, int j, char warnaBdk);
 void scKing (List *ML, int i, int j, char warnaBdk);
 void scQueen(List *ML, int i, int j, char warnaBdk);
-
+*/
 #endif

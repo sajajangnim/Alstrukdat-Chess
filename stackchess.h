@@ -1,26 +1,23 @@
 
-#ifndef stackchess_H
-#define stackchess_H
+#ifndef _stackchess_H__
+#define _stackchess_H__
 
-#include "boolean.h"
 
-#define Nil 0
+#include "cmaster.h"
+
+
 #define MaxEl 100
 
-typedef int address;
-typedef struct {
-    koordinat k;
-    piece z;
-} chessturn;
-
 
 typedef struct {
-    infotype T[MaxEl];
-    address TOP;
+    Piece T[MaxEl];
+    int TOP;
 } Stack;
 
-void CreateEmpty(Stack *S);
-bool IsEmpty(Stack S);
-bool IsFull(Stack S);
-void Push(Stack *S, infotype X);
-void Pop (Stack *S, infotype *X);
+void CreateEmptyS(Stack *S);
+boolean IsEmptyS(Stack S);
+boolean IsFullS(Stack S);
+void Push(Stack *S, Piece X);
+void Pop (Stack *S, Piece *X);
+
+#endif

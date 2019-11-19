@@ -1,24 +1,24 @@
 #include "stackchess.h"
 
-void CreateEmpty(Stack *S)
+void CreateEmptyS(Stack *S)
 {
-    (*S).TOP = Nil;
+    (*S).TOP = 0;
 }
-bool IsEmpty(Stack S)
+boolean IsEmptyS(Stack S)
 {
-    return ((S).TOP == Nil);
+    return ((S).TOP == 0);
 }
-bool IsFull(Stack S)
+boolean IsFullS(Stack S)
 {
     return ((S).TOP==MaxEl);
 }
-void Push(Stack *S, chessturn X)
+void Push(Stack *S, Piece X)
 {
     (*S).TOP++;
-    (*S).T[(*S).TOP-1] = X;
+    (*S).T[((*S).TOP)-1] = X;
 }
-void Pop (Stack *S, chessturn *X)
+void Pop (Stack *S, Piece *X)
 {
-    *X = (*S).T[(*S).TOP-1];
+    *X = (*S).T[((*S).TOP)-1];
     (*S).TOP--;
 }
