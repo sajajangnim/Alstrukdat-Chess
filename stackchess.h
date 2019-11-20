@@ -3,8 +3,7 @@
 #define _stackchess_H__
 
 
-#include "cmaster.h"
-
+#include "listchess.h"
 
 #define MaxEl 100
 

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "cmaster.h"
 
 
@@ -113,7 +114,7 @@ void InputCommand(List *L, List *moveL){
     char Cmd[20];
     printf("Masukkan command: ");
     scanf("%s", Cmd);
-    if (Cmd == "MOVE") {
+    if (strcmp(Cmd, "MOVE") == 0) {
         Move(L, moveL);
     }
     /*

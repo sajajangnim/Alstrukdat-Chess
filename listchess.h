@@ -5,12 +5,25 @@
 #define _LISTCHESS_H_
 
 /* Modul yang digunakan */
+#include <stdio.h>
+#include <stdlib.h>
 #include "boolean.h"
-#include "chess-master.h"
 
 #define Nil NULL
 
 /* Definisi Tipe  */
+typedef struct{
+    char PName;
+    char PType;
+} Bidak;
+typedef int posisi;
+typedef struct {
+    Bidak BInfo;
+    posisi X;
+    posisi Y;
+    //posisi CurrLoc;
+    //posisi NextLoc;
+} Piece;
 typedef struct tElmtlist *address;
 typedef struct tElmtlist {
     Piece PInfo;
@@ -21,16 +34,17 @@ typedef struct {
 } List;
 
 /* Konstruktor list : */
-#define PName(B) (B)->PName
-#define PType(B) (B)->PType
+//#define Nil 0
+#define BName(B) (B).PName
+#define BType(B) (B).PType
 #define BInfo(P)  (P).BInfo
 #define X(P) (P).X
 #define Y(P) (P).Y
 #define PInfo(E) (E)->PInfo
 #define Next(E) (E)->Next
 #define First(L) (L).First
-#define BName(P) (P).BInfo.PName
-#define BType(P) (P).BInfo.PType
+#define PName(P) (P).BInfo.PName
+#define PType(P) (P).BInfo.PType
 
 /****************** PEMBUATAN LIST KOSONG ******************/
 void CreateEmptyL (List *L);

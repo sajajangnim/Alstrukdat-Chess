@@ -4,8 +4,8 @@
 // benerin include nya rapihin antara queue stack list boolean mainceunah sama cmaster
 */
 #include "boolean.h"
-#include "stackchess.h"
 #include "listchess.h"
+#include "stackchess.h"
 #include "queuechess.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,31 +13,8 @@
 #ifndef CHESS_
 #define CHESS_
 
-typedef struct{
-    char PName;
-    char PType;
-} Bidak;
-/*typedef struct {
-    int X;
-    int Y;
-} posisi;
-*/
-typedef struct {
-    Bidak BInfo;
-    int X;
-    int Y;
-    //posisi CurrLoc;
-    //posisi NextLoc;
-} Piece;
-
-//#define Nil 0
-#define BName(B) (B).PName
-#define BType(B) (B).PType
-#define BInfo(P)  (P).BInfo
-#define X(P) (P).X
-#define Y(P) (P).Y
-#define PName(P) (P).BInfo->PName
-#define PType(P) (P).BInfo->PType
+//#define PName(P) (P).BInfo->PName
+//#define PType(P) (P).BInfo->PType
 
 #define PAWN_W 'p' //pion
 #define PAWN_B 'P'

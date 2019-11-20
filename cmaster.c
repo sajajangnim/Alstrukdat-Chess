@@ -15,7 +15,7 @@ void scPawn(List *ML, int i, int j, char warnaBdk){
     boolean found;
     while (!found){
         if (warnaBdk == 'B'){
-            pion.PName = P;
+            pion.PName = 'P';
             if (j == 7){
                 if (cBoard[i-2][j] == ' '){
                     A = Alokasi(pion, i, j);
@@ -30,7 +30,7 @@ void scPawn(List *ML, int i, int j, char warnaBdk){
             }
         }
         else{
-            pion.PName = p;
+            pion.PName = 'p';
             if (j == 2){
                 if (cBoard[i+2][j] == ' '){
                     A = Alokasi(pion, i, j);
@@ -375,25 +375,25 @@ void scanList(List L, List *ML){
     while (P != Nil){
         Piece temp = PInfo(P);  //expression must have pointer type:(
         int i = temp.X; int j = temp.Y;
-        if (BInfo(temp).PType == 'B'){
+        if (BType(BInfo(temp)) == 'B'){
             switch (cBoard[i][j]) {
-            case ('P'): scPawn(ML, i, j, BType(temp)); break;
-            case ('R'): scRook(ML, i, j, BType(temp)); break;
-            case ('H'): scHorse(ML, i, j, BType(temp)); break;
-            case ('B'): scBishop(ML, i, j, BType(temp)); break;
-            case ('K'): scKing(ML, i, j, BType(temp)); break;
-            case ('Q'): scQueen(ML, i, j, BType(temp)); break; 
+            case ('P'): scPawn(ML, i, j, PType(temp)); break;
+            case ('R'): scRook(ML, i, j, PType(temp)); break;
+            case ('H'): scHorse(ML, i, j, PType(temp)); break;
+            case ('B'): scBishop(ML, i, j, PType(temp)); break;
+            case ('K'): scKing(ML, i, j, PType(temp)); break;
+            case ('Q'): scQueen(ML, i, j, PType(temp)); break; 
             default: break;
             }
         }
         else {
             switch (cBoard[i][j]) {
-            case ('p'): scPawn(ML, i, j, BType(temp)); break;
-            case ('r'): scRook(ML, i, j, BType(temp)); break;
-            case ('h'): scHorse(ML, i, j, BType(temp)); break;
-            case ('b'): scBishop(ML, i, j, BType(temp)); break;
-            case ('k'): scKing(ML, i, j, BType(temp)); break;
-            case ('q'): scQueen(ML, i, j, BType(temp)); break; 
+            case ('p'): scPawn(ML, i, j, PType(temp)); break;
+            case ('r'): scRook(ML, i, j, PType(temp)); break;
+            case ('h'): scHorse(ML, i, j, PType(temp)); break;
+            case ('b'): scBishop(ML, i, j, PType(temp)); break;
+            case ('k'): scKing(ML, i, j, PType(temp)); break;
+            case ('q'): scQueen(ML, i, j, PType(temp)); break; 
             default: break;
             }
         }
