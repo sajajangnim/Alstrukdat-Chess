@@ -33,7 +33,7 @@ typedef struct {
 #define BType(P) (P).BInfo.PType
 
 /****************** PEMBUATAN LIST KOSONG ******************/
-void CreateEmpty (List *L);
+void CreateEmptyL (List *L);
 /* I.S. sembarang             */
 /* F.S. Terbentuk list kosong */
 

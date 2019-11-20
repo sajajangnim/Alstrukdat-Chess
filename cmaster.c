@@ -2,42 +2,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "stackchess.h"
-#include "chessboard.h"
-#include "listchess.h"
-#include "boolean.h"
+#include "cmaster.h"
 
+extern char cBoard[8][8];
 //List *ML, char **cb, char warnaBdk
-void scanList (List L, List *ML){
-    address P = First(L);
-    while (P != Nil){
-        Piece temp = PInfo(P);  //expression must have pointer type:(
-        int i = temp.X; int j = temp.Y;
-        if (BInfo(temp).PType == 'B'){
-            switch (cBoard[i][j]) {
-            case ('P'): scPawn(ML, i, j, BType(temp)); break;
-            case ('R'): scRook(ML, i, j, BType(temp)); break;
-            case ('H'): scHorse(ML, i, j, BType(temp)); break;
-            case ('B'): scCamel(ML, i, j, BType(temp)); break;
-            case ('K'): scKing(ML, i, j, BType(temp)); break;
-            case ('Q'): scQueen(ML, i, j, BType(temp)); break; 
-            default: break;
-            }
-        }
-        else {
-            switch (cBoard[i][j]) {
-            case ('p'): scPawn(ML, i, j, BType(temp)); break;
-            case ('r'): scRook(ML, i, j, BType(temp)); break;
-            case ('h'): scHorse(ML, i, j, BType(temp)); break;
-            case ('b'): scCamel(ML, i, j, BType(temp)); break;
-            case ('k'): scKing(ML, i, j, BType(temp)); break;
-            case ('q'): scQueen(ML, i, j, BType(temp)); break; 
-            default: break;
-            }
-        }
-        P = Next(P);    //expression must have pointer type
-    }
-}
 
 void scPawn(List *ML, int i, int j, char warnaBdk){
     char P, p;
@@ -323,7 +291,7 @@ void scKing (List *ML, int i, int j, char warnaBdk){
 
 void scQueen(List *ML, int i, int j, char warnaBdk){
     int intv = 1; //interval
-    address r;
+    address r = Nil;
     char B, b;
     boolean found = false;
     Bidak ratu; ratu.PType = warnaBdk;
@@ -399,5 +367,36 @@ void scQueen(List *ML, int i, int j, char warnaBdk){
         InsertFirst(ML, r);
         n -= 1;
         found = true;
+    }
+}
+
+void scanList(List L, List *ML){
+    address P = First(L);
+    while (P != Nil){
+        Piece temp = PInfo(P);  //expression must have pointer type:(
+        int i = temp.X; int j = temp.Y;
+        if (BInfo(temp).PType == 'B'){
+            switch (cBoard[i][j]) {
+            case ('P'): scPawn(ML, i, j, BType(temp)); break;
+            case ('R'): scRook(ML, i, j, BType(temp)); break;
+            case ('H'): scHorse(ML, i, j, BType(temp)); break;
+            case ('B'): scBishop(ML, i, j, BType(temp)); break;
+            case ('K'): scKing(ML, i, j, BType(temp)); break;
+            case ('Q'): scQueen(ML, i, j, BType(temp)); break; 
+            default: break;
+            }
+        }
+        else {
+            switch (cBoard[i][j]) {
+            case ('p'): scPawn(ML, i, j, BType(temp)); break;
+            case ('r'): scRook(ML, i, j, BType(temp)); break;
+            case ('h'): scHorse(ML, i, j, BType(temp)); break;
+            case ('b'): scBishop(ML, i, j, BType(temp)); break;
+            case ('k'): scKing(ML, i, j, BType(temp)); break;
+            case ('q'): scQueen(ML, i, j, BType(temp)); break; 
+            default: break;
+            }
+        }
+        P = Next(P);
     }
 }

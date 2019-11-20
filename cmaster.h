@@ -4,6 +4,9 @@
 // benerin include nya rapihin antara queue stack list boolean mainceunah sama cmaster
 */
 #include "boolean.h"
+#include "stackchess.h"
+#include "listchess.h"
+#include "queuechess.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -27,7 +30,7 @@ typedef struct {
     //posisi NextLoc;
 } Piece;
 
-#define Nil 0
+//#define Nil 0
 #define BName(B) (B).PName
 #define BType(B) (B).PType
 #define BInfo(P)  (P).BInfo
@@ -48,6 +51,7 @@ typedef struct {
 #define ROOK_B 'R'
 #define QUEEN_W 'q'
 #define QUEEN_B 'Q'
+
 /*
 const PAWN_W 1 //pion
 const PAWN_B 1
@@ -63,7 +67,7 @@ const QUEEN_W 8
 const QUEEN_B 8
 */
 
-char cBoard[8][8] = {
+extern char cBoard[8][8];/* = {
                     { 'R' , 'H' , 'B' , 'K' , 'Q' , 'B' , 'H' , 'R' },
                     { 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' },
                     { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
@@ -73,13 +77,13 @@ char cBoard[8][8] = {
                     { 'p' , 'p' , 'p' , 'p' , 'p' , 'p' , 'p' , 'p' },
                     { 'r' , 'h' , 'b' , 'k' , 'q' , 'b' , 'h' , 'r' }
                     };
-
-void scanList(List L, List * ML);
+*/
 void scPawn(List *ML, int i, int j, char warnaBdk);
 void scRook(List *ML, int i, int j, char warnaBdk);
 void scHorse (List *ML, int i, int j, char warnaBdk);
 void scBishop (List *ML, int i, int j, char warnaBdk);
 void scKing (List *ML, int i, int j, char warnaBdk);
 void scQueen(List *ML, int i, int j, char warnaBdk);
+void scanList(List L, List * ML);
 
 #endif
