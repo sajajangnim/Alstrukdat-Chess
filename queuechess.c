@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 
-boolean IsEmpty (Queue Q)
+boolean IsEmptyQ (Queue Q)
 /* Mengirim true jika Q kosong: lihat definisi di atas */
 {
     return (Head(Q) == 0 && Tail(Q) == 0);
@@ -14,7 +14,7 @@ boolean IsFull (Queue Q)
 /* Mengirim true jika tabel penampung elemen Q sudah penuh */
 /* yaitu mengandung elemen sebanyak MaxElQ */
 int NBElmt (Queue Q)
-{   if (IsEmpty(Q)) {
+{   if (IsEmptyQ(Q)) {
         return 0;
     }
     else if (Head(Q) == Tail(Q)) {
@@ -30,7 +30,7 @@ int NBElmt (Queue Q)
 /* Mengirimkan banyaknya elemen queue. Mengirimkan 0 jika Q kosong. */
 
 /* *** Kreator *** */
-void CreateEmpty (Queue * Q, int Max)
+void CreateEmptyQ (Queue * Q, int Max)
 {
     
     (*Q).T = (infotype *) malloc ((Max+1) * sizeof(infotype));
@@ -67,7 +67,7 @@ void Add (Queue * Q, infotype X)
 /* I.S. Q mungkin kosong, tabel penampung elemen Q TIDAK penuh */
 /* F.S. X menjadi TAIL yang baru, TAIL "maju" dengan mekanisme circular buffer */
 {
-    if (IsEmpty(*Q)) {
+    if (IsEmptyQ(*Q)) {
         Head(*Q) = 1;
         Tail(*Q) = 1;
     }

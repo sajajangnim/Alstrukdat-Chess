@@ -14,55 +14,49 @@ void CreateEmptyL (List *L){
 
 void CreateList(List *L, char warnaBidak){
     address P = Nil;
+    CreateEmptyL(L);
     Bidak Bdk; Bdk.PType = warnaBidak;
-    for (int j = 0;j <= 7;j++){
+    for (int i = 0;i <= 7;i++){
         if (warnaBidak == 'B'){
             Bdk.PName = 'P';
-            int i = 6;
+            int j = 1;
             P = Alokasi(Bdk, i, j);
+            InsertFirst(L, P);
         }
         else {
             Bdk.PName = 'p';
-            int i = 1;
+            int j = 6;
             P = Alokasi(Bdk, i, j);
+            InsertFirst(L, P);
         }
-        InsertFirst(L, P);
     }
     if (warnaBidak == 'B'){
         int i = 0; int j = 0;
         //char B, R, H, K, Q;
         Bdk.PType = 'B';
-        while (j <= 7){
-            switch (j){
-            case (0):
-                Bdk.PName = 'R'; break;
-            case (1):
-                Bdk.PName = 'H'; break;
-            case (2):
-                Bdk.PName = 'B';break;
-            case (3):
-                Bdk.PName = 'K'; break;
-            case (4):
-                Bdk.PName = 'Q'; break;
-            case (5):
-                Bdk.PName = 'B';break;
-            case (6):
-                Bdk.PName = 'H'; break;
-            case (7):
-                Bdk.PName = 'R'; break;
+        while (i <= 7){
+            switch (i){
+            case (0): Bdk.PName = 'R'; break;
+            case (1): Bdk.PName = 'H'; break;
+            case (2): Bdk.PName = 'B';break;
+            case (3): Bdk.PName = 'K'; break;
+            case (4): Bdk.PName = 'Q'; break;
+            case (5): Bdk.PName = 'B';break;
+            case (6): Bdk.PName = 'H'; break;
+            case (7): Bdk.PName = 'R'; break;
             default: break;
             }
-            j += 1;
+            P = Alokasi(Bdk, i, j);
+            InsertFirst(L, P);
+            i += 1;
         }
-        P = Alokasi(Bdk, i, j);
-        InsertFirst(L, P);
     }
     else{
-        int i = 0; int j = 0;
+        int i = 0; int j = 7;
         //char b, r, h, k, q, w;
         Bdk.PType = 'w';
-        while (j <= 7){
-            switch (j){
+        while (i <= 7){
+            switch (i){
             case (0):
                 Bdk.PName = 'r'; break;
             case (1):
@@ -81,10 +75,10 @@ void CreateList(List *L, char warnaBidak){
                 Bdk.PName = 'r'; break;
             default: break;
             }
-            j += 1;
+            P = Alokasi(Bdk, i, j);
+            InsertFirst(L, P);
+            i += 1;
         }
-        P = Alokasi(Bdk, i, j);
-        InsertFirst(L, P);
     }
     
 }
@@ -128,6 +122,10 @@ void Dealokasi (address *P){
 /* I.S. P terdefinisi */
 /* F.S. P dikembalikan ke sistem */
 /* Melakukan dealokasi/pengembalian address P */
+
+boolean IsEmpty (List L){
+    return (First(L) == Nil);
+}
 
 /****************** PENCARIAN SEBUAH ELEMEN LIST ******************/
 address SearchBidak (List L, Bidak B){
@@ -322,7 +320,7 @@ void DelAfter (List *L, address *Pdel, address Prec){
 void PrintInfo (List L){
     address P;
     P = First(L);
-    for (int i= 1; P != Nil; i++){
+    for (int i= 1; !IsEmpty(L); i++){
         printf("%d. ", i);
         switch (BInfo(PInfo(P)).PName){
         case ('P'):
@@ -349,11 +347,15 @@ void PrintInfo (List L){
         case 5: row = 'f'; break;
         case 6: row = 'g'; break;
         case 7: row = 'h'; break;
-        default:
-            break;
+        default:  break;
         }
         printf("(%c,%d)\n", row, Y(PInfo(P)));
         P = Next(P);
+        if (P == Nil)
+        {
+            break;
+        }
+        
     }   
 }
 /* I.S. List mungkin kosong */

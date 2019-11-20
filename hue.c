@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "cmaster.h"
 
+
 void Menu();
 void NewGame();
 void InputCommand(List *L, List *moveL);
@@ -55,10 +56,9 @@ void Menu(){
 void NewGame(){
     extern char Player1[10];
     extern char Player2[10];
-    char blek = 'B';char wait = 'w';
-    List BList, WList; CreateList(&BList, blek); CreateList(&WList, wait);
+    List BList, WList; CreateList(&BList, 'B'); CreateList(&WList, 'w');
     List moveB, moveW; CreateEmptyL(&moveB), CreateEmptyL(&moveW);
-    Queue playQ; Add(&playQ, blek); Add(&playQ, wait);
+    Queue playQ; CreateEmptyQ(&playQ, 2); Add(&playQ, 'B'); Add(&playQ, 'w');
     Stack histMove; CreateEmptyS(&histMove);
     //extern boolean win;
     printf("Masukkan Player Black: \n"); scanf("%s", Player1);//fgets(Player1, 10, stdin); 
@@ -67,6 +67,7 @@ void NewGame(){
         char playing;
         Display();
         Del(&playQ, &playing);
+        Add(&playQ, playing);
         if (playing == 'B'){
             printf("BLACK's turn\n"); InputCommand(&BList, &moveB);
         }
@@ -124,6 +125,6 @@ void InputCommand(List *L, List *moveL){
 
 void Move(List *L, List *moveL){
     printf("Daftar bidak yang bisa bergerak:\n");
-    //scanList(*L, moveL);
+    scanList(*L, moveL);
     PrintInfo(*moveL);
 }

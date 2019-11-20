@@ -49,6 +49,7 @@ void Dealokasi (address *P);
 /* F.S. P dikembalikan ke sistem */
 /* Melakukan dealokasi/pengembalian address P */
 
+boolean IsEmpty (List L);
 /****************** PENCARIAN SEBUAH ELEMEN LIST ******************/
 address SearchBidak (List L, Bidak B);
 //Mencari alamat bidak
@@ -122,6 +123,8 @@ void PrintInfo (List L);
 /* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
 /* Jika list kosong : menulis [] */
 /* Tidak ada tambahan karakter apa pun di awal, akhir, atau di tengah */
+
+int NbElmt (List L);
 
 void Konkat1 (List *L1, List *L2, List *L3);
 

@@ -78,12 +78,12 @@ extern char cBoard[8][8];/* = {
                     { 'r' , 'h' , 'b' , 'k' , 'q' , 'b' , 'h' , 'r' }
                     };
 */
+void scanList(List L, List * ML);
 void scPawn(List *ML, int i, int j, char warnaBdk);
 void scRook(List *ML, int i, int j, char warnaBdk);
 void scHorse (List *ML, int i, int j, char warnaBdk);
 void scBishop (List *ML, int i, int j, char warnaBdk);
 void scKing (List *ML, int i, int j, char warnaBdk);
 void scQueen(List *ML, int i, int j, char warnaBdk);
-void scanList(List L, List * ML);
 
 #endif
