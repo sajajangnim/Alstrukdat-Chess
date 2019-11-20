@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "cmaster.h"
 #include "stackchess.h"
 #include "chessboard.h"
 #include "listchess.h"
@@ -12,9 +11,9 @@
 void scanList (List L, List *ML){
     address P = First(L);
     while (P != Nil){
-        Piece temp = PInfo(P);  //exprexxion must have pointer type:(
+        Piece temp = PInfo(P);  //expression must have pointer type:(
         int i = temp.X; int j = temp.Y;
-        if (PType(temp) == 'B'){
+        if (BInfo(temp).PType == 'B'){
             switch (cBoard[i][j]) {
             case ('P'): scPawn(ML, i, j, BType(temp)); break;
             case ('R'): scRook(ML, i, j, BType(temp)); break;
@@ -45,30 +44,37 @@ void scPawn(List *ML, int i, int j, char warnaBdk){
     Bidak pion;
     pion.PType = warnaBdk;
     address A;
-    if (warnaBdk == 'B'){
-        pion.PName = P;
-        if (j == 7){
-            if (cBoard[i-2][j] == ' '){
+    boolean found;
+    while (!found){
+        if (warnaBdk == 'B'){
+            pion.PName = P;
+            if (j == 7){
+                if (cBoard[i-2][j] == ' '){
+                    A = Alokasi(pion, i, j);
+                    InsertFirst(ML, A);
+                    found = true; break;
+                }
+            }
+            if (cBoard[i-1][j] == ' '){
                 A = Alokasi(pion, i, j);
                 InsertFirst(ML, A);
+                found = true; break;
             }
         }
-        if (cBoard[i-1][j] == ' '){
-            A = Alokasi(pion, i, j);
-            InsertFirst(ML, A);
-        }
-    }
-    else{
-        pion.PName = p;
-        if (j == 2){
-            if (cBoard[i+2][j] == ' '){
+        else{
+            pion.PName = p;
+            if (j == 2){
+                if (cBoard[i+2][j] == ' '){
+                    A = Alokasi(pion, i, j);
+                    InsertFirst(ML, A);
+                    found = true; break;
+                }
+            }    
+            if (cBoard[i+1][j] == ' '){
                 A = Alokasi(pion, i, j);
                 InsertFirst(ML, A);
+                found = true; break;
             }
-        }    
-        if (cBoard[i+1][j] == ' '){
-            A = Alokasi(pion, i, j);
-            InsertFirst(ML, A);
         }    
     }
     //BLM ADA KASUS KALO DI SERONGYA ADA MUSUH, TRS BISA JALAN KE SITU
@@ -77,6 +83,7 @@ void scPawn(List *ML, int i, int j, char warnaBdk){
 
 void scRook(List *ML, int i, int j, char warnaBdk){
     char R, r;
+    boolean found = false;
     address A;
     Bidak benteng;
     if (warnaBdk == 'B'){
@@ -87,36 +94,43 @@ void scRook(List *ML, int i, int j, char warnaBdk){
     }
     benteng.PType = warnaBdk;
     int n = j;
-    while (cBoard[i][j+1] == ' '){ //cek kanan
+    while ((cBoard[i][j+1] == ' ') && !found){ //cek kanan
         if (n == 9){break; }
         A = Alokasi(benteng, i, j);
         InsertFirst(ML, A);
         n += 1;
+        found = true;
     }
-    while (cBoard[i][j-1] == ' '){ //cek kiri
+    n = j;
+    while ((cBoard[i][j-1] == ' ') && !found){ //cek kiri
         if (n == 0){break; }
         A = Alokasi(benteng, i, j);
         InsertFirst(ML, A);
         n -= 1;
+        found = true;
     }
 
     n = i;
-    while (cBoard[i+1][j] == ' '){ //cek depan
+    while ((cBoard[i+1][j] == ' ') && !found){ //cek depan
         if (n == 8){break; }
         A = Alokasi(benteng, i, j);
         InsertFirst(ML, A);
         n += 1;
+        found = true;
     }
-    while (cBoard[i-1][j] == ' '){ //cek blkg
+    n = i;
+    while ((cBoard[i-1][j] == ' ') && !found){ //cek blkg
         if (n == 0){break; }
         A = Alokasi(benteng, i, j);
         InsertFirst(ML, A);
         n -= 1;
+        found = true;
     }
 }
 //MSH HRS DICEK  LG KONDISI BERENTINYA KALO IDX ARRAY BRP
 //sc horse idx nya 0-7
 void scHorse (List *ML, int i, int j, char warnaBdk){
+    boolean found = false;
     char H, h;
     Bidak kuda;
     address k;
@@ -126,52 +140,62 @@ void scHorse (List *ML, int i, int j, char warnaBdk){
         kuda.PName = h; }
     kuda.PType = warnaBdk;
         //NGECEK BISA JALAN GA
-    if (cBoard[i+2][j+1] == ' '){
-        if((i <=7) && (j <= 7)){
-            k = Alokasi(kuda, i, j);
-            InsertFirst(ML, k);
+    while (!found){
+        if (cBoard[i+2][j+1] == ' '){
+            if((i <=7) && (j <= 7)){
+                k = Alokasi(kuda, i, j);
+                InsertFirst(ML, k);
+                found = true;break;
+            }
         }
-    }
-    else if (cBoard[i+2][j-1] == ' ') {
-        if((i <=7) && (j >= 0)){
-            k = Alokasi(kuda, i, j);
-            InsertFirst(ML, k);
+        else if (cBoard[i+2][j-1] == ' ') {
+            if((i <=7) && (j >= 0)){
+                k = Alokasi(kuda, i, j);
+                InsertFirst(ML, k);
+                found = true;break;
+            }
         }
-    }
-    else if (cBoard[i-2][j-1] == ' ') {
-        if((i >=0) && (j >= 0)){
-            k = Alokasi(kuda, i, j);
-            InsertFirst(ML, k);
+        else if (cBoard[i-2][j-1] == ' ') {
+            if((i >=0) && (j >= 0)){
+                k = Alokasi(kuda, i, j);
+                InsertFirst(ML, k);
+                found = true;break;
+            }
         }
-    }
-    else if (cBoard[i-2][j+1] == ' ') {
-        if((i >=0) && (j <= 7)){
-            k = Alokasi(kuda, i, j);
-            InsertFirst(ML, k);
+        else if (cBoard[i-2][j+1] == ' ') {
+            if((i >=0) && (j <= 7)){
+                k = Alokasi(kuda, i, j);
+                InsertFirst(ML, k);
+                found = true;break;
+            }
         }
-    }
-    else if (cBoard[i+1][j+2] == ' ') {
-        if((i <=7) && (j <= 7)){
-            k = Alokasi(kuda, i, j);
-            InsertFirst(ML, k);
+        else if (cBoard[i+1][j+2] == ' ') {
+            if((i <=7) && (j <= 7)){
+                k = Alokasi(kuda, i, j);
+                InsertFirst(ML, k);
+                found = true;break;
+            }
         }
-    }
-    else if (cBoard[i+1][j-2] == ' ') {
-        if((i <=7) && (j >= 0)){
-            k = Alokasi(kuda, i, j);
-            InsertFirst(ML, k);
+        else if (cBoard[i+1][j-2] == ' ') {
+            if((i <=7) && (j >= 0)){
+                k = Alokasi(kuda, i, j);
+                InsertFirst(ML, k);
+                found = true;break;
+            }
         }
-    }
-    else if (cBoard[i-1][j-2] == ' ') {
-        if((i >=0) && (j >= 0)){
-            k = Alokasi(kuda, i, j);
-            InsertFirst(ML, k);
+        else if (cBoard[i-1][j-2] == ' ') {
+            if((i >=0) && (j >= 0)){
+                k = Alokasi(kuda, i, j);
+                InsertFirst(ML, k);
+                found = true;break;
+            }
         }
-    }
-    else if (cBoard[i-1][j+2] == ' ') {
-        if((i >=0) && (j <= 7)){
-            k = Alokasi(kuda, i, j);
-            InsertFirst(ML, k);
+        else if (cBoard[i-1][j+2] == ' ') {
+            if((i >=0) && (j <= 7)){
+                k = Alokasi(kuda, i, j);
+                InsertFirst(ML, k);
+                found = true;break;
+            }
         }
     }
 }
@@ -180,100 +204,200 @@ void scBishop (List *ML, int i, int j, char warnaBdk){
     int intv = 1; //interval
     address m;
     char B, b;
+    boolean found = false;
     Bidak menteri; menteri.PType = warnaBdk;
     if (warnaBdk == 'B')    {menteri.PName = B;}
     else    {menteri.PName = b; }
 
     //INISIALISASI BIDAK ^. NGECEK BISA JALAN GA >
-    while (cBoard[i+1][j+1] == ' '){
-        if ((i > 7) && (j > 7)){
+    while ((cBoard[i+intv][j+intv] == ' ') && !found){
+        if ((i+intv > 7) && (j+intv > 7)){
             break;
         }
         m = Alokasi(menteri, i, j);
         InsertFirst(ML, m);
-        i += 1;
+        intv += 1;
+        found = true;
     }
-    while (cBoard[i-1][j-1] == ' '){
-        if ((i < 0) && (j < 0)){
+    intv = 1;
+    while ((cBoard[i-intv][j-intv] == ' ') && !found){
+        if ((i -intv< 0) && (j-intv < 0)){
             break;
         }
         m = Alokasi(menteri, i, j);
         InsertFirst(ML, m);
-        i += 1;
+        intv += 1;
+        found = true;
     }
-    while (cBoard[i+1][j-1] == ' '){
-        if ((i > 7) && (j < 0)){
+    intv = 1;
+    while ((cBoard[i+intv][j-intv] == ' ') && !found){
+        if ((i+intv > 7) && (j-intv < 0)){
             break;
         }
         m = Alokasi(menteri, i, j);
         InsertFirst(ML, m);
-        i += 1;
+        intv += 1;
+        found = true;
     }
-    while (cBoard[i-1][j+1] == ' '){
-        if ((i < 0) && (j > 7)){
+    intv = 1;
+    while ((cBoard[i-1][j+1] == ' ') && !found){
+        if ((i-intv < 0) && (j+intv > 7)){
             break;
         }
         m = Alokasi(menteri, i, j);
         InsertFirst(ML, m);
-        i += 1;
+        intv += 1;
+        found = true;
     }
 }
 
 void scKing (List *ML, int i, int j, char warnaBdk){
     address Alok;
     char K, k;
+    boolean found = false;
     Bidak raja; raja.PType = warnaBdk;
     if (warnaBdk == 'B')    {raja.PName = K;}
     else    {raja.PName = k; }
+    
+    while (!found){
+    //INISIALISASI BIDAK ^. NGECEK BISA JALAN GA >
+        if (cBoard[i][j+1] == ' '){
+            if ((j <= 7)){
+                Alok = Alokasi(raja, i, j);
+                InsertFirst(ML, Alok);
+                break;
+            } 
+        }
+        if (cBoard[i][j-1] == ' '){
+            if ((j >= 0)){
+                Alok = Alokasi(raja, i, j);
+                InsertFirst(ML, Alok);
+                break;
+            } 
+        }
+        if (cBoard[i+1][j] == ' '){
+            if (i <= 7){
+                Alok = Alokasi(raja, i, j);
+                InsertFirst(ML, Alok);
+                break;
+            } 
+        }
+        if (cBoard[i-1][j] == ' '){
+            if (i >= 0) {
+                Alok = Alokasi(raja, i, j);
+                InsertFirst(ML, Alok);
+                break;
+            } 
+        }
+        //NGECEK SERONGNYA
+        if (cBoard[i+1][j+1] == ' '){
+            if ((i <= 7) && (j <= 7)){
+                Alok = Alokasi(raja, i, j);
+                InsertFirst(ML, Alok);
+                break;
+            } 
+        }
+        if (cBoard[i-1][j+1] == ' '){
+            if ((i >= 0) && (j <= 7)){
+                Alok = Alokasi(raja, i, j);
+                InsertFirst(ML, Alok);
+                break;
+            } 
+        }
+        if (cBoard[i-1][j-1] == ' '){
+            if ((i >= 0) && (j >= 0)){
+                Alok = Alokasi(raja, i, j);
+                InsertFirst(ML, Alok);
+                break;
+            } 
+        }
+        if (cBoard[i+1][j-1] == ' '){
+            if ((i <= 7) && (j >= 0)){
+                Alok = Alokasi(raja, i, j);
+                InsertFirst(ML, Alok);
+                break;
+            } 
+        }
+    }
+}
+
+void scQueen(List *ML, int i, int j, char warnaBdk){
+    int intv = 1; //interval
+    address r;
+    char B, b;
+    boolean found = false;
+    Bidak ratu; ratu.PType = warnaBdk;
+    if (warnaBdk == 'B')    {ratu.PName = B;}
+    else    {ratu.PName = b; }
 
     //INISIALISASI BIDAK ^. NGECEK BISA JALAN GA >
-    if (cBoard[i][j+1] == ' '){
-        if ((j <= 7)){
-            Alok = Alokasi(raja, i, j);
-            InsertFirst(ML, Alok);
-        } 
+    while ((cBoard[i+1][j+1] == ' ') && !found){
+        if ((i+intv > 7) && (j+intv > 7)){
+            break;
+        }
+        r = Alokasi(ratu, i, j);
+        InsertFirst(ML, r);
+        intv += 1;
+        found = true;
     }
-    if (cBoard[i][j-1] == ' '){
-        if ((j >= 0)){
-            Alok = Alokasi(raja, i, j);
-            InsertFirst(ML, Alok);
-        } 
+    while ((cBoard[i-1][j-1] == ' ') && !found){
+        if ((i-intv < 0) && (j-intv < 0)){
+            break;
+        }
+        r = Alokasi(ratu, i, j);
+        InsertFirst(ML, r);
+        intv += 1;
+        found = true;
     }
-    if (cBoard[i+1][j] == ' '){
-        if (i <= 7){
-            Alok = Alokasi(raja, i, j);
-            InsertFirst(ML, Alok);
-        } 
+    while ((cBoard[i+1][j-1] == ' ') && !found){
+        if ((i+intv > 7) && (j-intv < 0)){
+            break;
+        }
+        r = Alokasi(ratu, i, j);
+        InsertFirst(ML, r);
+        intv += 1;
+        found = true;
     }
-    if (cBoard[i-1][j] == ' '){
-        if (i >= 0) {
-            Alok = Alokasi(raja, i, j);
-            InsertFirst(ML, Alok);
-        } 
+    while ((cBoard[i-1][j+1] == ' ') && !found){
+        if ((i-intv < 0) && (j+intv > 7)){
+            break;
+        }
+        r = Alokasi(ratu, i, j);
+        InsertFirst(ML, r);
+        intv += 1;
+        found = true;
     }
-        //NGECEK SERONGNYA
-    if (cBoard[i+1][j+1] == ' '){
-        if ((i <= 7) && (j <= 7)){
-            Alok = Alokasi(raja, i, j);
-            InsertFirst(ML, Alok);
-        } 
+    int n = j;
+    while ((cBoard[i][j+1] == ' ') && !found){ //cek kanan
+        if (n == 9){break; }
+        r = Alokasi(ratu, i, j);
+        InsertFirst(ML, r);
+        n += 1;
+        found = true;
     }
-    if (cBoard[i-1][j+1] == ' '){
-        if ((i >= 0) && (j <= 7)){
-            Alok = Alokasi(raja, i, j);
-            InsertFirst(ML, Alok);
-        } 
+    n = j;
+    while ((cBoard[i][j-1] == ' ') && !found){ //cek kiri
+        if (n == 0){break; }
+        r = Alokasi(ratu, i, j);
+        InsertFirst(ML, r);
+        n -= 1;
+        found = true;
     }
-    if (cBoard[i-1][j-1] == ' '){
-        if ((i >= 0) && (j >= 0)){
-            Alok = Alokasi(raja, i, j);
-            InsertFirst(ML, Alok);
-        } 
+
+    n = i;
+    while ((cBoard[i+1][j] == ' ') && !found){ //cek depan
+        if (n == 8){break; }
+        r = Alokasi(ratu, i, j);
+        InsertFirst(ML, r);
+        n += 1;
+        found = true;
     }
-    if (cBoard[i+1][j-1] == ' '){
-        if ((i <= 7) && (j >= 0)){
-            Alok = Alokasi(raja, i, j);
-            InsertFirst(ML, Alok);
-        } 
+    n = i;
+    while ((cBoard[i-1][j] == ' ') && !found){ //cek blkg
+        if (n == 0){break; }
+        r = Alokasi(ratu, i, j);
+        InsertFirst(ML, r);
+        n -= 1;
+        found = true;
     }
 }
