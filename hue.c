@@ -128,10 +128,34 @@ void Move(List *L, List *moveL){
     printf("Daftar bidak yang bisa bergerak:\n");
     scanList(*L, moveL);
     PrintInfo(*moveL);
+    printf("Pilih bidak yang ingin digerakkan: ");
+    int choice, choice2; scanf("%d", &choice);
     address P = First(*moveL);
-    int choice; scanf("%d", &choice);
     for (int i = 1; i <= choice;i++){
         P = Next(P);
     }
-    
+    switch (PType(PInfo(P))){
+    case ('P'):
+    case ('p'):
+        CreateEmptyL(moveL); moveP(moveL, PInfo(P)); break;
+    case ('R'):
+    case ('r'): 
+        CreateEmptyL(moveL); moveP(moveL, PInfo(P)); break;
+    case ('H'):
+    case ('h'): 
+        CreateEmptyL(moveL); moveP(moveL, PInfo(P)); break;
+    case ('B'):
+    case ('b'): 
+        CreateEmptyL(moveL); moveP(moveL, PInfo(P)); break;
+    case ('K'):
+    case ('k'): 
+        CreateEmptyL(moveL); moveP(moveL, PInfo(P)); break;
+    case ('Q'):
+    case ('q'): 
+        CreateEmptyL(moveL); moveP(moveL, PInfo(P)); break;
+    default: break;
+    }
+    printf("Daftar posisi tujuan yang mungkin:\n");
+    PrintInfo(*moveL);
+    scanf("%d", &choice2);
 }

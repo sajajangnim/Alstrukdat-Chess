@@ -107,6 +107,20 @@ address Alokasi (Bidak Bdk, posisi absis, posisi ord){
 /* Jika alokasi berhasil, maka address tidak nil, dan misalnya */
 /* menghasilkan P, maka Info(P)=X, Next(P)=Nil */
 /* Jika alokasi gagal, mengirimkan Nil */
+
+address AlokPiece(Piece Pc){
+    address P;
+    P = (address) malloc (sizeof(ElmtList));
+    if (P != Nil){
+        PInfo(P) = Pc;
+        Next(P) = Nil;
+        return P;
+    }
+    else{
+        return Nil;
+    }
+}
+
 void Dealokasi (address *P){
     free(*P);
 }

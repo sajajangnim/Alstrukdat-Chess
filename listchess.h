@@ -58,6 +58,9 @@ address Alokasi (Bidak Bdk, posisi absis, posisi ord);
 /* Mengirimkan address hasil alokasi sebuah elemen */
 /* Jika alokasi berhasil, maka address tidak nil */
 /* Jika alokasi gagal, mengirimkan Nil */
+
+address AlokPiece(Piece P);
+
 void Dealokasi (address *P);
 /* I.S. P terdefinisi */
 /* F.S. P dikembalikan ke sistem */
