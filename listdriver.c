@@ -19,40 +19,48 @@ int main(){
                 };
     List BList, WList; CreateList(&BList, 'B'); CreateList(&WList, 'w');
     List moveB, moveW; CreateEmptyL(&moveB), CreateEmptyL(&moveW);
-    /*address P = First(WList);
-    while(P!=Nil){
-        printf("%c %c %d %d\n", PType(PInfo(P)), PName(PInfo(P)), X(PInfo(P)), Y(PInfo(P)));
-        P = Next(P);
-    }*/
-    address P = First(BList);
-    while (P != Nil){
-        Piece temp = PInfo(P);
-        int i = temp.X; int j = temp.Y;
-        if (BType(BInfo(temp)) == 'B'){
-            switch (cBoard[i][j]) {
-            case ('P'): scPawn(&moveB, i, j, PType(temp)); P = Next(P);break;
-            case ('R'): scRook(&moveB, i, j, PType(temp)); P = Next(P);break;
-            case ('H'): scHorse(&moveB, i, j, PType(temp)); P = Next(P);break;
-            case ('B'): scBishop(&moveB, i, j, PType(temp)); P = Next(P);break;
-            case ('K'): scKing(&moveB, i, j, PType(temp)); P = Next(P);break;
-            case ('Q'): scQueen(&moveB, i, j, PType(temp)); P = Next(P);break; 
-            default: break;
+    char warnaBidak = 'B';
+    Bidak pion; pion.PType = warnaBidak; pion.PName = 'P';
+    printf("%c %c", pion.PType, pion.PName);
+    /*
+    Bidak pion; pion.PType = warnaBdk;
+    address A = Nil;
+    boolean found;
+    if ((warnaBdk == 'B') && !found){
+        pion.PName = 'P';
+        if ((j == 1) && !found){
+            if (cBoard[i+2][j] == ' '){
+                A = Alokasi(pion, i, j);
+                InsertFirst(ML, A);
+                found = true;
+                printf("tes\n");
             }
         }
-        else {
-            switch (cBoard[i][j]) {
-            case ('p'): scPawn(&moveB, i, j, PType(temp)); break;
-            case ('r'): scRook(&moveB, i, j, PType(temp)); break;
-            case ('h'): scHorse(&moveB, i, j, PType(temp)); break;
-            case ('b'): scBishop(&moveB, i, j, PType(temp)); break;
-            case ('k'): scKing(&moveB, i, j, PType(temp)); break;
-            case ('q'): scQueen(&moveB, i, j, PType(temp)); break; 
-            default: break;
+        if ((cBoard[i+11][j] == ' ') && !found){
+            A = Alokasi(pion, i, j);
+            InsertFirst(ML, A);
+            found = true;
+            printf("tes\n");
+        }
+    }
+    else{
+        pion.PName = 'p';
+        if (j == 6 && !found){
+            if ((cBoard[i-2][j] == ' ' ) && !found){
+                A = Alokasi(pion, i, j);
+                InsertFirst(ML, A);
+                found = true;
             }
+        }    
+        if ((cBoard[i-1][j] == ' ') && !found){
+            A = Alokasi(pion, i, j);
+            InsertFirst(ML, A);
+            found = true;
         }
     }
     //scanList(BList, &moveB);
     PrintInfo(moveB);
+    */
     return 0;
 }
 

@@ -32,7 +32,6 @@ void CreateList(List *L, char warnaBidak){
     }
     if (warnaBidak == 'B'){
         int i = 0; int j = 0;
-        //char B, R, H, K, Q;
         Bdk.PType = 'B';
         while (i <= 7){
             switch (i){
@@ -57,22 +56,14 @@ void CreateList(List *L, char warnaBidak){
         Bdk.PType = 'w';
         while (i <= 7){
             switch (i){
-            case (0):
-                Bdk.PName = 'r'; break;
-            case (1):
-                Bdk.PName = 'h'; break;
-            case (2):
-                Bdk.PName = 'b';break;
-            case (3):
-                Bdk.PName = 'k'; break;
-            case (4):
-                Bdk.PName = 'q'; break;
-            case (5):
-                Bdk.PName = 'b';break;
-            case (6):
-                Bdk.PName = 'h'; break;
-            case (7):
-                Bdk.PName = 'r'; break;
+            case (0): Bdk.PName = 'r'; break;
+            case (1): Bdk.PName = 'h'; break;
+            case (2): Bdk.PName = 'b';break;
+            case (3): Bdk.PName = 'k'; break;
+            case (4): Bdk.PName = 'q'; break;
+            case (5): Bdk.PName = 'b';break;
+            case (6): Bdk.PName = 'h'; break;
+            case (7): Bdk.PName = 'r'; break;
             default: break;
             }
             P = Alokasi(Bdk, i, j);
@@ -339,7 +330,7 @@ void PrintInfo (List L){
         }
         char row;
         int col;
-        switch (X(PInfo(P))){
+        switch (Y(PInfo(P))){
         case 0: row = 'a'; break;
         case 1: row = 'b'; break;
         case 2: row = 'c'; break;
@@ -350,7 +341,7 @@ void PrintInfo (List L){
         case 7: row = 'h'; break;
         default:  break;
         }
-        switch (Y(PInfo(P))){
+        switch (X(PInfo(P))){
         case 0: col = 1; break;
         case 1: col = 2; break;
         case 2: col = 3; break;
