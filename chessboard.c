@@ -47,41 +47,55 @@ void DisplayBoard(MATRIKS *M) {
     printf("=");
   }
   printf("\n");
+  printf("   a    b    c    d    e    f    g    h\n");
+  printf("8 |");
   for (int i = 1; i<=8; i++) {
     printf("%c",Elmt(*M,i,8));
     printf(" || ");
   }
   printf("\n");
+  printf("7 |");
   for (int i = 1; i<=8; i++) {
     printf("%c",Elmt(*M,i,7));
     printf(" || ");
   }
   printf("\n");
+  printf("6 |");
   for (int i = 1; i<=8; i++) {
-    printf("%c",Elmt(*M,i,6));
+    printf(" ");
+    if (i == 2) {
+      printf("");
+    } else {
+      printf("%c",Elmt(*M,i,6));
+    }
     printf(" || ");
   }
   printf("\n");
+  printf("5 |");
   for (int i = 1; i<=8; i++) {
     printf("%c",Elmt(*M,i,5));
     printf(" || ");
   }
   printf("\n");
+  printf("4 |");
   for (int i = 1; i<=8; i++) {
     printf("%c",Elmt(*M,i,4));
     printf(" || ");
   }
   printf("\n");
+  printf("3 |");
   for (int i = 1; i<=8; i++) {
     printf("%c",Elmt(*M,i,3));
     printf(" || ");
   }
   printf("\n");
+  printf("2 |");
   for (int i = 1; i<=8; i++) {
     printf("%c",Elmt(*M,i,2));
     printf(" || ");
   }
   printf("\n");
+  printf("1 |");
   for (int i = 1; i<=8; i++) {
     printf("%c",Elmt(*M,i,1));
     printf(" || ");
