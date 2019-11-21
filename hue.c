@@ -147,18 +147,88 @@ void Move(List *L, List *moveL){
     printf("Daftar posisi tujuan yang mungkin:\n");
     PrintInfoMove(moveBidak);
     printf("Pilih posisi tujuan bidak: ");scanf("%d", &choice2);
-    address mBidak = First(moveBidak);
-    for (int i = 2; i <= choice2;i++){
+    address mBidak; mBidak = First(moveBidak);
+    int trav = 1;
+    while (trav <= choice2){
         mBidak = Next(mBidak);
+        trav += 1;
     }
     address mainL = First(*L);
     boolean done = false;
-    for (int i = 2; !done; i++){
-        if (PName(PInfo(mainL)) == PName(PInfo(mBidak))){
-            PInfo(mainL) = PInfo(mBidak);
-            cBoard[Y(PInfo(mainL))][X(PInfo(mainL))] = PType(PInfo(mainL));
+    int row, col;
+    while (mainL != Nil && !done){
+        if ((X(PInfo(mainL)) == X(PInfo(mBidak))) && ((Y(PInfo(mainL)) == Y(PInfo(mBidak))))) {
+            printf("tes\n");
+                /*row = Y(PInfo(mainL));col = X(PInfo(mainL));
+                cBoard[row][col] = ' ';
+                PInfo(mainL) = PInfo(mBidak);
+            cBoard[Y(PInfo(mainL))][X(PInfo(mainL))] = PName(PInfo(mainL));
+            */ printf("%c %c %d %d\n", PType(PInfo(mainL)), PName(PInfo(mainL)), X(PInfo(mainL)), Y(PInfo(mainL)));
             done = true;
         }
+        mainL = Next(mainL);
     }
-    cBoard[Y(PInfo(mainL))][X(PInfo(mainL))] = PType(PInfo(mainL));
+    printf("Bidak ");
+    switch (BInfo(PInfo(mainL)).PName){
+        case ('P'):
+        case ('p'): printf("pion "); break;
+        case ('R'):
+        case ('r'): printf("benteng "); break;
+        case ('H'):
+        case ('h'): printf("kuda "); break;
+        case ('B'):
+        case ('b'): printf("menteri "); break;
+        case ('K'):
+        case ('k'): printf("raja "); break;
+        case ('Q'):
+        case ('q'): printf("ratu "); break;
+        default: break;
+        }
+    switch (row){
+        case 0: row = 'a'; break;
+        case 1: row = 'b'; break;
+        case 2: row = 'c'; break;
+        case 3: row = 'd'; break;
+        case 4: row = 'e'; break;
+        case 5: row = 'f'; break;
+        case 6: row = 'g'; break;
+        case 7: row = 'h'; break;
+        default:  break;
+        }
+        switch (col){
+        case 0: col = 1; break;
+        case 1: col = 2; break;
+        case 2: col = 3; break;
+        case 3: col = 4; break;
+        case 4: col = 5; break;
+        case 5: col = 6; break;
+        case 6: col = 7; break;
+        case 7: col = 8; break;
+        default:  break;
+        }
+    int row2, col2;
+    switch (X(PInfo(mainL))){
+        case 0: row2 = 'a'; break;
+        case 1: row2 = 'b'; break;
+        case 2: row2 = 'c'; break;
+        case 3: row2 = 'd'; break;
+        case 4: row2 = 'e'; break;
+        case 5: row2 = 'f'; break;
+        case 6: row2 = 'g'; break;
+        case 7: row2 = 'h'; break;
+        default:  break;
+        }
+    switch (Y(PInfo(mainL))){
+        case 0: col2 = 1; break;
+        case 1: col2 = 2; break;
+        case 2: col2 = 3; break;
+        case 3: col2 = 4; break;
+        case 4: col2 = 5; break;
+        case 5: col2 = 6; break;
+        case 6: col2 = 7; break;
+        case 7: col2 = 8; break;
+        default:  break;
+        }
+    printf("telah berpindah dari (%c, %d) ke (%c, %d).\n", row, col, row2, col2);
+    Display();
 }
