@@ -128,4 +128,10 @@ void Move(List *L, List *moveL){
     printf("Daftar bidak yang bisa bergerak:\n");
     scanList(*L, moveL);
     PrintInfo(*moveL);
+    address P = First(*moveL);
+    int choice; scanf("%d", &choice);
+    for (int i = 1; i <= choice;i++){
+        P = Next(P);
+    }
+    
 }

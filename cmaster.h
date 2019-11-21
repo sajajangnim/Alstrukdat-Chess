@@ -3,7 +3,6 @@
 #include "chessboard.h"
 // benerin include nya rapihin antara queue stack list boolean mainceunah sama cmaster
 */
-#include "boolean.h"
 #include "listchess.h"
 #include "stackchess.h"
 #include "queuechess.h"
