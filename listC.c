@@ -71,7 +71,6 @@ void CreateList(List *L, char warnaBidak){
             i += 1;
         }
     }
-    
 }
 /****************** Manajemen Memori ******************/
 /*Piece AlokPiece (Bidak Bdk, posisi absis, posisi ord){
@@ -344,7 +343,7 @@ void PrintInfo (List L){
         }
         char row;
         int col;
-        switch (Y(PInfo(P))){
+        switch (X(PInfo(P))){
         case 0: row = 'a'; break;
         case 1: row = 'b'; break;
         case 2: row = 'c'; break;
@@ -355,7 +354,7 @@ void PrintInfo (List L){
         case 7: row = 'h'; break;
         default:  break;
         }
-        switch (X(PInfo(P))){
+        switch (Y(PInfo(P))){
         case 0: col = 1; break;
         case 1: col = 2; break;
         case 2: col = 3; break;
@@ -375,6 +374,47 @@ void PrintInfo (List L){
         //else{printf("\n");}
     }   
 }
+
+void PrintInfoMove (List L){
+    address P;
+    P = First(L);
+    char row;
+    int col;
+    for (int i= 1; !IsEmpty(L); i++){
+        printf("%d. ", i);
+        switch (X(PInfo(P))){
+        case 0: row = 'a'; break;
+        case 1: row = 'b'; break;
+        case 2: row = 'c'; break;
+        case 3: row = 'd'; break;
+        case 4: row = 'e'; break;
+        case 5: row = 'f'; break;
+        case 6: row = 'g'; break;
+        case 7: row = 'h'; break;
+        default:  break;
+        }
+        switch (Y(PInfo(P))){
+        case 0: col = 1; break;
+        case 1: col = 2; break;
+        case 2: col = 3; break;
+        case 3: col = 4; break;
+        case 4: col = 5; break;
+        case 5: col = 6; break;
+        case 6: col = 7; break;
+        case 7: col = 8; break;
+        default:  break;
+        }
+        printf("(%c,%d)\n", row, col);
+        P = Next(P);
+        if (P == Nil)
+        {
+            break;
+        }
+        //else{printf("\n");}
+    }   
+}
+
+
 /* I.S. List mungkin kosong */
 /* F.S. Jika list tidak kosong, iai list dicetak ke kanan: [e1,e2,...,en] */
 /* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */

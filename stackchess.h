@@ -7,7 +7,6 @@
 
 #define MaxEl 100
 
-
 typedef struct {
     Piece T[MaxEl];
     int TOP;

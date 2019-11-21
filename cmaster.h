@@ -6,6 +6,7 @@
 #include "listchess.h"
 #include "stackchess.h"
 #include "queuechess.h"
+#include "moveC.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -27,6 +28,7 @@
 #define ROOK_B 'R'
 #define QUEEN_W 'q'
 #define QUEEN_B 'Q'
+#define Empty ' '
 
 /*
 const PAWN_W 1 //pion

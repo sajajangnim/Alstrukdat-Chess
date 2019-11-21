@@ -141,6 +141,8 @@ void PrintInfo (List L);
 /* Jika list kosong : menulis [] */
 /* Tidak ada tambahan karakter apa pun di awal, akhir, atau di tengah */
 
+void PrintInfoMove (List L);
+
 int NbElmt (List L);
 
 void Konkat1 (List *L1, List *L2, List *L3);

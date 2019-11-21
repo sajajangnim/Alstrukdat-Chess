@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "cmaster.h"
-
+#include "listchess.h"
 
 void Menu();
 void NewGame();
@@ -22,13 +22,7 @@ char cBoard[8][8] = {
                 
 char Player1[10];
 char Player2[10];
-/*
-List BList, WList;
-List moveB, moveW;
-Queue playQ;
-Stack histMove;
-//boolean win;
-*/
+
 int main() {
     Menu();
     return 0;
@@ -131,31 +125,40 @@ void Move(List *L, List *moveL){
     printf("Pilih bidak yang ingin digerakkan: ");
     int choice, choice2; scanf("%d", &choice);
     address P = First(*moveL);
-    for (int i = 1; i <= choice;i++){
+    for (int i = 2; i <= choice;i++){
         P = Next(P);
     }
-    switch (PType(PInfo(P))){
+    List moveBidak; CreateEmptyL(&moveBidak);
+    switch (PName(PInfo(P))){
     case ('P'):
-    case ('p'):
-        CreateEmptyL(moveL); moveP(moveL, PInfo(P)); break;
+    case ('p'): moveP(&moveBidak, PInfo(P)); break;
     case ('R'):
-    case ('r'): 
-        CreateEmptyL(moveL); moveP(moveL, PInfo(P)); break;
+    case ('r'): moveR(&moveBidak, PInfo(P)); break;
     case ('H'):
-    case ('h'): 
-        CreateEmptyL(moveL); moveP(moveL, PInfo(P)); break;
+    case ('h'): moveH(&moveBidak, PInfo(P)); break;
     case ('B'):
-    case ('b'): 
-        CreateEmptyL(moveL); moveP(moveL, PInfo(P)); break;
+    case ('b'): moveB(&moveBidak, PInfo(P)); break;
     case ('K'):
-    case ('k'): 
-        CreateEmptyL(moveL); moveP(moveL, PInfo(P)); break;
+    case ('k'): moveK(&moveBidak, PInfo(P)); break;
     case ('Q'):
-    case ('q'): 
-        CreateEmptyL(moveL); moveP(moveL, PInfo(P)); break;
+    case ('q'): moveQ(&moveBidak, PInfo(P)); break;
     default: break;
     }
     printf("Daftar posisi tujuan yang mungkin:\n");
-    PrintInfo(*moveL);
-    scanf("%d", &choice2);
+    PrintInfoMove(moveBidak);
+    printf("Pilih posisi tujuan bidak: ");scanf("%d", &choice2);
+    address mBidak = First(moveBidak);
+    for (int i = 2; i <= choice2;i++){
+        mBidak = Next(mBidak);
+    }
+    address mainL = First(*L);
+    boolean done = false;
+    for (int i = 2; !done; i++){
+        if (PName(PInfo(mainL)) == PName(PInfo(mBidak))){
+            PInfo(mainL) = PInfo(mBidak);
+            cBoard[Y(PInfo(mainL))][X(PInfo(mainL))] = PType(PInfo(mainL));
+            done = true;
+        }
+    }
+    cBoard[Y(PInfo(mainL))][X(PInfo(mainL))] = PType(PInfo(mainL));
 }
