@@ -149,7 +149,7 @@ void Move(List *L, List *moveL){
     printf("Pilih posisi tujuan bidak: ");scanf("%d", &choice2);
     address mBidak; mBidak = First(moveBidak);
     int trav = 1;
-    while (trav <= choice2){
+    while (trav < choice2){
         mBidak = Next(mBidak);
         trav += 1;
     }
@@ -157,13 +157,13 @@ void Move(List *L, List *moveL){
     boolean done = false;
     int row, col;
     while (mainL != Nil && !done){
-        if ((X(PInfo(mainL)) == X(PInfo(mBidak))) && ((Y(PInfo(mainL)) == Y(PInfo(mBidak))))) {
+        if ((mainL->PInfo.X == mBidak->PInfo.X) && (mainL->PInfo.Y == mainL->PInfo.Y)) {
             printf("tes\n");
-                /*row = Y(PInfo(mainL));col = X(PInfo(mainL));
-                cBoard[row][col] = ' ';
-                PInfo(mainL) = PInfo(mBidak);
+            row = X(PInfo(mainL));col = Y(PInfo(mainL));
+            cBoard[row][col] = ' ';
+            PInfo(mainL) = PInfo(mBidak);
             cBoard[Y(PInfo(mainL))][X(PInfo(mainL))] = PName(PInfo(mainL));
-            */ printf("%c %c %d %d\n", PType(PInfo(mainL)), PName(PInfo(mainL)), X(PInfo(mainL)), Y(PInfo(mainL)));
+            printf("%c %c %d %d\n", PType(PInfo(mainL)), PName(PInfo(mainL)), X(PInfo(mainL)), Y(PInfo(mainL)));
             done = true;
         }
         mainL = Next(mainL);
@@ -230,5 +230,4 @@ void Move(List *L, List *moveL){
         default:  break;
         }
     printf("telah berpindah dari (%c, %d) ke (%c, %d).\n", row, col, row2, col2);
-    Display();
 }
