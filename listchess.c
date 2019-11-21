@@ -338,6 +338,7 @@ void PrintInfo (List L){
         default: break;
         }
         char row;
+        int col;
         switch (X(PInfo(P))){
         case 0: row = 'a'; break;
         case 1: row = 'b'; break;
@@ -349,13 +350,24 @@ void PrintInfo (List L){
         case 7: row = 'h'; break;
         default:  break;
         }
-        printf("(%c,%d)\n", row, Y(PInfo(P)));
+        switch (Y(PInfo(P))){
+        case 0: col = 1; break;
+        case 1: col = 2; break;
+        case 2: col = 3; break;
+        case 3: col = 4; break;
+        case 4: col = 5; break;
+        case 5: col = 6; break;
+        case 6: col = 7; break;
+        case 7: col = 8; break;
+        default:  break;
+        }
+        printf("(%c,%d)\n", row, col);
         P = Next(P);
         if (P == Nil)
         {
             break;
         }
-        
+        //else{printf("\n");}
     }   
 }
 /* I.S. List mungkin kosong */

@@ -4,65 +4,72 @@
 #include <stdlib.h>
 #include "cmaster.h"
 
-extern char cBoard[8][8];
+//extern 
+char cBoard[8][8]; /*= {
+                    { 'R' , 'H' , 'B' , 'K' , 'Q' , 'B' , 'H' , 'R' },
+                    { 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' },
+                    { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
+                    { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
+                    { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
+                    { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
+                    { 'p' , 'p' , 'p' , 'p' , 'p' , 'p' , 'p' , 'p' },
+                    { 'r' , 'h' , 'B' , 'k' , 'q' , 'B' , 'h' , 'r' }
+                };*/
 //List *ML, char **cb, char warnaBdk
 
 void scPawn(List *ML, int i, int j, char warnaBdk){
-    char P, p;
-    Bidak pion;
-    pion.PType = warnaBdk;
-    address A;
+    Bidak pion; pion.PType = warnaBdk;
+    address A = Nil;
     boolean found;
-    while (!found){
-        if (warnaBdk == 'B'){
-            pion.PName = 'P';
-            if (j == 7){
-                if (cBoard[i-2][j] == ' '){
-                    A = Alokasi(pion, i, j);
-                    InsertFirst(ML, A);
-                    found = true; break;
-                }
-            }
-            if (cBoard[i-1][j] == ' '){
+    if ((warnaBdk == 'B') && !found){
+        pion.PName = 'P';
+        if ((j == 1) && !found){
+            if (cBoard[i+2][j] == ' '){
                 A = Alokasi(pion, i, j);
                 InsertFirst(ML, A);
-                found = true; break;
+                found = true;
+                printf("tes\n");
             }
         }
-        else{
-            pion.PName = 'p';
-            if (j == 2){
-                if (cBoard[i+2][j] == ' '){
-                    A = Alokasi(pion, i, j);
-                    InsertFirst(ML, A);
-                    found = true; break;
-                }
-            }    
-            if (cBoard[i+1][j] == ' '){
+        if ((cBoard[i+11][j] == ' ') && !found){
+            A = Alokasi(pion, i, j);
+            InsertFirst(ML, A);
+            found = true;
+            printf("tes\n");
+        }
+    }
+    else{
+        pion.PName = 'p';
+        if (j == 6 && !found){
+            if ((cBoard[i-2][j] == ' ' ) && !found){
                 A = Alokasi(pion, i, j);
                 InsertFirst(ML, A);
-                found = true; break;
+                found = true;
             }
         }    
+        if ((cBoard[i-1][j] == ' ') && !found){
+            A = Alokasi(pion, i, j);
+            InsertFirst(ML, A);
+            found = true;
+        }
     }
     //BLM ADA KASUS KALO DI SERONGYA ADA MUSUH, TRS BISA JALAN KE SITU
     //HRS BIKIN CHECK DULU
 }
 
 void scRook(List *ML, int i, int j, char warnaBdk){
-    char R, r;
     boolean found = false;
-    address A;
+    address A = Nil;
     Bidak benteng;
     if (warnaBdk == 'B'){
-        benteng.PName = R;
+        benteng.PName = 'R';
     }
     else{
-        benteng.PName = r;
+        benteng.PName = 'r';
     }
     benteng.PType = warnaBdk;
     int n = j;
-    while ((cBoard[i][j+1] == ' ') && !found){ //cek kanan
+    while ((cBoard[i][j+n] == ' ') && !found){ //cek kanan
         if (n == 9){break; }
         A = Alokasi(benteng, i, j);
         InsertFirst(ML, A);
@@ -70,7 +77,7 @@ void scRook(List *ML, int i, int j, char warnaBdk){
         found = true;
     }
     n = j;
-    while ((cBoard[i][j-1] == ' ') && !found){ //cek kiri
+    while ((cBoard[i][j-n] == ' ') && !found){ //cek kiri
         if (n == 0){break; }
         A = Alokasi(benteng, i, j);
         InsertFirst(ML, A);
@@ -371,32 +378,32 @@ void scQueen(List *ML, int i, int j, char warnaBdk){
 }
 
 void scanList(List L, List *ML){
+    //printf("tes\n");
     address P = First(L);
     while (P != Nil){
         Piece temp = PInfo(P);  //expression must have pointer type:(
         int i = temp.X; int j = temp.Y;
         if (BType(BInfo(temp)) == 'B'){
             switch (cBoard[i][j]) {
-            case ('P'): scPawn(ML, i, j, PType(temp)); break;
-            case ('R'): scRook(ML, i, j, PType(temp)); break;
-            case ('H'): scHorse(ML, i, j, PType(temp)); break;
-            case ('B'): scBishop(ML, i, j, PType(temp)); break;
-            case ('K'): scKing(ML, i, j, PType(temp)); break;
-            case ('Q'): scQueen(ML, i, j, PType(temp)); break; 
+            case ('P'): scPawn(ML, i, j, PType(temp)); P = Next(P); break;
+            case ('R'): scRook(ML, i, j, PType(temp)); P = Next(P); break;
+            case ('H'): scHorse(ML, i, j, PType(temp)); P = Next(P);break;
+            case ('B'): scBishop(ML, i, j, PType(temp)); P = Next(P);break;
+            case ('K'): scKing(ML, i, j, PType(temp));  P = Next(P);break;
+            case ('Q'): scQueen(ML, i, j, PType(temp));   P = Next(P);break; 
             default: break;
             }
         }
         else {
             switch (cBoard[i][j]) {
-            case ('p'): scPawn(ML, i, j, PType(temp)); break;
-            case ('r'): scRook(ML, i, j, PType(temp)); break;
-            case ('h'): scHorse(ML, i, j, PType(temp)); break;
-            case ('b'): scBishop(ML, i, j, PType(temp)); break;
-            case ('k'): scKing(ML, i, j, PType(temp)); break;
-            case ('q'): scQueen(ML, i, j, PType(temp)); break; 
+            case ('p'): scPawn(ML, i, j, PType(temp));   break;
+            case ('r'): scRook(ML, i, j, PType(temp));   break;
+            case ('h'): scHorse(ML, i, j, PType(temp));   break;
+            case ('b'): scBishop(ML, i, j, PType(temp));   break;
+            case ('k'): scKing(ML, i, j, PType(temp));   break;
+            case ('q'): scQueen(ML, i, j, PType(temp));   break; 
             default: break;
             }
         }
-        P = Next(P);
     }
 }
