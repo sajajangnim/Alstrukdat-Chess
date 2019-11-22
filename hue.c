@@ -123,9 +123,9 @@ void Move(List *L, List *moveL){
     scanList(*L, moveL);
     PrintInfo(*moveL);
     printf("Pilih bidak yang ingin digerakkan: ");
-    int choice, choice2; scanf("%d", &choice);
+    int choice; scanf("%d", &choice);
     address P = First(*moveL);
-    for (int i = 2; i <= choice;i++){
+    for (int i = 1; i < choice;i++){
         P = Next(P);
     }
     List moveBidak; CreateEmptyL(&moveBidak);
@@ -146,27 +146,27 @@ void Move(List *L, List *moveL){
     }
     printf("Daftar posisi tujuan yang mungkin:\n");
     PrintInfoMove(moveBidak);
-    printf("Pilih posisi tujuan bidak: ");scanf("%d", &choice2);
+    printf("Pilih posisi tujuan bidak: ");
+    int choice2; scanf("%d", &choice2);
     address mBidak; mBidak = First(moveBidak);
-    int trav = 1;
-    while (trav < choice2){
+    //int trav = 1;
+    for (int i = 1; i < choice2;i++){
         mBidak = Next(mBidak);
-        trav += 1;
     }
     address mainL = First(*L);
     boolean done = false;
     int row, col;
-    while (mainL != Nil && !done){
-        if ((mainL->PInfo.X == mBidak->PInfo.X) && (mainL->PInfo.Y == mainL->PInfo.Y)) {
-            printf("tes\n");
-            row = X(PInfo(mainL));col = Y(PInfo(mainL));
+    while ((mainL != Nil) && !done){
+        if ((mainL->PInfo.X == P->PInfo.X) && (mainL->PInfo.Y == P->PInfo.Y)) {
+            row = Y(PInfo(P));col = X(PInfo(P));
             cBoard[row][col] = ' ';
             PInfo(mainL) = PInfo(mBidak);
             cBoard[Y(PInfo(mainL))][X(PInfo(mainL))] = PName(PInfo(mainL));
-            printf("%c %c %d %d\n", PType(PInfo(mainL)), PName(PInfo(mainL)), X(PInfo(mainL)), Y(PInfo(mainL)));
             done = true;
         }
-        mainL = Next(mainL);
+        else{
+            mainL = Next(mainL);
+        }
     }
     printf("Bidak ");
     switch (BInfo(PInfo(mainL)).PName){
@@ -184,26 +184,26 @@ void Move(List *L, List *moveL){
         case ('q'): printf("ratu "); break;
         default: break;
         }
-    switch (row){
-        case 0: row = 'a'; break;
-        case 1: row = 'b'; break;
-        case 2: row = 'c'; break;
-        case 3: row = 'd'; break;
-        case 4: row = 'e'; break;
-        case 5: row = 'f'; break;
-        case 6: row = 'g'; break;
-        case 7: row = 'h'; break;
+    switch (col){
+        case 0: col = 'a'; break;
+        case 1: col = 'b'; break;
+        case 2: col = 'c'; break;
+        case 3: col = 'd'; break;
+        case 4: col = 'e'; break;
+        case 5: col = 'f'; break;
+        case 6: col = 'g'; break;
+        case 7: col = 'h'; break;
         default:  break;
         }
-        switch (col){
-        case 0: col = 1; break;
-        case 1: col = 2; break;
-        case 2: col = 3; break;
-        case 3: col = 4; break;
-        case 4: col = 5; break;
-        case 5: col = 6; break;
-        case 6: col = 7; break;
-        case 7: col = 8; break;
+        switch (row){
+        case 0: row = 1; break;
+        case 1: row = 2; break;
+        case 2: row = 3; break;
+        case 3: row = 4; break;
+        case 4: row = 5; break;
+        case 5: row = 6; break;
+        case 6: row = 7; break;
+        case 7: row = 8; break;
         default:  break;
         }
     int row2, col2;
@@ -229,5 +229,6 @@ void Move(List *L, List *moveL){
         case 7: col2 = 8; break;
         default:  break;
         }
-    printf("telah berpindah dari (%c, %d) ke (%c, %d).\n", row, col, row2, col2);
+    printf("telah berpindah dari (%c, %d) ke (%c, %d).\n", col, row, row2, col2);
+    CreateEmptyL(moveL); CreateEmptyL(&moveBidak);
 }

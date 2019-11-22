@@ -36,12 +36,13 @@ void scPawn(List *ML, int i, int j, char warnaBdk){
             found = true;
         }
     }
-    else{
+    if ((warnaBdk == 'w') && !found){
         pion.PName = 'p';
-        if (i == 6 && !found){
+        if ((i == 6) && !found){
             if ((cBoard[i-2][j] == ' ' ) && !found){
                 A = Alokasi(pion, j, i);
                 InsertFirst(ML, A);
+                found = true;
             }
         }    
         if ((cBoard[i-1][j] == ' ') && !found){
@@ -67,7 +68,7 @@ void scRook(List *ML, int i, int j, char warnaBdk){
     }
     int n = 1;
     while ((cBoard[i][j+n] == ' ') && !found){ //cek kanan
-        if (n == 8){break; }
+        if (j+n == 8){break; }
         A = Alokasi(benteng, j, i);
         InsertFirst(ML, A);
         n += 1;
@@ -75,7 +76,7 @@ void scRook(List *ML, int i, int j, char warnaBdk){
     }
     n = 1;
     while ((cBoard[i][j-n] == ' ') && !found){ //cek kiri
-        if (n < 0){break; }
+        if (j-n < 0){break; }
         A = Alokasi(benteng, j, i);
         InsertFirst(ML, A);
         n -= 1;
@@ -84,7 +85,7 @@ void scRook(List *ML, int i, int j, char warnaBdk){
 
     n = 1;
     while ((cBoard[i+n][j] == ' ') && !found){ //cek depan
-        if (n == 8){break; }
+        if (i+n == 8){break; }
         A = Alokasi(benteng, j, i);
         InsertFirst(ML, A);
         n += 1;
@@ -92,7 +93,7 @@ void scRook(List *ML, int i, int j, char warnaBdk){
     }
     n = 1;
     while ((cBoard[i-n][j] == ' ') && !found){ //cek blkg
-        if (n == 0){break; }
+        if (i-n == 0){break; }
         A = Alokasi(benteng, j, i);
         InsertFirst(ML, A);
         n -= 1;
@@ -112,28 +113,28 @@ void scHorse (List *ML, int i, int j, char warnaBdk){
     kuda.PType = warnaBdk;
         //NGECEK BISA JALAN GA
     if ((cBoard[i+2][j+1] == ' ') && !found){
-        if((i <=7) && (j <= 7)){
+        if((i+2 <=7) && (j+1 <= 7)){
             k = Alokasi(kuda, j, i);
             InsertFirst(ML, k);
             found = true;
         }
     }
     else if ((cBoard[i+2][j-1] == ' ') && !found) {
-        if((i <=7) && (j >= 0)){
+        if((i+2 <=7) && (j-1 >= 0)){
             k = Alokasi(kuda, j, i);
             InsertFirst(ML, k);
             found = true;
         }
     }
     else if (cBoard[i-2][j-1] == ' ') {
-        if((i >=0) && (j >= 0)){
+        if((i-2 >=0) && (j-2 >= 0)){
             k = Alokasi(kuda, j, i);
             InsertFirst(ML, k);
             found = true;
         }
     }
     else if (cBoard[i-2][j+1] == ' ') {
-        if((i >=0) && (j <= 7)){
+        if((i-2 >=0) && (j+1 <= 7)){
             k = Alokasi(kuda, j, i);
             InsertFirst(ML, k);
             found = true;
@@ -141,28 +142,28 @@ void scHorse (List *ML, int i, int j, char warnaBdk){
     }
     //
     else if (cBoard[i+1][j+2] == ' ') {
-        if((i <=7) && (j <= 7)){
+        if((i+1 <=7) && (j+2 <= 7)){
             k = Alokasi(kuda, j, i);
             InsertFirst(ML, k);
             found = true;
         }
     }
     else if (cBoard[i+1][j-2] == ' ') {
-        if((i <=7) && (j >= 0)){
+        if((i+1 <=7) && (j-2 >= 0)){
             k = Alokasi(kuda, j, i);
             InsertFirst(ML, k);
             found = true;
         }
     }
     else if (cBoard[i-1][j-2] == ' ') {
-        if((i >=0) && (j >= 0)){
+        if((i-1 >=0) && (j-2 >= 0)){
             k = Alokasi(kuda, j, i);
             InsertFirst(ML, k);
             found = true;
         }
     }
     else if (cBoard[i-1][j+2] == ' ') {
-        if((i >=0) && (j <= 7)){
+        if((i-1 >=0) && (j+2 <= 7)){
             k = Alokasi(kuda, j, i);
             InsertFirst(ML, k);
             found = true;
@@ -386,12 +387,12 @@ void scanList(List L, List *ML){
         }
         else {
             switch (cBoard[i][j]) {
-            case ('p'): scPawn(ML, i, j, PType(temp));   break;
-            case ('r'): scRook(ML, i, j, PType(temp));   break;
-            case ('h'): scHorse(ML, i, j, PType(temp));   break;
-            case ('b'): scBishop(ML, i, j, PType(temp));   break;
-            case ('k'): scKing(ML, i, j, PType(temp));   break;
-            case ('q'): scQueen(ML, i, j, PType(temp));   break; 
+            case ('p'): scPawn(ML, i, j, PType(temp)); P = Next(P);  break;
+            case ('r'): scRook(ML, i, j, PType(temp)); P = Next(P);  break;
+            case ('h'): scHorse(ML, i, j, PType(temp)); P = Next(P);  break;
+            case ('b'): scBishop(ML, i, j, PType(temp)); P = Next(P);  break;
+            case ('k'): scKing(ML, i, j, PType(temp)); P = Next(P);  break;
+            case ('q'): scQueen(ML, i, j, PType(temp)); P = Next(P);  break; 
             default: break;
             }
         }
