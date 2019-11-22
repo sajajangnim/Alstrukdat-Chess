@@ -70,7 +70,6 @@ void NewGame(){
             printf("white's turn\n"); InputCommand(&WList, &moveW);
         }
     }
-    /* } */   
 }
 
 void Display(){
@@ -119,6 +118,7 @@ void InputCommand(List *L, List *moveL){
 }
 
 void Move(List *L, List *moveL){
+    PrintInfo(*moveL);
     printf("Daftar bidak yang bisa bergerak:\n");
     scanList(*L, moveL);
     PrintInfo(*moveL);

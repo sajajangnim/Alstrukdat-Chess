@@ -36,7 +36,7 @@ void scPawn(List *ML, int i, int j, char warnaBdk){
             found = true;
         }
     }
-    if ((warnaBdk == 'w') && !found){
+    else if ((warnaBdk == 'w') && !found){
         pion.PName = 'p';
         if ((i == 6) && !found){
             if ((cBoard[i-2][j] == ' ' ) && !found){
@@ -385,7 +385,7 @@ void scanList(List L, List *ML){
             default: break;
             }
         }
-        else {
+        else if (BType(BInfo(temp)) == 'w'){
             switch (cBoard[i][j]) {
             case ('p'): scPawn(ML, i, j, PType(temp)); P = Next(P);  break;
             case ('r'): scRook(ML, i, j, PType(temp)); P = Next(P);  break;
