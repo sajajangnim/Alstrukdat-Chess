@@ -79,14 +79,25 @@ void Display() {
         printf(" ");
     }
     printf("white: %s\n", Player2);
+    printf("\n");
 
+    printf("     ");
+    for (i = 1; i <= 8; i++) {
+            printf("%c", IdX[i-1]);
+            printf("    ");
+    }
+    printf("\n");
+
+    printf("  ");
     for (i = 1; i <= 42; i++) {
         printf("=");
     }
     printf("\n");
+
     for (i = 1; i <= 8; i++) {
         j = 1;
-        printf("|| ");
+        
+        printf("%d || ", i);
         while (j <= (n)) {
             printf("%c", Board[i-1][j-1]);
             printf(" || ");
@@ -94,6 +105,7 @@ void Display() {
         }
         printf("\n");
     }
+    printf("  ");
     for (i = 1; i <= 42; i++) {
         printf("=");
     }
