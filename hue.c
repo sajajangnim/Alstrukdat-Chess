@@ -17,7 +17,7 @@ char cBoard[8][8] = {
                     { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
                     { ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' },
                     { 'p' , 'p' , 'p' , 'p' , 'p' , 'p' , 'p' , 'p' },
-                    { 'r' , 'h' , 'B' , 'k' , 'q' , 'B' , 'h' , 'r' }
+                    { 'r' , 'h' , 'b' , 'k' , 'q' , 'b' , 'h' , 'r' }
                 };
                 
 char Player1[10];
@@ -118,8 +118,15 @@ void InputCommand(List *L, List *moveL){
 }
 
 void Move(List *L, List *moveL){
-    PrintInfo(*moveL);
+    /*address tes;
+    tes = First(*L);
+    while (tes != Nil){
+        printf("%c %c %d %d\n", PType(PInfo(tes)), PName(PInfo(tes)), X(PInfo(tes)), Y(PInfo(tes)));
+        tes = Next(tes);
+    }
+    */
     printf("Daftar bidak yang bisa bergerak:\n");
+    //scPawn(moveL, 6, 0, 'w');
     scanList(*L, moveL);
     PrintInfo(*moveL);
     printf("Pilih bidak yang ingin digerakkan: ");
@@ -230,5 +237,6 @@ void Move(List *L, List *moveL){
         default:  break;
         }
     printf("telah berpindah dari (%c, %d) ke (%c, %d).\n", col, row, row2, col2);
-    CreateEmptyL(moveL); CreateEmptyL(&moveBidak);
+    CreateEmptyL(moveL); 
+    //CreateEmptyL(&moveBidak);
 }

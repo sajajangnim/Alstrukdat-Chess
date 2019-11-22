@@ -23,7 +23,7 @@ void CreateList(List *L, char warnaBidak){
             P = Alokasi(Bdk, i, j);
             InsertFirst(L, P);
         }
-        else {
+        else if (warnaBidak == 'w'){
             Bdk.PName = 'p';
             int j = 6;
             P = Alokasi(Bdk, i, j);
@@ -50,7 +50,7 @@ void CreateList(List *L, char warnaBidak){
             i += 1;
         }
     }
-    else{
+    if (warnaBidak == 'w'){
         int i = 0; int j = 7;
         //char b, r, h, k, q, w;
         Bdk.PType = 'w';

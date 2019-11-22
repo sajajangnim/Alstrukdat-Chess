@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "moveC.h"
+#include "cmaster.h"
 
 extern char cBoard[8][8];
 
@@ -22,8 +23,18 @@ void moveP(List *ML, Piece P){
             A = AlokPiece(P);
             InsertFirst(ML, A);
         }
+        if (IsCanEat(PType(P), i+1,j+1)){
+            X(P) = j+1; Y(P) = i+1;
+            A = AlokPiece(P);
+            InsertFirst(ML, A);
+        }
+        if (IsCanEat(PType(P), i+1, j-1)){
+            X(P) = j-1; Y(P) = i+1;
+            A = AlokPiece(P);
+            InsertFirst(ML, A);
+        }
     }
-    else if (PType(P) == 'w'){
+    if (PType(P) == 'w'){
         if (i == 6) {
             if (cBoard[i-2][j] == ' ' ) {
                 X(P) = j; Y(P) = i-2;
@@ -32,7 +43,17 @@ void moveP(List *ML, Piece P){
             }
         }    
         if (cBoard[i-1][j] == ' ') {
-            X(P) = j; Y(P) = i-2;
+            X(P) = j; Y(P) = i-1;
+            A = AlokPiece(P);
+            InsertFirst(ML, A);
+        }
+        if (IsCanEat(PType(P), i-1,j+1)){
+            X(P) = j+1; Y(P) = i-1;
+            A = AlokPiece(P);
+            InsertFirst(ML, A);
+        }
+        if (IsCanEat(PType(P), i-1, j-1)){
+            X(P) = j-1; Y(P) = i-1;
             A = AlokPiece(P);
             InsertFirst(ML, A);
         }
@@ -52,6 +73,11 @@ void moveR(List *ML, Piece P){
         InsertFirst(ML, A);
         n += 1;
     }
+    if (IsCanEat(PType(P), i,j+n)){
+        X(P) = j+n; Y(P) = i;
+        A =  AlokPiece(P);
+        InsertFirst(ML, A);
+    }
     n = 1;
     while (cBoard[i][j-n] == ' ') { //cek kiri
         if (n < 0){break; }
@@ -59,6 +85,11 @@ void moveR(List *ML, Piece P){
         A =  AlokPiece(P);
         InsertFirst(ML, A);
         n -= 1;
+    }
+    if (IsCanEat(PType(P), i,j-n)){
+        X(P) = j-n; Y(P) = i;
+        A =  AlokPiece(P);
+        InsertFirst(ML, A);
     }
 
     n = 1;
@@ -68,6 +99,11 @@ void moveR(List *ML, Piece P){
         A =  AlokPiece(P);
         InsertFirst(ML, A);
         n += 1;
+    }
+    if (IsCanEat(PType(P), i+n,j)){
+        X(P) = j; Y(P) = i+n;
+        A =  AlokPiece(P);
+        InsertFirst(ML, A);
     }
     n = 1;
     while (cBoard[i-n][j] == ' ') { //cek blkg
