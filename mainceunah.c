@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "cmaster.h"
+#include "listchess.h"
+#include "queuechess.h"
+
 
 void MainMenu();
 void NewGame();
@@ -19,7 +23,9 @@ char Player1[10];
 char Player2[10];
 
 int main() {
-
+List BList, WList;
+CreateList(&BList, "B");
+CreateList(&WList, "W");
 
 MainMenu();
 
@@ -48,6 +54,11 @@ void MainMenu() {
 void NewGame() {
     char Player1[10];
     char Player2[10];
+    Queue QPlayer;
+    Stack StackPiece;
+    CreateEmptyQ(&QPlayer, 2);
+    Add(&QPlayer, 'B');
+    Add(&QPlayer, 'W');
     printf("Masukkan Player Black: \n");
     scanf("%s", Player1);
     printf("Masukkan Player White: \n");
@@ -94,6 +105,7 @@ void InputCommand() {
     printf("Masukkan command: ");
     /* scanf("%s", &Cmd);
     if (Cmd == "MOVE") {
+        if (Head(Q)=='B') {
         Move();
     }
     else if (Cmd == "SPECIAL MOVE";) {
@@ -102,3 +114,36 @@ void InputCommand() {
     
 }
 
+address ListKeN(List L, int N) {
+    address P;
+    P = First(L);
+    for (i = 1; i <= N; i++) {
+        P = Next(P);
+    }
+    return P;
+}
+
+
+void Move(List L, List *MoveList) {
+    int chosen;
+    address P;
+    printf("Daftar pilihan bidak yang dapat bergerak:\n");
+    scanList(L, *MoveList);
+    PrintInfo(*MoveList);
+    printf("Pilih bidak yang ingin digerakkan:\n");
+    scanf("%d", &chosen);
+    P = ListKeN(*MoveList, chosen);
+
+    switch (BName(BInfo(PInfo(*P)))
+    {
+    case ('H'):
+        scHorse()
+        break;
+    
+    default:
+        break;
+    }
+
+    
+    
+}
