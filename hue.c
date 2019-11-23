@@ -21,10 +21,17 @@ char cBoard[8][8] = {
                     { 'p' , 'p' , 'p' , 'p' , 'p' , 'p' , 'p' , 'p' },
                     { 'r' , 'h' , 'b' , 'k' , 'q' , 'b' , 'h' , 'r' }
                 };
+
+char IdX[8] = { 'a' , 'b' , 'c' , 'd' , 'e' , 'f' , 'g' , 'h' };
                 
 char Player1[10];
 char Player2[10];
 int i;
+List BList, WList;
+List ownB, ownW;
+List moveBl, moveWh;
+
+
 
 int main() {
     Menu();
@@ -54,9 +61,9 @@ void Menu(){
 void NewGame(){
     extern char Player1[10];
     extern char Player2[10];
-    List BList, WList; CreateList(&BList, 'B'); CreateList(&WList, 'w');
-    List moveBl, moveWh; CreateEmptyL(&moveBl), CreateEmptyL(&moveWh);
-    List ownB, ownW; CreateEmptyL(&ownB);CreateEmptyL(&ownW);
+    extern List BList, WList; CreateList(&BList, 'B'); CreateList(&WList, 'w');
+    extern List moveBl, moveWh; CreateEmptyL(&moveBl), CreateEmptyL(&moveWh);
+    extern List ownB, ownW; CreateEmptyL(&ownB); CreateEmptyL(&ownW);
     Queue playQ; CreateEmptyQ(&playQ, 2); Add(&playQ, 'B'); Add(&playQ, 'w');
     Stack histMove; CreateEmptyS(&histMove);
     //extern boolean win;
@@ -78,24 +85,35 @@ void NewGame(){
     }
 }
 
-void Display(){
+void Display() {
     int i;
     int j;
     int n = 8;
+    extern char Player1[10];
+    extern char Player2[10];
 
     printf("BLACK: %s", Player1);
     for (i = 1; i <= 15; i++) {
         printf(" ");
     }
     printf("white: %s\n", Player2);
+    printf("\n");
 
+    printf("     ");
+    for (i = 1; i <= 8; i++) {
+            printf("%c", IdX[i-1]);
+            printf("    ");
+    }
+    printf("\n");
+
+    printf("  ");
     for (i = 1; i <= 42; i++) {
         printf("=");
     }
     printf("\n");
     for (i = 1; i <= 8; i++) {
         j = 1;
-        printf("|| ");
+        printf("%d || ", i);
         while (j <= (n)) {
             printf("%c", cBoard[i-1][j-1]);
             printf(" || ");
@@ -103,6 +121,7 @@ void Display(){
         }
         printf("\n");
     }
+    printf("  ");
     for (i = 1; i <= 42; i++) {
         printf("=");
     }
@@ -116,6 +135,7 @@ void InputCommand(List *L, List *moveL){
     if (strcmp(Cmd, "MOVE") == 0) {
         Move(L, moveL);
     }
+    
     /*
     else if (Cmd == "SPECIAL MOVE";) {
         SpecialMove();
