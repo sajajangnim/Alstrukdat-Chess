@@ -139,7 +139,7 @@ address SearchBidak (List L, Bidak B){
     P = First(L);
     Found = false;
     while ((P != Nil) && (!Found)) {
-        if ((PInfo(P).BInfo.PName) == (B.PName)) {
+        if ((PInfo(P).BInfo.PName == B.PName) && (PInfo(P).BInfo.PType == B.PType)) {
             Found = true;
         }
         else {

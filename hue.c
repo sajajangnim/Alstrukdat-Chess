@@ -6,8 +6,9 @@
 
 void Menu();
 void NewGame();
-void InputCommand(List *L, List *moveL);
-void Move(List *L, List *moveL);
+void InputCommand(List *L, List *moveL, List * eatL, List *lawan, Stack *history);
+void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history);
+void Undo(List *L, List *moveL, List * eatL, List *lawan, Stack *history);
 void Display();
 address ListKeN(List L, int N);
 void PrintLoc(int row, int col);
@@ -76,10 +77,10 @@ void NewGame(){
         Del(&playQ, &playing);
         Add(&playQ, playing);
         if (playing == 'B'){
-            printf("BLACK's turn\n"); InputCommand(&BList, &moveBl);
+            printf("BLACK's turn\n"); InputCommand(&BList, &moveBl, &ownB, &WList, &histMove);
         }
         else{
-            printf("white's turn\n"); InputCommand(&WList, &moveWh);
+            printf("white's turn\n"); InputCommand(&WList, &moveWh, &ownW, &BList, &histMove);
         }
         turn += 1;
     }
@@ -128,12 +129,15 @@ void Display() {
     printf("\n");
 }
 
-void InputCommand(List *L, List *moveL){
+void InputCommand(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     char Cmd[20];
     printf("Masukkan command: ");
     scanf("%s", Cmd);
     if (strcmp(Cmd, "MOVE") == 0) {
-        Move(L, moveL);
+        Move(L, moveL, eatL, lawan, history);
+    }
+    else if (strcmp(Cmd, "UNDO") == 0){
+        Undo(L, moveL, eatL, lawan, history);
     }
     
     /*
@@ -174,22 +178,19 @@ void PrintLoc(int row, int col){
         case 7: row = 8; break;
         default:  break;
         }
-    printf("(%c,%d)", row, col);
+    printf("(%c,%d)", col, row);
 }
-void Move(List *L, List *moveL){
-    extern List ownW;
-    extern List ownB;
-    extern List moveBl;
-    extern List moveWh, BList, WList;
-    extern Stack histMove;
+void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     printf("Daftar bidak yang bisa bergerak:\n");
-    //scPawn(moveL, 6, 0, 'w');
     scanList(*L, moveL);
     PrintInfo(*moveL);
+
     printf("Pilih bidak yang ingin digerakkan: ");
     int choice; scanf("%d", &choice);
     address P = ListKeN(*moveL, choice);
     //for (int i = 1; i < choice;i++){P = Next(P);}
+
+        //cek bidak yg dipilih bisa gerak dimana
     List moveBidak; CreateEmptyL(&moveBidak);
     switch (PName(PInfo(P))){
     case ('P'):
@@ -206,14 +207,21 @@ void Move(List *L, List *moveL){
     case ('q'): moveQ(&moveBidak, PInfo(P)); break;
     default: break;
     }
+
+        //tampilin piece yg dipilih bisa gerak kemana, pilih mau kmn
     printf("Daftar posisi tujuan yang mungkin:\n");
     PrintInfoMove(moveBidak);
     printf("Pilih posisi tujuan bidak: ");
     int choice2; scanf("%d", &choice2);
+<<<<<<< HEAD
     address mBidak; mBidak = First(moveBidak);
     for (i = 1; i < choice2;i++){
         mBidak = Next(mBidak);
     }
+=======
+    address mBidak = ListKeN(moveBidak, choice2);  //ambil info piece yg dipilih
+        //tambah, apus list MOVING PIECE BENERAN
+>>>>>>> sabtu menuju sore
     address mainL = First(*L);
     boolean done = false;
     int row, col;
@@ -222,20 +230,21 @@ void Move(List *L, List *moveL){
         if ((mainL->PInfo.X == P->PInfo.X) && (mainL->PInfo.Y == P->PInfo.Y)) {
             if (IsCanEat(PType(PInfo(mBidak)), Y(PInfo(mBidak)), X(PInfo(mBidak)))){
                 if (PType(PInfo(mBidak)) == 'B') {
-                    temp = SearchPosisi(WList, mBidak->PInfo);
-                    InsertFirst(&ownB, temp);
-                    DelP(&WList, PInfo(temp));
+                    temp = SearchPosisi(*lawan, mBidak->PInfo);
+                    InsertFirst(eatL, temp);
+                    DelP(lawan, PInfo(temp));
                 }
                 if (PType(PInfo(mBidak)) == 'w') {
-                    temp = SearchPosisi(BList, mBidak->PInfo);
-                    InsertFirst(&ownW, temp);
-                    DelP(&BList, PInfo(temp));
+                    temp = SearchPosisi(*lawan, mBidak->PInfo);
+                    InsertFirst(eatL, temp);
+                    DelP(eatL, PInfo(temp));
                 }
             }
             row = Y(PInfo(P));col = X(PInfo(P));
             cBoard[row][col] = ' ';
             PInfo(mainL) = PInfo(mBidak);
             cBoard[Y(PInfo(mainL))][X(PInfo(mainL))] = PName(PInfo(mainL));
+            Push(history, PInfo(mBidak));
             done = true;
         }
         else{
@@ -246,17 +255,24 @@ void Move(List *L, List *moveL){
     switch (BInfo(PInfo(mainL)).PName){
         case ('P'): case ('p'): printf("pion "); break;
         case ('R'): case ('r'): printf("benteng "); break;
-        case ('H'):
-        case ('h'): printf("kuda "); break;
-        case ('B'):
-        case ('b'): printf("menteri "); break;
-        case ('K'):
-        case ('k'): printf("raja "); break;
-        case ('Q'):
-        case ('q'): printf("ratu "); break;
+        case ('H'): case ('h'): printf("kuda "); break;
+        case ('B'): case ('b'): printf("menteri "); break;
+        case ('K'): case ('k'): printf("raja "); break;
+        case ('Q'): case ('q'): printf("ratu "); break;
         default: break;
         }
-    printf("telah berpindah dari ");PrintLoc(row, col); printf(" ke "); PrintLoc(Y(PInfo(mainL)), X(PInfo(mainL)));
-    CreateEmptyL(moveL); 
+    printf("telah berpindah dari ");PrintLoc(row, col); printf(" ke "); PrintLoc(Y(PInfo(mainL)), X(PInfo(mainL)));printf("\n");
+    CreateEmptyL(moveL);
     CreateEmptyL(&moveBidak);
+}
+
+void Undo(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
+    Piece P1, P2; address temp;
+    Pop(history, &P1); Pop(history, &P2);
+    temp = SearchBidak(*lawan, BInfo(P1));
+    if (temp != Nil){
+
+    }
+    temp = AlokPiece(P1); InsertFirst(lawan, temp);
+    temp = AlokPiece(P2); InsertFirst(L, temp);
 }
