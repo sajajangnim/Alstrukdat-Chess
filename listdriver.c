@@ -7,6 +7,13 @@
 #include <stdio.h>
 
 int main(){
+        /*address tes;
+    tes = First(*L);
+    while (tes != Nil){
+        printf("%c %c %d %d\n", PType(PInfo(tes)), PName(PInfo(tes)), X(PInfo(tes)), Y(PInfo(tes)));
+        tes = Next(tes);
+    }
+    */
     char cBoard[8][8] = {
                     { 'R' , 'H' , 'B' , 'K' , 'Q' , 'B' , 'H' , 'R' },
                     { 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' },

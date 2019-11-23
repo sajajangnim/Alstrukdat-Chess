@@ -129,7 +129,7 @@ void InputCommand() {
 address ListKeN(List L, int N) {
     address P;
     P = First(L);
-    for (i = 1; i <= N; i++) {
+    for (i = 1; i < N; i++) {
         P = Next(P);
     }
     return P;
