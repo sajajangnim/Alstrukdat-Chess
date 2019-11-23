@@ -13,10 +13,11 @@ void CreateEmptyL (List *L){
 /* F.S. Terbentuk list kosong */
 
 void CreateList(List *L, char warnaBidak){
+    int i;
     address P = Nil;
     CreateEmptyL(L);
     Bidak Bdk; Bdk.PType = warnaBidak;
-    for (int i = 0;i <= 7;i++){
+    for (i = 0;i <= 7;i++){
         if (warnaBidak == 'B'){
             Bdk.PName = 'P';
             int j = 1;
@@ -322,9 +323,10 @@ void DelAfter (List *L, address *Pdel, address Prec){
 
 /****************** PROSES SEMUA ELEMEN LIST ******************/
 void PrintInfo (List L){
+    int i;
     address P;
     P = First(L);
-    for (int i= 1; !IsEmpty(L); i++){
+    for (i= 1; !IsEmpty(L); i++){
         printf("%d. ", i);
         switch (BInfo(PInfo(P)).PName){
         case ('P'):
@@ -380,7 +382,8 @@ void PrintInfoMove (List L){
     P = First(L);
     char row;
     int col;
-    for (int i= 1; !IsEmpty(L); i++){
+    int i;
+    for (i= 1; !IsEmpty(L); i++){
         printf("%d. ", i);
         switch (X(PInfo(P))){
         case 0: row = 'a'; break;

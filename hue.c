@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "cmaster.h"
 #include "listchess.h"
+#include "cmaster.h"
 
 void Menu();
 void NewGame();
@@ -24,6 +24,7 @@ char cBoard[8][8] = {
                 
 char Player1[10];
 char Player2[10];
+int i;
 
 int main() {
     Menu();
@@ -125,7 +126,7 @@ void InputCommand(List *L, List *moveL){
 address ListKeN(List L, int N) {
     address P;
     P = First(L);
-    for (int i = 1; i < N; i++) {
+    for (i = 1; i < N; i++) {
         P = Next(P);
     }
     return P;
@@ -190,7 +191,7 @@ void Move(List *L, List *moveL){
     printf("Pilih posisi tujuan bidak: ");
     int choice2; scanf("%d", &choice2);
     address mBidak; mBidak = First(moveBidak);
-    for (int i = 1; i < choice2;i++){
+    for (i = 1; i < choice2;i++){
         mBidak = Next(mBidak);
     }
     address mainL = First(*L);
