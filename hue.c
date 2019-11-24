@@ -85,6 +85,7 @@ void NewGame(){
         }
         turn += 1;
     }
+    printf("Game End!\n");
 }
 
 void Display() {
