@@ -172,8 +172,13 @@ address SearchPosisi (List L, Piece pc){
 /* Jika tidak ada, mengirimkan Nil */
 
 boolean IsEqualPiece (Piece P1, Piece P2){
-    if (P1.BInfo.PName == P2.BInfo.PName){
-        return true;
+    if (P1.X == P2.X){
+        if (P1.Y == P2.Y){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     else{
         return false;
@@ -314,8 +319,8 @@ void DelLast (List *L, address *P){
 /* jika ada */
 void DelAfter (List *L, address *Pdel, address Prec){
     (*Pdel) = Next(Prec);
-    Next(Prec) = Next(Next(Prec));
-    Next(*Pdel) = Nil;
+    Next(Prec) = Next(*Pdel);
+    //Next(*Pdel) = Nil;
 }
 /* I.S. List tidak kosong. Prec adalah anggota list  */
 /* F.S. Menghapus Next(Prec): */

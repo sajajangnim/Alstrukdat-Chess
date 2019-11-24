@@ -470,8 +470,8 @@ void scQueen(List *ML, int i, int j, char warnaBdk){
     address r = Nil;
     boolean found = false;
     Bidak ratu; ratu.PType = warnaBdk;
-    if (warnaBdk == 'B')    {ratu.PName = 'B';}
-    else    {ratu.PName = 'b'; }
+    if (warnaBdk == 'B')    {ratu.PName = 'Q';}
+    else    {ratu.PName = 'q'; }
 
     //INISIALISASI BIDAK ^. NGECEK BISA JALAN GA >
     while ((cBoard[i+intv][j+intv] == ' ') && !found){
