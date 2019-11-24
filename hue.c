@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "stackchess.h"
 #include "listchess.h"
 #include "cmaster.h"
 
@@ -150,6 +151,7 @@ void InputCommand(List *L, List *moveL, List * eatL, List *lawan, Stack *history
 address ListKeN(List L, int N) {
     address P;
     P = First(L);
+    int i;
     for (i = 1; i < N; i++) {
         P = Next(P);
     }
@@ -188,7 +190,6 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     printf("Pilih bidak yang ingin digerakkan: ");
     int choice; scanf("%d", &choice);
     address P = ListKeN(*moveL, choice);
-    //for (int i = 1; i < choice;i++){P = Next(P);}
 
         //cek bidak yg dipilih bisa gerak dimana
     List moveBidak; CreateEmptyL(&moveBidak);
@@ -213,15 +214,8 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     PrintInfoMove(moveBidak);
     printf("Pilih posisi tujuan bidak: ");
     int choice2; scanf("%d", &choice2);
-<<<<<<< HEAD
-    address mBidak; mBidak = First(moveBidak);
-    for (i = 1; i < choice2;i++){
-        mBidak = Next(mBidak);
-    }
-=======
     address mBidak = ListKeN(moveBidak, choice2);  //ambil info piece yg dipilih
         //tambah, apus list MOVING PIECE BENERAN
->>>>>>> sabtu menuju sore
     address mainL = First(*L);
     boolean done = false;
     int row, col;
@@ -244,7 +238,8 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
             cBoard[row][col] = ' ';
             PInfo(mainL) = PInfo(mBidak);
             cBoard[Y(PInfo(mainL))][X(PInfo(mainL))] = PName(PInfo(mainL));
-            Push(history, PInfo(mBidak));
+            SInfo S; S.PInfo = PInfo(mBidak); S.prevX = col; S.prevY = row;
+            Push(history, S);
             done = true;
         }
         else{
@@ -267,12 +262,34 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
 }
 
 void Undo(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
-    Piece P1, P2; address temp;
+    SInfo P1, P2; address temp;
     Pop(history, &P1); Pop(history, &P2);
-    temp = SearchBidak(*lawan, BInfo(P1));
+    Piece tempB = P1.PInfo;
+    temp = SearchPosisi(*lawan, tempB);
     if (temp != Nil){
-
+        temp->PInfo.X = P1.prevX;
+        temp->PInfo.Y = P1.prevY;
     }
-    temp = AlokPiece(P1); InsertFirst(lawan, temp);
-    temp = AlokPiece(P2); InsertFirst(L, temp);
+    else{
+        temp->PInfo.X = P1.prevX;
+        temp->PInfo.Y = P1.prevY;
+        InsertFirst(lawan, temp);
+    }
+    cBoard[P1.PInfo.Y][P1.PInfo.X] = ' ';
+    cBoard[temp->PInfo.Y][temp->PInfo.X] = PName(PInfo(temp));
+    tempB = P2.PInfo;
+    temp = SearchPosisi(*L, tempB);
+    if (temp != Nil){
+        temp->PInfo.X = P2.prevX;
+        temp->PInfo.Y = P2.prevY;
+    }
+    else{
+        temp->PInfo.X = P2.prevX;
+        temp->PInfo.Y = P2.prevY;
+        InsertFirst(L, temp);
+    }
+    cBoard[P2.PInfo.Y][P2.PInfo.X] = ' ';
+    cBoard[temp->PInfo.Y][temp->PInfo.X] = PName(PInfo(temp));
+    printf("Gerakan sampai giliran sebelumnya berhasil dibatalkan.\n");
+    PrintInfo(*L); PrintInfo(*lawan);
 }

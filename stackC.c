@@ -12,12 +12,12 @@ boolean IsFullS(Stack S)
 {
     return ((S).TOP==MaxEl);
 }
-void Push(Stack *S, Piece X)
+void Push(Stack *S, SInfo X)
 {
     (*S).TOP++;
     (*S).T[((*S).TOP)-1] = X;
 }
-void Pop (Stack *S, Piece *X)
+void Pop (Stack *S, SInfo *X)
 {
     *X = (*S).T[((*S).TOP)-1];
     (*S).TOP--;

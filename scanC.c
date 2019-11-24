@@ -31,9 +31,11 @@ void scPawn(List *ML, int i, int j, char warnaBdk){
             }
         }
         if ((cBoard[i+1][j] == ' ') && !found){
+            if (i <= 6){
             A = Alokasi(pion, j, i);
             InsertFirst(ML, A);
             found = true;
+            }
         }
         if (IsCanEat(warnaBdk, i+1,j+1) || IsCanEat(warnaBdk, i+1, j-1)){
             if (!found){
@@ -42,7 +44,6 @@ void scPawn(List *ML, int i, int j, char warnaBdk){
                 found = true;
             }
         }
-
     }
     if ((warnaBdk == 'w') && !found){
         pion.PName = 'p';
@@ -54,9 +55,11 @@ void scPawn(List *ML, int i, int j, char warnaBdk){
             }
         }    
         if ((cBoard[i-1][j] == ' ') && !found){
-            A = Alokasi(pion, j, i);
-            InsertFirst(ML, A);
-            found = true;
+            if (i >= 0){
+                A = Alokasi(pion, j, i);
+                InsertFirst(ML, A);
+                found = true;
+            }
         }
         if (IsCanEat(warnaBdk, i-1,j+1) || IsCanEat(warnaBdk, i-1, j-1)){
             if (!found){
@@ -656,4 +659,26 @@ boolean IsCanEat (char input, int row, int col){
         }
     }
     return eat;
+}
+
+void scPromote(List L, List *ML){
+    address P = First(L);
+    address A;
+    while (P != Nil) {
+        if (PInfo(P).BInfo.PName == 'P') {
+            if (Y(PInfo(P)) == 6){
+                A = AlokPiece(PInfo(P));
+                InsertFirst(ML, A);
+            }
+        }
+        else if (PInfo(P).BInfo.PName == 'p') {
+            if (Y(PInfo(P)) == 1){
+                A = AlokPiece(PInfo(P));
+                InsertFirst(ML, A);
+            }
+        }
+        else {
+            P = Next(P);
+        }
+    }
 }
