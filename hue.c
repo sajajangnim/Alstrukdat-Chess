@@ -82,7 +82,6 @@ void NewGame(){
             printf("BLACK's turn\n"); InputCommand(&BList, &validMove, &ownB, &WList, &histMove);
         }
         else{
-            PrintInfo(WList);//PrintInfo(BList);
             printf("white's turn\n"); InputCommand(&WList, &validMove, &ownW, &BList, &histMove);
         }
         turn += 1;
