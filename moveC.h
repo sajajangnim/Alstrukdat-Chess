@@ -1,5 +1,6 @@
 
 #include "listchess.h"
+#include "stackchess.h"
 
 //Deklarasi fungsi dan prosedur
 void moveP (List *ML, Piece P);

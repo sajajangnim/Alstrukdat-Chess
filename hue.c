@@ -133,7 +133,11 @@ void Display() {
     for (i = 1; i <= 42; i++) {
         printf("=");
     };
+<<<<<<< HEAD
     
+=======
+    //address 
+>>>>>>> hiyaa
     printf("\n");
     for (i = 1; i <= 8; i++) {
         j = 1;
@@ -164,6 +168,7 @@ void InputCommand(List *L, List *moveL, List * eatL, List *lawan, Stack *history
         else if (strcmp(Cmd, "UNDO") == 0){
             Undo(L, moveL, eatL, lawan, history); stop = true;
         }
+<<<<<<< HEAD
         else if (strcmp(Cmd, "SPECIAL MOVE") == 0){
             SpecialMove(L, moveL, eatL, lawan, history); stop = true;
         }
@@ -174,6 +179,13 @@ void InputCommand(List *L, List *moveL, List * eatL, List *lawan, Stack *history
         SpecialMove();
     } */
     
+=======
+        /*
+        else if (Cmd == "SPECIAL MOVE";) {
+            SpecialMove();
+        } */
+    }    
+>>>>>>> hiyaa
 }
 
 address ListKeN(List L, int N) {
@@ -286,8 +298,11 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
                     SkorW = SkorW + UpdateSkor(temp->PInfo.BInfo.PName);
                 }
                 S.prevMove = 'E';
+<<<<<<< HEAD
                 
 
+=======
+>>>>>>> hiyaa
             }
             else{
                 S.prevMove = 'O';
@@ -367,20 +382,154 @@ void Undo(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     PrintInfo(*L); PrintInfo(*lawan);
 }
 
+<<<<<<< HEAD
+=======
+int UpdateSkor(char Player) {
+    int Skor;
+    Skor = 0;
+        switch (Player)
+        {
+        case ('k'): 
+        case ('K'): Skor = Skor + 10;
+            break;
+        case ('Q'):
+        case ('q'): Skor = Skor + 8;
+            break;
+        case ('B'):
+        case ('b'): Skor = Skor + 4;
+            break;
+        case ('H'):
+        case ('h'): Skor = Skor + 2;
+            break;
+        case ('R'):
+        case ('r'): Skor = Skor + 4;
+            break;
+        case ('P'):
+        case ('p'): Skor = Skor + 1;
+            break;
+         }
+        return Skor;
+    }
+
+>>>>>>> hiyaa
 void SpecialMove(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     
     address P = First(*L);
     address A;
     while (P != Nil) {
-        switch (PType(PInfo(P))){
+        switch (PName(PInfo(P))){
         case ('K'): case ('k'): scCastling(PInfo(P), L, moveL, *history); break;
         case ('P'): case ('p'): scEnpassant(PInfo(P), moveL); scPromote(PInfo(P), moveL); break;
         default: break;
         }
     }
     printf("Daftar gerakan khusus yang bisa dilakukan:\n");
-    //printinfo
-    printf("Pilih gerakan khusus yang ingin dilakukan: \n");
+    address print = First(*moveL);
+    for (int i = 0; print != Nil; i++){
+        printf("%d. ", i);
+        switch (PName(PInfo(print))){
+        case ('K'): case ('k'): printf("Castling\n"); break;
+        case ('P'):
+        case ('p'):
+            if(PType(PInfo(print)) == 'B'){
+                if (Y(PInfo(print)) == 6){
+                    printf("Pawn Promotion\n");
+                }
+            }
+            else if (PType(PInfo(print)) == 'b'){
+                if (Y(PInfo(print)) == 1){
+                    printf("Pawn Promotion\n");
+                }
+            }
+            else{
+                printf("En Passant\n");
+            }
+        default: break;
+        }
+    }
+    printf("Pilih gerakan khusus yang ingin dilakukan: ");
+    int n; scanf("%d", &n);         //cari piece yg dipilih
+    address move = ListKeN(*moveL, n);
+    List listmove; CreateEmptyL(&listmove);
+    switch (PName(PInfo(move))){
+        case ('K'): case ('k'): moveCastling(PInfo(move), &listmove, *history); break;
+        case ('P'): case ('p'): 
+            if(PType(PInfo(print)) == 'B'){
+                if (Y(PInfo(print)) == 6){
+                    movePromote(&listmove, PInfo(move));
+                }
+            }
+            else if (PType(PInfo(print)) == 'b'){
+                if (Y(PInfo(print)) == 1){
+                    movePromote(&listmove, PInfo(move));
+                }
+            }
+            else{
+                moveEnpassant(PInfo(move), &listmove);
+            }
+        default: break;
+    }
+        //move piece
+        //tampilin piece yg dipilih bisa gerak kemana, pilih mau kmn
+    printf("Daftar posisi tujuan yang mungkin:\n");
+    PrintInfoMove(listmove);
+    int choice2;    //pilih piece
+    do{
+        printf("Pilih posisi tujuan bidak: ");
+        scanf("%d", &choice2);
+    } while (choice2 > NbElmt(listmove));
+    address mBidak = ListKeN(listmove, choice2);  //ambil info piece yg dipilih
+        //tambah, apus list MOVING PIECE BENERAN
+    address mainL = First(*L);
+    boolean done = false;
+    int row, col;
+    address temp,prec;
+    SInfo S;
+    while ((mainL != Nil) && !done){
+        if ((mainL->PInfo.X == move->PInfo.X) && (mainL->PInfo.Y == move->PInfo.Y)) {
+            if (IsCanEat(PType(PInfo(mBidak)), Y(PInfo(mBidak)), X(PInfo(mBidak)))){
+                if (PType(PInfo(mBidak)) == 'B') {
+                    temp = First(*lawan);
+                    while (!IsEqualPiece(PInfo(temp), PInfo(mBidak))){  //CARI PIECE YG MAU DIMAKAN
+                        prec = temp;
+                        temp = Next(temp);
+                    }
+                    if (IsEqualPiece(PInfo(temp), PInfo(mBidak))){  //HAPUS PIECE DR LIST LAWAN
+                        Next(prec) = Next(Next(prec));
+                    }
+                    InsertFirst(eatL, temp);    //TARO PIECENYA DI LIST OWN
+                    SkorB = SkorB + UpdateSkor(temp->PInfo.BInfo.PName);
+                }
+                if (PType(PInfo(mBidak)) == 'w') {
+                    temp = First(*lawan);
+                    while (!IsEqualPiece(PInfo(temp), PInfo(mBidak))){
+                        prec = temp;
+                        temp = Next(temp);
+                    }
+                    if (IsEqualPiece(PInfo(temp), PInfo(mBidak))){
+                        Next(prec) = Next(Next(prec));
+                    }
+                    InsertFirst(eatL, temp);
+                    SkorW = SkorW + UpdateSkor(temp->PInfo.BInfo.PName);
+                }
+                S.prevMove = 'S';
+            }
+            else{
+                S.prevMove = 's';
+            }
+            row = Y(PInfo(move));col = X(PInfo(move));
+            cBoard[row][col] = ' ';
+            PInfo(mainL) = PInfo(mBidak);
+            cBoard[Y(PInfo(mainL))][X(PInfo(mainL))] = PName(PInfo(mainL));
+            S.PInfo = PInfo(mBidak); S.prevX = col; S.prevY = row;
+            Push(history, S);
+            done = true;
+        }
+        else{
+            mainL = Next(mainL);
+        }
+    }
+        //selesai move
     printf("Bidak");
     switch (BInfo(PInfo(mainL)).PName){
         case ('P'): case ('p'): printf("pion "); break;
@@ -392,6 +541,7 @@ void SpecialMove(List *L, List *moveL, List * eatL, List *lawan, Stack *history)
         default: break;
         }
     printf("telah berpindah dari ");PrintLoc(row, col); printf(" ke "); PrintLoc(Y(PInfo(mainL)), X(PInfo(mainL)));printf("\n");
+<<<<<<< HEAD
     
 }
 
@@ -412,4 +562,7 @@ void WhoWins(int W, int B) {
 void Leaderboard() {
     ReadLeaderBoard(HighScore);
     PrintLeaderBoard(HighScore);
+=======
+
+>>>>>>> hiyaa
 }
