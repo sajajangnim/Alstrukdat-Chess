@@ -15,7 +15,7 @@ F.S. : CC adalah karakter pertama pada pita
 Jika CC != MARK maka EOP akan padam (false)
 Jika CC = MARK maka EOP akan menyala (true) */
 {
-    pita = stdin;
+    pita = fopen("leaderboard.txt", "a");
     ADV();
 }
 void ADV()
@@ -30,7 +30,7 @@ Jika CC = MARK maka EOP akan menyala (true) */
     retval = fscanf(pita,"%c",&CC);
     EOP = (CC == MARK);
     if (EOP) {
-        pita = stdout;
+        fclose(pita);
     }
 }
 

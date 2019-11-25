@@ -4,6 +4,7 @@
 #include "stackchess.h"
 #include "listchess.h"
 #include "cmaster.h"
+#include "leaderboard.h"
 
 void Menu();
 void NewGame();
@@ -13,6 +14,10 @@ void Undo(List *L, List *moveL, List * eatL, List *lawan, Stack *history);
 void Display();
 address ListKeN(List L, int N);
 void PrintLoc(int row, int col);
+int UpdateSkor(char Player);
+void SpecialMove(List *L, List *moveL, List * eatL, List *lawan, Stack *history);
+void WhoWins(int W, int B);
+
 char cBoard[8][8] = {
                     { 'R' , 'H' , 'B' , 'K' , 'Q' , 'B' , 'H' , 'R' },
                     { 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' },
@@ -33,6 +38,7 @@ List BList, WList;
 List ownB, ownW;
 List moveBl, moveWh;
 List validMove;
+
 int SkorB, SkorW;
 
 
@@ -76,7 +82,7 @@ void NewGame(){
     printf("Masukkan Player Black: \n"); scanf("%s", Player1);
     printf("Masukkan Player White: \n"); scanf("%s", Player2);
     int turn = 1;
-    while (turn <=100){
+    while (turn <= 3){
         char playing;
         Display();
         Del(&playQ, &playing);
@@ -91,6 +97,8 @@ void NewGame(){
         turn += 1;
     }
     printf("Game End!\n");
+    WhoWins(SkorW, SkorB);
+    
 }
 
 void Display() {
@@ -104,6 +112,7 @@ void Display() {
     printf("\n");
     printf("\n");
     printf("     ");
+
     printf("%s: %d", Player1, SkorB);
     for (i = 1; i <= 25; i++) {
         printf(" ");
@@ -121,7 +130,8 @@ void Display() {
     printf("  ");
     for (i = 1; i <= 42; i++) {
         printf("=");
-    }
+    };
+    address 
     printf("\n");
     for (i = 1; i <= 8; i++) {
         j = 1;
@@ -199,7 +209,9 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     printf("Daftar bidak yang bisa bergerak:\n");
     scanList(*L, moveL);
     PrintInfo(*moveL);
-
+    extern int SkorB, SkorW;
+    SkorB = 0;
+    SkorW = 0;
     int choice; 
     do{
         printf("Pilih bidak yang ingin digerakkan: ");
@@ -254,6 +266,7 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
                         Next(prec) = Next(Next(prec));
                     }
                     InsertFirst(eatL, temp);    //TARO PIECENYA DI LIST OWN
+                    SkorB = SkorB + UpdateSkor(temp->PInfo.BInfo.PName);
                 }
                 if (PType(PInfo(mBidak)) == 'w') {
                     temp = First(*lawan);
@@ -265,8 +278,11 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
                         Next(prec) = Next(Next(prec));
                     }
                     InsertFirst(eatL, temp);
+                    SkorW = SkorW + UpdateSkor(temp->PInfo.BInfo.PName);
                 }
                 S.prevMove = 'E';
+                
+
             }
             else{
                 S.prevMove = 'O';
@@ -372,3 +388,44 @@ int UpdateSkor(char Player) {
          }
         return Skor;
     }
+
+void SpecialMove(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
+    address P = First(*L);
+    address A;
+    while (P != Nil) {
+        switch (PType(PInfo(P))){
+        case ('K'): case ('k'): scCastling(PInfo(P), L, moveL, *history); break;
+        case ('P'): case ('p'): scEnpassant(PInfo(P), moveL); scPromote(PInfo(P), moveL); break;
+        default: break;
+        }
+    }
+    printf("Daftar gerakan khusus yang bisa dilakukan:\n");
+    //printinfo
+    printf("Pilih gerakan khusus yang ingin dilakukan: \n");
+    printf("Bidak");
+    switch (BInfo(PInfo(mainL)).PName){
+        case ('P'): case ('p'): printf("pion "); break;
+        case ('R'): case ('r'): printf("benteng "); break;
+        case ('H'): case ('h'): printf("kuda "); break;
+        case ('B'): case ('b'): printf("menteri "); break;
+        case ('K'): case ('k'): printf("raja "); break;
+        case ('Q'): case ('q'): printf("ratu "); break;
+        default: break;
+        }
+    printf("telah berpindah dari ");PrintLoc(row, col); printf(" ke "); PrintLoc(Y(PInfo(mainL)), X(PInfo(mainL)));printf("\n");
+    
+}
+
+void WhoWins(int W, int B) {
+    if (W > B) {
+        WriteLeaderBoard(W);
+        printf("white wins.");
+    }
+    else if (W < B) {
+        WriteLeaderBoard(B);
+        printf("BLACK wins.");
+    }
+    else {
+        printf("It's a tie.");
+    }
+}
