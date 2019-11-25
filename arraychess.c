@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include "arraychess.h"
 
-char Player1[10];
-char Player2[10];
-char IdX[8] = { 'a' , 'b' , 'c' , 'd' , 'e' , 'f' , 'g' , 'h' };
+char Player1[4];
+char Player2[4];
 
 void MakeArray(ARRAY *A) {
     for (int i=1; i<=8; i++) {
@@ -56,14 +55,21 @@ void DisplayBoard(ARRAY *A) {
     int i;
     int j;
     int n = 8;
-    extern char Player1[10];
-    extern char Player2[10];
+    extern char Player1[4];
+    extern char Player2[4];
+    extern char IdX[8];
+    extern int SkorB, SkorW;
 
-    printf("BLACK: %s", Player1);
-    for (i = 1; i <= 15; i++) {
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("     ");
+
+    printf("%s: %d", Player1, SkorB);
+    for (i = 1; i <= 25; i++) {
         printf(" ");
     }
-    printf("white: %s\n", Player2);
+    printf("%s: %d\n", Player2, SkorW);
     printf("\n");
 
     printf("     ");
