@@ -102,8 +102,8 @@ void NewGame(){
             }
         }
         else{
-            raja = SearchBidak(BList, rB);
-            if (IsCheckmate(PInfo(raja), BList)){
+            raja = SearchBidak(BList, rW);
+            if (IsCheckmate(PInfo(raja), WList)){
                 break;
             }
             else{
