@@ -10,5 +10,5 @@ int main () {
 	IsFullS (stackC);
 	Push (&stackC, X);
 	Pop (&stackC, &X);
-
+	return 0;
 }
