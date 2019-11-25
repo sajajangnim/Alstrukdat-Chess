@@ -17,7 +17,7 @@ extern boolean EndKata;
 extern Kata CKata;
 
 //{ ***** Primitif-Primitif Mesin Kata ***** }
-void Ignore_Blank();
+void IgnoreBlank();
 /*{ Mengabaikan satu atau beberapa BLANK }
 { I.S. : CC sembarang }
 { F.S. : CC ? BLANK atau CC = MARK }*/
