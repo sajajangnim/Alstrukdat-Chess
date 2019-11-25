@@ -1,6 +1,6 @@
 
 #include <stdio.h>
-#include <io.h>
+// #include <io.h>
 #include <stdlib.h>
 #include "boolean.h"
 #include "string.h"
@@ -181,8 +181,8 @@ void ReadLeaderBoard(ArrSkor A) {
 
 void PrintLeaderBoard(ArrSkor A) {
     int i;
-    if (A[0] == NULL) {
-        printf("There is no data to display. Play some more game.\n")
+    if (A == NULL) {
+        printf("There is no data to display. Play some more game.\n");
     }
     else {
     printf("Highest Score to Date\n");
