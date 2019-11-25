@@ -90,12 +90,25 @@ void NewGame(){
         Display();
         Del(&playQ, &playing);
         Add(&playQ, playing);
+        Bidak rB, rW;rB.PName = 'K';rB.PType = 'B';  rW.PName = 'k';rW.PType = 'w';
+        address raja;
         if (playing == 'B'){
-            //PrintInfo(BList);PrintInfo(WList);
-            printf("BLACK's turn\n"); InputCommand(&BList, &validMove, &ownB, &WList, &histMove);
+            raja = SearchBidak(BList, rB);
+            if (IsCheckmate(PInfo(raja), BList)){
+                break;
+            }
+            else{
+                printf("BLACK's turn\n"); InputCommand(&BList, &validMove, &ownB, &WList, &histMove);
+            }
         }
         else{
-            printf("white's turn\n"); InputCommand(&WList, &validMove, &ownW, &BList, &histMove);
+            raja = SearchBidak(BList, rB);
+            if (IsCheckmate(PInfo(raja), BList)){
+                break;
+            }
+            else{
+                printf("white's turn\n"); InputCommand(&WList, &validMove, &ownW, &BList, &histMove);
+            }
         }
         turn += 1;
     }
@@ -133,11 +146,7 @@ void Display() {
     for (i = 1; i <= 42; i++) {
         printf("=");
     };
-<<<<<<< HEAD
-    
-=======
     //address 
->>>>>>> hiyaa
     printf("\n");
     for (i = 1; i <= 8; i++) {
         j = 1;
@@ -168,24 +177,10 @@ void InputCommand(List *L, List *moveL, List * eatL, List *lawan, Stack *history
         else if (strcmp(Cmd, "UNDO") == 0){
             Undo(L, moveL, eatL, lawan, history); stop = true;
         }
-<<<<<<< HEAD
         else if (strcmp(Cmd, "SPECIAL MOVE") == 0){
             SpecialMove(L, moveL, eatL, lawan, history); stop = true;
         }
-    }
-    
-    /*
-    else if (Cmd == "SPECIAL MOVE";) {
-        SpecialMove();
-    } */
-    
-=======
-        /*
-        else if (Cmd == "SPECIAL MOVE";) {
-            SpecialMove();
-        } */
     }    
->>>>>>> hiyaa
 }
 
 address ListKeN(List L, int N) {
@@ -298,11 +293,6 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
                     SkorW = SkorW + UpdateSkor(temp->PInfo.BInfo.PName);
                 }
                 S.prevMove = 'E';
-<<<<<<< HEAD
-                
-
-=======
->>>>>>> hiyaa
             }
             else{
                 S.prevMove = 'O';
@@ -382,8 +372,6 @@ void Undo(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     PrintInfo(*L); PrintInfo(*lawan);
 }
 
-<<<<<<< HEAD
-=======
 int UpdateSkor(char Player) {
     int Skor;
     Skor = 0;
@@ -411,7 +399,6 @@ int UpdateSkor(char Player) {
         return Skor;
     }
 
->>>>>>> hiyaa
 void SpecialMove(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     
     address P = First(*L);
@@ -541,7 +528,6 @@ void SpecialMove(List *L, List *moveL, List * eatL, List *lawan, Stack *history)
         default: break;
         }
     printf("telah berpindah dari ");PrintLoc(row, col); printf(" ke "); PrintLoc(Y(PInfo(mainL)), X(PInfo(mainL)));printf("\n");
-<<<<<<< HEAD
     
 }
 
@@ -562,7 +548,5 @@ void WhoWins(int W, int B) {
 void Leaderboard() {
     ReadLeaderBoard(HighScore);
     PrintLeaderBoard(HighScore);
-=======
 
->>>>>>> hiyaa
 }

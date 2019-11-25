@@ -450,6 +450,85 @@ void movePromote(List *ML, Piece P){
 }
 
 void moveEnpassant (Piece P, List *ML){
-    
+    address A;
+    if (P.BInfo.PName == 'P') {
+        if (cBoard[Y(P)][X(P)+1] == 'p'){
+            X(P) += 1; Y(P) +=1;
+            A = AlokPiece(P);
+            InsertFirst(ML, A);
+        }
+        if (cBoard[Y(P)][X(P)-1] == 'p'){
+            X(P) -= 1; Y(P) +=1;
+            A = AlokPiece(P);
+            InsertFirst(ML, A);
+        }
+    }
+    else if (P.BInfo.PName == 'p') {
+        if (cBoard[Y(P)][X(P)+1] == 'P'){
+            X(P) += 1; Y(P) -=1;
+            A = AlokPiece(P);
+            InsertFirst(ML, A);
+        }
+        if (cBoard[Y(P)][X(P)-1] == 'P'){
+            X(P) -= 1; Y(P) -=1;
+            A = AlokPiece(P);
+            InsertFirst(ML, A);
+        }
+    }
 }
-void moveCastling (Piece P, List *ML, Stack S);
+void moveCastling (Piece P, List *ML, Stack S){
+    boolean foundR = false; boolean emptyright = false;
+    boolean foundK = false; boolean emptyleft = false;
+    address A, K;
+    for (int i = 0; !foundR; i++){
+        if (PName(P) == 'K') {
+            if (S.T[i].PInfo.BInfo.PName == 'R') {
+                foundR = true;
+            }
+        }
+        else if (PName(P) == 'k') {
+            if (S.T[i].PInfo.BInfo.PName == 'r') {
+                foundR = true;
+            }
+        }
+    }
+    for (int i = 0; !foundK; i++){
+        if (S.T[i].PInfo.BInfo.PName == PName(P)) {
+            foundK = true;
+        }
+    }
+    if ((!foundK && !foundR)){
+        if (!IsCheckmate(P, *ML)){
+            int intv = 1;
+            while (cBoard[P.Y][P.X+intv] == ' ') { //cek kanan
+                if (P.X+intv == 8){break; }
+                else{
+                    emptyright = true;
+                    intv += 1;
+                }
+            }
+            intv = 1;
+            while (cBoard[P.Y][P.X-intv] == ' ') { //cek kiri
+                if (P.X-intv < 0){break; }
+                else{
+                    emptyleft = true;
+                    intv += 1;
+                }
+            }
+            if(emptyright){
+                if (cBoard[Y(P)][X(P)+3] == 'R' ||cBoard[Y(P)][X(P)+3] == 'r'){
+                    X(P) +=3;
+                    A = AlokPiece(P);
+                    InsertFirst(ML, A);
+                }
+            }
+            else if(emptyleft){
+                if (cBoard[Y(P)][X(P)-4] == 'R' ||cBoard[Y(P)][X(P)-4] == 'r'){
+                    X(P) -=4;
+                    A = AlokPiece(P);
+                    InsertFirst(ML, A);
+                }
+            }
+        }
+    }
+}
