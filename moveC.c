@@ -368,3 +368,21 @@ void moveQ (List *ML, Piece P){
         intv -= 1;
     }
 }
+
+void movePromote(List *ML, Piece P){
+    address A;
+    if (P.BInfo.PName == 'P') {
+        if (Y(P) == 6){
+            P.Y +=1;
+            A = AlokPiece(P);
+            InsertFirst(ML, A);
+        }
+    }
+    else if (P.BInfo.PName == 'p') {
+        if (Y(P) == 1){
+            P.Y -= 1;
+            A = AlokPiece(P);
+            InsertFirst(ML, A);
+        }
+    }
+}

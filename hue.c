@@ -233,20 +233,32 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     address mainL = First(*L);
     boolean done = false;
     int row, col;
-    address temp;
+    address temp,prec;
     SInfo S;
     while ((mainL != Nil) && !done){
         if ((mainL->PInfo.X == P->PInfo.X) && (mainL->PInfo.Y == P->PInfo.Y)) {
             if (IsCanEat(PType(PInfo(mBidak)), Y(PInfo(mBidak)), X(PInfo(mBidak)))){
                 if (PType(PInfo(mBidak)) == 'B') {
-                    temp = SearchPosisi(*lawan, mBidak->PInfo); //CARI PIECE YG MAU DIMAKAN
+                    temp = First(*lawan);
+                    while (!IsEqualPiece(PInfo(temp), PInfo(mBidak))){  //CARI PIECE YG MAU DIMAKAN
+                        prec = temp;
+                        temp = Next(temp);
+                    }
+                    if (IsEqualPiece(PInfo(temp), PInfo(mBidak))){  //HAPUS PIECE DR LIST LAWAN
+                        Next(prec) = Next(Next(prec));
+                    }
                     InsertFirst(eatL, temp);    //TARO PIECENYA DI LIST OWN
-                    DelP(lawan, PInfo(mBidak));   //HAPUS PIECE DR LIST LAWAN
                 }
                 if (PType(PInfo(mBidak)) == 'w') {
-                    temp = SearchPosisi(*lawan, mBidak->PInfo);
+                    temp = First(*lawan);
+                    while (!IsEqualPiece(PInfo(temp), PInfo(mBidak))){
+                        prec = temp;
+                        temp = Next(temp);
+                    }
+                    if (IsEqualPiece(PInfo(temp), PInfo(mBidak))){
+                        Next(prec) = Next(Next(prec));
+                    }
                     InsertFirst(eatL, temp);
-                    DelP(lawan, PInfo(mBidak));
                 }
                 S.prevMove = 'E';
             }

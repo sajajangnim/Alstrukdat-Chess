@@ -666,13 +666,13 @@ void scPromote(List L, List *ML){
     address A;
     while (P != Nil) {
         if (PInfo(P).BInfo.PName == 'P') {
-            if (Y(PInfo(P)) == 6){
+            if (Y(PInfo(P)) == 6 && cBoard[Y(PInfo(P))+1][X(PInfo(P))] == ' '){
                 A = AlokPiece(PInfo(P));
                 InsertFirst(ML, A);
             }
         }
         else if (PInfo(P).BInfo.PName == 'p') {
-            if (Y(PInfo(P)) == 1){
+            if (Y(PInfo(P)) == 1 && cBoard[Y(PInfo(P))-1][X(PInfo(P))] == ' '){
                 A = AlokPiece(PInfo(P));
                 InsertFirst(ML, A);
             }
@@ -681,4 +681,43 @@ void scPromote(List L, List *ML){
             P = Next(P);
         }
     }
+}
+
+void scEnpassant (List L, List *ML){
+    address P = First(L);
+    address A;
+    while (P != Nil) {
+        if (PInfo(P).BInfo.PName == 'P') {
+            if (cBoard[Y(PInfo(P))][X(PInfo(P))+1] == 'p' || cBoard[Y(PInfo(P))][X(PInfo(P))-1] == 'p'){
+                A = AlokPiece(PInfo(P));
+                InsertFirst(ML, A);
+            }
+        }
+        else if (PInfo(P).BInfo.PName == 'p') {
+            if (cBoard[Y(PInfo(P))][X(PInfo(P))+1] == 'P' || cBoard[Y(PInfo(P))][X(PInfo(P))-1] == 'P'){
+                A = AlokPiece(PInfo(P));
+                InsertFirst(ML, A);
+            }
+        }
+        else {
+            P = Next(P);
+        }
+    }
+}
+
+void scCastling (List L, List *ML, Stack S){
+    boolean foundK = false;
+    for (int i = 0; !foundK; i++){
+        if (S.T[i].PInfo.BInfo.PType == 'B') {
+            if (S.T[i].PInfo.BInfo.PName == 'K'){
+                foundK = true;
+            }
+        }
+        else if (S.T[i].PInfo.BInfo.PType == 'w') {
+            if (S.T[i].PInfo.BInfo.PName == 'k'){
+                foundK = true;
+            }
+        }
+    }
+    
 }

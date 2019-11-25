@@ -65,4 +65,7 @@ void scKing (List *ML, int i, int j, char warnaBdk);
 void scQueen(List *ML, int i, int j, char warnaBdk);
 boolean IsCanEat (char input, int row, int col);
 void scPromote(List L, List *ML);
+void scEnpassant (List L, List *ML);
+void scCastling (List L, List *ML, Stack S);
+
 #endif

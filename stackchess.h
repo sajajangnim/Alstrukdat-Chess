@@ -11,6 +11,7 @@ typedef struct{
     Piece PInfo;
     int prevX;
     int prevY;
+    char prevMove;
 }SInfo;
 
 typedef struct {
