@@ -17,7 +17,6 @@ extern char cBoard[8][8]; /*= {
 //List *ML, char **cb, char warnaBdk
 
 boolean IsCheckmate (Piece P, List ML){
-    Piece P;
     address temp;
     List move; CreateEmptyL(&move);
     scanList(ML, &move);
@@ -811,23 +810,21 @@ void scCastling (Piece P, List *L, List *ML, Stack S){
     boolean foundR = false; boolean emptyright = false;
     boolean foundK = false; boolean emptyleft = false;
     address A, K;
-    int i;
-    for (i; i = 0; !foundR; i++){
-        if (S.T[i].PInfo.BInfo.PName == PName(P)) {
-            foundR = true;
+    for (int i = 0; !foundR; i++){
+        if (PName(P) == 'K') {
+            if (S.T[i].PInfo.BInfo.PName == 'R') {
+                foundR = true;
+            }
+        }
+        else if (PName(P) == 'k') {
+            if (S.T[i].PInfo.BInfo.PName == 'r') {
+                foundR = true;
+            }
         }
     }
-    for (i = 0; !foundK; i++){
-        if (PName(P) == 'R'){
-            if (S.T[i].PInfo.BInfo.PName == 'K') {
-                K = 
-                foundK = true;
-            }
-        }
-        else if (PName(P) == 'r'){
-            if (S.T[i].PInfo.BInfo.PName == 'k') {
-                foundK = true;
-            }
+    for (int i = 0; !foundK; i++){
+        if (S.T[i].PInfo.BInfo.PName == PName(P)) {
+            foundK = true;
         }
     }
     if ((!foundK && !foundR)){
@@ -848,25 +845,14 @@ void scCastling (Piece P, List *L, List *ML, Stack S){
                     intv += 1;
                 }
             }
-            address raja;
-            boolean FoundK = false;
-            raja = First(*L);
-            while ((raja != Nil) && (!FoundK)) {
-                if ((PInfo(raja).BInfo.PName == 'K') || (PInfo(raja).BInfo.PName == 'k')) {
-                    FoundK = true;
-                }
-                else {
-                    raja = Next(raja);
-                }
-            }
             if(emptyright){
-                if (cBoard[Y(PInfo(raja))][X(PInfo(raja))+3] == 'R' ||cBoard[Y(PInfo(raja))][X(PInfo(raja))+3] == 'r'){
+                if (cBoard[Y(P)][X(P)+3] == 'R' ||cBoard[Y(P)][X(P)+3] == 'r'){
                     A = AlokPiece(P);
                     InsertFirst(ML, A);
                 }
             }
             else if(emptyleft){
-                if (cBoard[Y(PInfo(raja))][X(PInfo(raja))-4] == 'R' ||cBoard[Y(PInfo(raja))][X(PInfo(raja))-4] == 'r'){
+                if (cBoard[Y(P)][X(P)-4] == 'R' ||cBoard[Y(P)][X(P)-4] == 'r'){
                     A = AlokPiece(P);
                     InsertFirst(ML, A);
                 }
