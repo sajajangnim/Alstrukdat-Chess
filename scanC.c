@@ -811,12 +811,13 @@ void scCastling (Piece P, List *L, List *ML, Stack S){
     boolean foundR = false; boolean emptyright = false;
     boolean foundK = false; boolean emptyleft = false;
     address A, K;
-    for (int i = 0; !foundR; i++){
+    int i;
+    for (i; i = 0; !foundR; i++){
         if (S.T[i].PInfo.BInfo.PName == PName(P)) {
             foundR = true;
         }
     }
-    for (int i = 0; !foundK; i++){
+    for (i = 0; !foundK; i++){
         if (PName(P) == 'R'){
             if (S.T[i].PInfo.BInfo.PName == 'K') {
                 K = 

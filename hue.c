@@ -4,6 +4,7 @@
 #include "stackchess.h"
 #include "listchess.h"
 #include "cmaster.h"
+#include "leaderboard.h"
 
 void Menu();
 void NewGame();
@@ -13,12 +14,11 @@ void Undo(List *L, List *moveL, List * eatL, List *lawan, Stack *history);
 void Display();
 address ListKeN(List L, int N);
 void PrintLoc(int row, int col);
-<<<<<<< HEAD
 int UpdateSkor(char Player);
-=======
 void SpecialMove(List *L, List *moveL, List * eatL, List *lawan, Stack *history);
+void WhoWins(int W, int B);
+void Leaderboard();
 
->>>>>>> moga bisa skakmate
 char cBoard[8][8] = {
                     { 'R' , 'H' , 'B' , 'K' , 'Q' , 'B' , 'H' , 'R' },
                     { 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' },
@@ -41,6 +41,8 @@ List moveBl, moveWh;
 List validMove;
 
 int SkorB, SkorW;
+int SkorB, SkorW;
+ArrSkor HighScore;
 
 
 
@@ -66,7 +68,7 @@ void Menu(){
             //LoadGame(); stop = true;
         }
         else {
-            //Leaderboard(); stop = true;
+            Leaderboard(); stop = true;
         }
     }
 }
@@ -98,6 +100,7 @@ void NewGame(){
         turn += 1;
     }
     printf("Game End!\n");
+    WhoWins(SkorW, SkorB);
 }
 
 void Display() {
@@ -130,7 +133,7 @@ void Display() {
     for (i = 1; i <= 42; i++) {
         printf("=");
     };
-    address 
+    
     printf("\n");
     for (i = 1; i <= 8; i++) {
         j = 1;
@@ -160,6 +163,9 @@ void InputCommand(List *L, List *moveL, List * eatL, List *lawan, Stack *history
         }
         else if (strcmp(Cmd, "UNDO") == 0){
             Undo(L, moveL, eatL, lawan, history); stop = true;
+        }
+        else if (strcmp(Cmd, "SPECIAL MOVE") == 0){
+            SpecialMove(L, moveL, eatL, lawan, history); stop = true;
         }
     }
     
@@ -280,11 +286,8 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
                     SkorW = SkorW + UpdateSkor(temp->PInfo.BInfo.PName);
                 }
                 S.prevMove = 'E';
-<<<<<<< HEAD
                 
-=======
 
->>>>>>> moga bisa skakmate
             }
             else{
                 S.prevMove = 'O';
@@ -364,35 +367,8 @@ void Undo(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     PrintInfo(*L); PrintInfo(*lawan);
 }
 
-<<<<<<< HEAD
-int UpdateSkor(char Player) {
-    int Skor;
-    Skor = 0;
-        switch (Player)
-        {
-        case ('k'): 
-        case ('K'): Skor = Skor + 10;
-            break;
-        case ('Q'):
-        case ('q'): Skor = Skor + 8;
-            break;
-        case ('B'):
-        case ('b'): Skor = Skor + 4;
-            break;
-        case ('H'):
-        case ('h'): Skor = Skor + 2;
-            break;
-        case ('R'):
-        case ('r'): Skor = Skor + 4;
-            break;
-        case ('P'):
-        case ('p'): Skor = Skor + 1;
-            break;
-         }
-        return Skor;
-    }
-=======
 void SpecialMove(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
+    
     address P = First(*L);
     address A;
     while (P != Nil) {
@@ -418,4 +394,22 @@ void SpecialMove(List *L, List *moveL, List * eatL, List *lawan, Stack *history)
     printf("telah berpindah dari ");PrintLoc(row, col); printf(" ke "); PrintLoc(Y(PInfo(mainL)), X(PInfo(mainL)));printf("\n");
     
 }
->>>>>>> moga bisa skakmate
+
+void WhoWins(int W, int B) {
+    if (W > B) {
+        WriteLeaderBoard(W);
+        printf("white wins.");
+    }
+    else if (W < B) {
+        WriteLeaderBoard(B);
+        printf("BLACK wins.");
+    }
+    else {
+        printf("It's a tie.");
+    }
+}
+
+void Leaderboard() {
+    ReadLeaderBoard(HighScore);
+    PrintLeaderBoard(HighScore);
+}

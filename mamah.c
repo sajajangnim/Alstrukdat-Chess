@@ -17,6 +17,7 @@ void PrintLoc(int row, int col);
 int UpdateSkor(char Player);
 void SpecialMove(List *L, List *moveL, List * eatL, List *lawan, Stack *history);
 void WhoWins(int W, int B);
+void Leaderboard();
 
 char cBoard[8][8] = {
                     { 'R' , 'H' , 'B' , 'K' , 'Q' , 'B' , 'H' , 'R' },
@@ -40,6 +41,7 @@ List moveBl, moveWh;
 List validMove;
 
 int SkorB, SkorW;
+ArrSkor HighScore;
 
 
 
@@ -65,7 +67,7 @@ void Menu(){
             //LoadGame(); stop = true;
         }
         else {
-            //Leaderboard(); stop = true;
+            Leaderboard(); stop = true;
         }
     }
 }
@@ -428,4 +430,9 @@ void WhoWins(int W, int B) {
     else {
         printf("It's a tie.");
     }
+}
+
+void Leaderboard() {
+    ReadLeaderBoard(HighScore);
+    PrintLeaderBoard(HighScore);
 }
