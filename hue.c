@@ -26,8 +26,8 @@ char cBoard[8][8] = {
 
 char IdX[8] = { 'a' , 'b' , 'c' , 'd' , 'e' , 'f' , 'g' , 'h' };
                 
-char Player1[10];
-char Player2[10];
+char Player1[4];
+char Player2[4];
 int i;
 List BList, WList;
 List ownB, ownW;
@@ -42,35 +42,37 @@ int main() {
 
 void Menu(){
     int input;
+    boolean stop = false;
     printf("Welcome to our chess game.\n");
     printf("New Game [1]\n");
     printf("Load Game [2]\n");
     printf("Leaderboard [3]\n");
     printf("Masukkan pilihan: \n");
     scanf("%d", &input);
-    if (input == 1) {
-        NewGame();
+    while (!stop){
+        if (input == 1) {
+            NewGame(); stop = true;
+        }
+        else if (input == 2){
+            //LoadGame(); stop = true;
+        }
+        else {
+            //Leaderboard(); stop = true;
+        }
     }
-    else if (input == 2){
-        //LoadGame();
-    }
-    else {
-        //Leaderboard();
-    }
-
 }
 
 void NewGame(){
-    extern char Player1[10];
-    extern char Player2[10];
+    extern char Player1[4];
+    extern char Player2[4];
     extern List BList, WList; CreateList(&BList, 'B'); CreateList(&WList, 'w');
     extern List validMove; CreateEmptyL(&validMove);
     extern List ownB, ownW; CreateEmptyL(&ownB); CreateEmptyL(&ownW);
     Queue playQ; CreateEmptyQ(&playQ, 2); Add(&playQ, 'B'); Add(&playQ, 'w');
     Stack histMove; CreateEmptyS(&histMove);
     //extern boolean win;
-    printf("Masukkan Player Black: \n"); scanf("%s", Player1);//fgets(Player1, 10, stdin); 
-    printf("Masukkan Player White: \n"); scanf("%s", Player2);//fgets(Player2, 10, stdin); 
+    printf("Masukkan Player Black: \n"); scanf("%s", Player1);
+    printf("Masukkan Player White: \n"); scanf("%s", Player2);
     int turn = 1;
     while (turn <=100){
         char playing;
@@ -93,8 +95,8 @@ void Display() {
     int i;
     int j;
     int n = 8;
-    extern char Player1[10];
-    extern char Player2[10];
+    extern char Player1[4];
+    extern char Player2[4];
 
     printf("BLACK: %s", Player1);
     for (i = 1; i <= 15; i++) {
@@ -136,11 +138,14 @@ void InputCommand(List *L, List *moveL, List * eatL, List *lawan, Stack *history
     char Cmd[20];
     printf("Masukkan command: ");
     scanf("%s", Cmd);
-    if (strcmp(Cmd, "MOVE") == 0) {
-        Move(L, moveL, eatL, lawan, history);
-    }
-    else if (strcmp(Cmd, "UNDO") == 0){
-        Undo(L, moveL, eatL, lawan, history);
+    boolean stop = false;
+    while (!stop){
+        if (strcmp(Cmd, "MOVE") == 0) {
+            Move(L, moveL, eatL, lawan, history); stop = true;
+        }
+        else if (strcmp(Cmd, "UNDO") == 0){
+            Undo(L, moveL, eatL, lawan, history); stop = true;
+        }
     }
     
     /*
@@ -229,6 +234,7 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     boolean done = false;
     int row, col;
     address temp;
+    SInfo S;
     while ((mainL != Nil) && !done){
         if ((mainL->PInfo.X == P->PInfo.X) && (mainL->PInfo.Y == P->PInfo.Y)) {
             if (IsCanEat(PType(PInfo(mBidak)), Y(PInfo(mBidak)), X(PInfo(mBidak)))){
@@ -242,12 +248,16 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
                     InsertFirst(eatL, temp);
                     DelP(lawan, PInfo(mBidak));
                 }
+                S.prevMove = 'E';
+            }
+            else{
+                S.prevMove = 'O';
             }
             row = Y(PInfo(P));col = X(PInfo(P));
             cBoard[row][col] = ' ';
             PInfo(mainL) = PInfo(mBidak);
             cBoard[Y(PInfo(mainL))][X(PInfo(mainL))] = PName(PInfo(mainL));
-            SInfo S; S.PInfo = PInfo(mBidak); S.prevX = col; S.prevY = row;
+            S.PInfo = PInfo(mBidak); S.prevX = col; S.prevY = row;
             Push(history, S);
             done = true;
         }
@@ -273,29 +283,44 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
 void Undo(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     SInfo P1, P2; address temp;
     Pop(history, &P1); Pop(history, &P2);
+
+        //first pop &synch
     Piece tempB = P1.PInfo;
     temp = SearchPosisi(*lawan, tempB);
-    if (temp != Nil){
+    printf("tes\n");
+    if (IsEqualPiece(PInfo(temp), tempB)){
+        printf("!nIL\n");
         temp->PInfo.X = P1.prevX;
         temp->PInfo.Y = P1.prevY;
+        printf("tes\n");
     }
-    else{
+    else if (temp == Nil){
+        printf("NIL\n");
+        PInfo(temp) = tempB;
+        //List cobs; CreateEmptyL(&cobs);
         temp->PInfo.X = P1.prevX;
         temp->PInfo.Y = P1.prevY;
         InsertFirst(lawan, temp);
+        printf("INSERTED\n");
+        //InsertFirst(&cobs, temp);PrintInfo(cobs);
     }
     cBoard[P1.PInfo.Y][P1.PInfo.X] = ' ';
     cBoard[temp->PInfo.Y][temp->PInfo.X] = PName(PInfo(temp));
+    printf("P2\n");
+        //2nd pop & synch
     tempB = P2.PInfo;
     temp = SearchPosisi(*L, tempB);
     if (temp != Nil){
+        printf("!NIL2\n");
         temp->PInfo.X = P2.prevX;
         temp->PInfo.Y = P2.prevY;
     }
     else{
+        PInfo(temp) = tempB;
         temp->PInfo.X = P2.prevX;
         temp->PInfo.Y = P2.prevY;
         InsertFirst(L, temp);
+        printf("NIL2\n");
     }
     cBoard[P2.PInfo.Y][P2.PInfo.X] = ' ';
     cBoard[temp->PInfo.Y][temp->PInfo.X] = PName(PInfo(temp));

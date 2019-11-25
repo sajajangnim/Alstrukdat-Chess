@@ -154,18 +154,28 @@ address SearchBidak (List L, Bidak B){
 
 address SearchPosisi (List L, Piece pc){
     address P;
-    boolean Found;
+    //boolean Found = false;
     P = First(L);
-    Found = false;
-    while ((P != Nil) && (!Found)) {
-        if ((PInfo(P).X == pc.X) && (PInfo(P).Y == pc.Y)) {
-            Found = true;
+    //Found = false; && (!Found)
+    while (P != Nil) {
+        if (PInfo(P).X == pc.X) {
+            if (PInfo(P).Y == pc.Y){
+                break;
+            }
+            else{
+                P = Next(P);
+            }
         }
         else {
             P = Next(P);
         }
     }
-    return P;
+    if (IsEqualPiece(PInfo(P), pc)){
+        return P;
+    }
+    else{
+        return Nil;
+    }
 }
 /* Mencari apakah ada elemen list dengan posisi x dan y yang sama */
 /* Jika ada, mengirimkan address elemen tersebut. */
@@ -280,14 +290,14 @@ void DelP (List *L, Piece X){
             DelVFirst(L, &a);
         }
         else{
+            prec = Nil;
             P = First(*L);
             while (!IsEqualPiece(PInfo(P), X)){
                 prec = P;
                 P = Next(P);
             }
             if (IsEqualPiece(PInfo(P), X)){
-                Next(prec) = Next(Next(prec));
-                Next(P) = Nil;
+                DelAfter(L, &P, prec);
                 Dealokasi(&P);
             }
         }
@@ -321,7 +331,7 @@ void DelLast (List *L, address *P){
 void DelAfter (List *L, address *Pdel, address Prec){
     (*Pdel) = Next(Prec);
     Next(Prec) = Next(Next(Prec));
-    Next(*Pdel) = Nil;
+    //Next(*Pdel) = Nil;
 }
 /* I.S. List tidak kosong. Prec adalah anggota list  */
 /* F.S. Menghapus Next(Prec): */
@@ -379,7 +389,6 @@ void PrintInfo (List L){
         {
             break;
         }
-        //else{printf("\n");}
     }   
 }
 
