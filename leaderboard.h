@@ -131,23 +131,7 @@ void ADVKATA() {
     }
 }
 
-boolean SaveLB(char* filename) {
-    if (filename==NULL) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
 
-boolean LoadLB(char* filename) {
-    if (filename==NULL) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
 
 
 
