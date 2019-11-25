@@ -12,17 +12,17 @@ void moveP(List *ML, Piece P){
     int j = X(P); int i = Y(P);
     address A = Nil;
     if (PType(P) == 'B') {
-        if (i == 1) {
-            if (cBoard[i+2][j] == ' '){     //cek depan B
-                X(P) = j; Y(P) = i+2;
-                A = AlokPiece(P);
-                InsertFirst(ML, A);
-            }
-        }
         if (cBoard[i+1][j] == ' ') {
             X(P) = j; Y(P) = i+1;
             A = AlokPiece(P);
             InsertFirst(ML, A);
+            if (i == 1) {
+                if (cBoard[i+2][j] == ' '){     //cek depan B
+                    X(P) = j; Y(P) = i+2;
+                    A = AlokPiece(P);
+                    InsertFirst(ML, A);
+                }
+            }
         }
         if (IsCanEat(PType(P), i+1,j+1)){
             X(P) = j+1; Y(P) = i+1;
@@ -35,18 +35,18 @@ void moveP(List *ML, Piece P){
             InsertFirst(ML, A);
         }
     }
-    if (PType(P) == 'w'){
-        if (i == 6) {
-            if (cBoard[i-2][j] == ' ' ) {
-                X(P) = j; Y(P) = i-2;
-                A = AlokPiece(P);
-                InsertFirst(ML, A);
-            }
-        }    
+    if (PType(P) == 'w'){  
         if (cBoard[i-1][j] == ' ') {
             X(P) = j; Y(P) = i-1;
             A = AlokPiece(P);
             InsertFirst(ML, A);
+            if (i == 6) {
+                if (cBoard[i-2][j] == ' ' ) {
+                    X(P) = j; Y(P) = i-2;
+                    A = AlokPiece(P);
+                    InsertFirst(ML, A);
+                }
+            }  
         }
         if (IsCanEat(PType(P), i-1,j+1)){
             X(P) = j+1; Y(P) = i-1;
@@ -114,6 +114,11 @@ void moveR(List *ML, Piece P){
         InsertFirst(ML, A);
         n -= 1;
     }
+    if (IsCanEat(PType(P), i-n,j)){
+        X(P) = j; Y(P) = i-n;
+        A =  AlokPiece(P);
+        InsertFirst(ML, A);
+    }
 }
 //MSH HRS DICEK  LG KONDISI BERENTINYA KALO IDX ARRAY BRP
 //sc horse idx nya 0-7
@@ -127,9 +132,21 @@ void moveH (List *ML, Piece P){
             InsertFirst(ML, k);
         }
     }
+    if ((IsCanEat(PType(P), i+2, j+1))){
+        if((i+2 <=7) && (j+1 <= 7)){
+            k = Alokasi(BInfo(P), j+1, i+2);
+            InsertFirst(ML, k);
+        }
+    }
     if (cBoard[i+2][j-1] == ' ')  {
         if((i+2 <=7) && (j-1 >= 0)){
             k =  Alokasi(BInfo(P), j-1, i+2);
+            InsertFirst(ML, k);
+        }
+    }
+    if ((IsCanEat(PType(P), i+2, j-1)) ){
+        if((i+2 <=7) && (j-1 >= 0)){
+            k = Alokasi(BInfo(P), j-1, i+2);
             InsertFirst(ML, k);
         }
     }
@@ -140,10 +157,22 @@ void moveH (List *ML, Piece P){
             InsertFirst(ML, k);
         }
     }
+    if ((IsCanEat(PType(P), i-2, j-1)) ){
+        if((i-2 >=0) && (j-1 >= 0)){
+            k = Alokasi(BInfo(P), j-1, i-2);
+            InsertFirst(ML, k);
+        }
+    }
     if (cBoard[i-2][j+1] == ' ') {
         if((i-2 >=0) && (j+1 <= 7)){
             X(P) = j+1; Y(P) = i-2;
             k =  AlokPiece(P);
+            InsertFirst(ML, k);
+        }
+    }
+    if ((IsCanEat(PType(P), i-2, j+1)) ){
+        if((i-2 >=0) && (j+1 >= 0)){
+            k = Alokasi(BInfo(P), j+1, i-2);
             InsertFirst(ML, k);
         }
     }
@@ -155,10 +184,22 @@ void moveH (List *ML, Piece P){
             InsertFirst(ML, k);
         }
     }
+    if ((IsCanEat(PType(P), i+1, j+2)) ){
+        if((i+1 <=7) && (j+2 <= 7)){
+            k = Alokasi(BInfo(P), j+2, i+1);
+            InsertFirst(ML, k);
+        }
+    }
     if (cBoard[i+1][j-2] == ' ') {
         if((i+1 <=7) && (j-2 >= 0)){
             X(P) = j-2; Y(P) = i+1;
             k =  AlokPiece(P);
+            InsertFirst(ML, k);
+        }
+    }
+    if ((IsCanEat(PType(P), i+1, j-2)) ){
+        if((i+1 <=7) && (j-2 >= 0)){
+            k = Alokasi(BInfo(P), j-2, i+1);
             InsertFirst(ML, k);
         }
     }
@@ -169,10 +210,22 @@ void moveH (List *ML, Piece P){
             InsertFirst(ML, k);
         }
     }
+    if ((IsCanEat(PType(P), i-1, j-2)) ){
+        if((i-1 >=0) && (j-2 >= 0)){
+            k = Alokasi(BInfo(P), j-2, i-1);
+            InsertFirst(ML, k);
+        }
+    }
     if (cBoard[i-1][j+2] == ' ') {
         if((i-1 >=0) && (j+2 <= 7)){
             X(P) = j+2; Y(P) = i-1;
             k =  AlokPiece(P);
+            InsertFirst(ML, k);
+        }
+    }
+    if ((IsCanEat(PType(P), i-1, j+2)) ){
+        if((i-1 >=0) && (j+2 <= 7)){
+            k = Alokasi(BInfo(P), j+2, i-1);
             InsertFirst(ML, k);
         }
     }
@@ -184,43 +237,51 @@ void moveB (List *ML, Piece P){
     address m;
 
     //INISIALISASI BIDAK ^. NGECEK BISA JALAN GA >
-    while (cBoard[i+intv][j+intv] == ' ') {
-        if ((i+intv > 7) && (j+intv > 7)){
+    while ((i+intv <= 7) && (j+intv <= 7)) {
+        if (cBoard[i+intv][j+intv] == ' ' || IsCanEat(PType(P), i+intv, j+intv)){
+            X(P) = j+intv; Y(P) = i+intv;
+            m =  AlokPiece(P);
+            InsertFirst(ML, m);
+        }
+        else{
             break;
         }
-        X(P) = j+intv; Y(P) = i+intv;
-        m =  AlokPiece(P);
-        InsertFirst(ML, m);
         intv += 1;
     }
     intv = 1;
-    while (cBoard[i-intv][j-intv] == ' ') {
-        if ((i -intv< 0) && (j-intv < 0)){
+    while ((i -intv >= 0) && (j-intv >= 0)) {
+        if (cBoard[i-intv][j-intv] == ' '  || IsCanEat(PType(P), i-intv, j-intv)){
+            X(P) = j-intv; Y(P) = i-intv;
+            m =  AlokPiece(P);
+            InsertFirst(ML, m);
+        }
+        else{
             break;
         }
-        X(P) = j-intv; Y(P) = i-intv;
-        m =  AlokPiece(P);
-        InsertFirst(ML, m);
         intv += 1;
     }
     intv = 1;
-    while (cBoard[i+intv][j-intv] == ' ') {
-        if ((i+intv > 7) && (j-intv < 0)){
+    while ((i+intv <= 7) && (j-intv >= 0)) {
+        if (cBoard[i+intv][j-intv] == ' '  || IsCanEat(PType(P), i+intv, j-intv)){
+            X(P) = j-intv; Y(P) = i+intv;
+            m =  AlokPiece(P);
+            InsertFirst(ML, m);
+        }
+        else{
             break;
         }
-        X(P) = j-intv; Y(P) = i+intv;
-        m =  AlokPiece(P);
-        InsertFirst(ML, m);
         intv += 1;
     }
     intv = 1;
-    while (cBoard[i-intv][j+intv] == ' ') {
-        if ((i-intv < 0) && (j+intv > 7)){
+    while ((i-intv >= 0) && (j+intv <= 7)) {
+        if (cBoard[i-intv][j+intv] == ' ' || IsCanEat(PType(P), i-intv, j-intv)){
+            X(P) = j+intv; Y(P) = i-intv;
+            m =  AlokPiece(P);
+            InsertFirst(ML, m);
+        }
+        else{
             break;
         }
-        X(P) = j+intv; Y(P) = i-intv;
-        m =  AlokPiece(P);
-        InsertFirst(ML, m);
         intv += 1;
     }
 }
@@ -230,28 +291,28 @@ void moveK (List *ML, Piece P){
     address Alok;
 
     //INISIALISASI BIDAK ^. NGECEK BISA JALAN GA >
-    if (cBoard[i][j+1] == ' ') {
+    if (cBoard[i][j+1] == ' ' || IsCanEat(PType(P), i, j+1)) {
         if ((j <= 7)){
             X(P) = j+1; Y(P) = i;
             Alok =  AlokPiece(P);
             InsertFirst(ML, Alok);
         } 
     }
-    if (cBoard[i][j-1] == ' ') {
+    if (cBoard[i][j-1] == ' ' || IsCanEat(PType(P), i, j-1)) {
         if ((j >= 0)){
             X(P) = j-1; Y(P) = i;
             Alok =  AlokPiece(P);
             InsertFirst(ML, Alok);
         } 
     }
-    if (cBoard[i+1][j] == ' ') {
+    if (cBoard[i+1][j] == ' ' || IsCanEat(PType(P), i+1, j)) {
         if (i <= 7){
             X(P) = j; Y(P) = i+1;
             Alok =  AlokPiece(P);
             InsertFirst(ML, Alok);
         } 
     }
-    if (cBoard[i-1][j] == ' ') {
+    if (cBoard[i-1][j] == ' ' || IsCanEat(PType(P), i-1, j)) {
         if (i >= 0) {
             X(P) = j; Y(P) = i-1;
             Alok =  AlokPiece(P);
@@ -259,28 +320,28 @@ void moveK (List *ML, Piece P){
         } 
     }
     //NGECEK SERONGNYA
-    if (cBoard[i+1][j+1] == ' '){
+    if (cBoard[i+1][j+1] == ' ' || IsCanEat(PType(P), i+1, j+1)){
         if ((i <= 7) && (j <= 7)){
             X(P) = j+1; Y(P) = i+1;
             Alok =  AlokPiece(P);
             InsertFirst(ML, Alok);
         } 
     }
-    if (cBoard[i-1][j+1] == ' ') {
+    if (cBoard[i-1][j+1] == ' ' || IsCanEat(PType(P), i-1, j+1)) {
         if ((i >= 0) && (j <= 7)){
             X(P) = j+1; Y(P) = i-1;
             Alok =  AlokPiece(P);
             InsertFirst(ML, Alok);
         } 
     }
-    if (cBoard[i-1][j-1] == ' ') {
+    if (cBoard[i-1][j-1] == ' ' || IsCanEat(PType(P), i-1, j-1)) {
         if ((i >= 0) && (j >= 0)){
             X(P) = j-1; Y(P) = i-1;
             Alok =  AlokPiece(P);
             InsertFirst(ML, Alok);
         } 
     }
-    if (cBoard[i+1][j-1] == ' ') {
+    if (cBoard[i+1][j-1] == ' ' || IsCanEat(PType(P), i+1, j-1)) {
         if ((i <= 7) && (j >= 0)){
             X(P) = j-1; Y(P) = i+1;
             Alok =  AlokPiece(P);
@@ -295,7 +356,7 @@ void moveQ (List *ML, Piece P){
     address r = Nil;
 
     //INISIALISASI BIDAK ^. NGECEK BISA JALAN GA >
-    while (cBoard[i+intv][j+intv] == ' ') {
+    while (cBoard[i+intv][j+intv] == ' ' || IsCanEat(PType(P), i+intv, j+intv)) {
         if ((i+intv > 7) && (j+intv > 7)){
             break;
         }
@@ -305,17 +366,17 @@ void moveQ (List *ML, Piece P){
         intv += 1;
     }
     intv = 1;
-    while (cBoard[i-intv][j-intv] == ' ') {
+    while (cBoard[i-intv][j-intv] == ' ' || IsCanEat(PType(P), i-intv, j-intv)) {
         if ((i-intv < 0) && (j-intv < 0)){
             break;
         }
-        X(P) = j+intv; Y(P) = i-intv;
+        X(P) = j-intv; Y(P) = i-intv;
         r =  AlokPiece(P);
         InsertFirst(ML, r);
         intv += 1;
     }
     intv = 1;
-    while (cBoard[i+intv][j-intv] == ' ') {
+    while (cBoard[i+intv][j-intv] == ' ' || IsCanEat(PType(P), i+intv, j-intv)) {
         if ((i+intv > 7) && (j-intv < 0)){
             break;
         }
@@ -325,7 +386,7 @@ void moveQ (List *ML, Piece P){
         intv += 1;
     }
     intv = 1;
-    while (cBoard[i-intv][j+intv] == ' ') {
+    while (cBoard[i-intv][j+intv] == ' ' || IsCanEat(PType(P), i-intv, j+intv)) {
         if ((i-intv < 0) && (j+intv > 7)){
             break;
         }
@@ -336,7 +397,7 @@ void moveQ (List *ML, Piece P){
     }
 
     intv = 1;
-    while (cBoard[i][j+intv] == ' ') { //cek kanan
+    while (cBoard[i][j+intv] == ' ' || IsCanEat(PType(P), i, j+intv)) { //cek kanan
         if (j+intv == 8){break; }
         X(P) = j+intv; Y(P) = i;
         r =  AlokPiece(P);
@@ -344,7 +405,7 @@ void moveQ (List *ML, Piece P){
         intv += 1;
     }
     intv = 1;
-    while (cBoard[i][j-intv] == ' ') { //cek kiri
+    while (cBoard[i][j-intv] == ' ' || IsCanEat(PType(P), i, j-intv)) { //cek kiri
         if (j-intv < 0){break; }
         X(P) = j-intv; Y(P) = i;
         r =  AlokPiece(P);
@@ -353,7 +414,7 @@ void moveQ (List *ML, Piece P){
     }
 
     intv = 1;
-    while (cBoard[i+intv][j] == ' ') { //cek depan
+    while (cBoard[i+intv][j] == ' ' || IsCanEat(PType(P), i+intv, j)) { //cek depan
         if (i+intv == 8){break; }
         X(P) = j; Y(P) = i+intv;
         r =  AlokPiece(P);
@@ -361,7 +422,7 @@ void moveQ (List *ML, Piece P){
         intv += 1;
     }
     intv = 1;
-    while (cBoard[i-intv][j] == ' ') { //cek blkg
+    while (cBoard[i-intv][j] == ' ' || IsCanEat(PType(P), i-intv, j)) { //cek blkg
         if (i-intv == 0){break; }
         X(P) = j; Y(P) = i-intv;
         r =  AlokPiece(P);
@@ -387,3 +448,8 @@ void movePromote(List *ML, Piece P){
         }
     }
 }
+
+void moveEnpassant (Piece P, List *ML){
+    
+}
+void moveCastling (Piece P, List *ML, Stack S);

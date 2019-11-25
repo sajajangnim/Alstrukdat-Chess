@@ -16,6 +16,110 @@ extern char cBoard[8][8]; /*= {
                 };*/
 //List *ML, char **cb, char warnaBdk
 
+boolean IsCheckmate (Piece P, List ML){
+    Piece P;
+    address temp;
+    List move; CreateEmptyL(&move);
+    scanList(ML, &move);
+    temp = First(move);
+    Piece tpiece = P;
+    boolean bisa = false;
+    int i = tpiece.Y; int j = tpiece.Y;
+    while (temp != Nil){
+        List moveBidak; CreateEmptyL(&moveBidak);
+        switch (PName(PInfo(temp))){
+        case ('P'): case ('p'): moveP(&moveBidak, PInfo(temp)); break;
+        case ('R'): case ('r'): moveR(&moveBidak, PInfo(temp)); break;
+        case ('H'): case ('h'): moveH(&moveBidak, PInfo(temp)); break;
+        case ('B'): case ('b'): moveB(&moveBidak, PInfo(temp)); break;
+        case ('K'): case ('k'): moveK(&moveBidak, PInfo(temp)); break;
+        case ('Q'): case ('q'): moveQ(&moveBidak, PInfo(temp)); break;
+        default: break;
+        }
+        if (cBoard[P.Y][P.X] == ' '){
+            if (IsEqualPiece(tpiece, moveBidak.First->PInfo)){
+                bisa = false;
+                break;
+            }
+        }
+        if (cBoard[i][j+1] == ' ') {
+            if ((j <= 7)){
+                tpiece.X +=1;
+                if (IsEqualPiece(moveBidak.First->PInfo, tpiece)){
+                    bisa = false;
+                    break;
+                }
+            }
+        }
+        if (cBoard[i][j-1] == ' ') {
+            if ((j >= 0)){
+                tpiece.X -=1;
+                if (IsEqualPiece(moveBidak.First->PInfo, tpiece)){
+                    bisa = false;
+                    break;
+                }
+            }
+        }
+        if (cBoard[i+1][j] == ' ') {
+            if (i <= 7){
+                tpiece.Y += 1;
+                if (IsEqualPiece(moveBidak.First->PInfo, tpiece)){
+                    bisa =  false;
+                    break;
+                }
+            }
+        }
+        if (cBoard[i-1][j] == ' ') {
+            if (i >= 0) {
+                tpiece.Y -=1;
+                if (IsEqualPiece(moveBidak.First->PInfo, tpiece)){
+                    bisa =  false;
+                    break;
+                }
+            }
+        }
+        //NGECEK SERONGNYA
+        if (cBoard[i+1][j+1] == ' '){
+            if ((i <= 7) && (j <= 7)){
+                tpiece.Y +=1; tpiece.X += 1;
+                if (IsEqualPiece(moveBidak.First->PInfo, tpiece)){
+                    bisa =  false;
+                    break;
+                }
+            } 
+        }
+        if (cBoard[i-1][j+1] == ' ') {
+            if ((i >= 0) && (j <= 7)){
+                tpiece.Y -=1; tpiece.X += 1;
+                if (IsEqualPiece(moveBidak.First->PInfo, tpiece)){
+                    bisa = false;
+                    break;
+                }
+            }
+        } 
+        if (cBoard[i-1][j-1] == ' ') {
+            if ((i >= 0) && (j >= 0)){
+                tpiece.Y -=1; tpiece.X -= 1;
+                if (IsEqualPiece(moveBidak.First->PInfo, tpiece)){
+                    bisa = false;
+                    break;
+                }
+            } 
+        }
+        if (cBoard[i+1][j-1] == ' ') {
+            if ((i <= 7) && (j >= 0)){
+                tpiece.Y +=1; tpiece.X -= 1;
+                if (IsEqualPiece(moveBidak.First->PInfo, tpiece)){
+                    bisa = false;
+                    break;
+                }
+            }
+        }
+        temp = Next(temp);
+    }
+    return bisa;
+}
+
 void scPawn(List *ML, int i, int j, char warnaBdk){
     //int j = temp.X; int i = temp.Y;
     Bidak pion; pion.PType = warnaBdk;
@@ -23,18 +127,18 @@ void scPawn(List *ML, int i, int j, char warnaBdk){
     boolean found = false;
     if ((warnaBdk == 'B') && !found){
         pion.PName = 'P';
-        if ((i == 1) && !found){
-            if (cBoard[i+2][j] == ' '){     //cek depan B
+        if ((cBoard[i+1][j] == ' ') && !found){
+            if (i <= 6){
                 A = Alokasi(pion, j, i);
                 InsertFirst(ML, A);
                 found = true;
             }
-        }
-        if ((cBoard[i+1][j] == ' ') && !found){
-            if (i <= 6){
-            A = Alokasi(pion, j, i);
-            InsertFirst(ML, A);
-            found = true;
+            else if ((i == 1) && !found){
+                if (cBoard[i+2][j] == ' '){     //cek depan B
+                    A = Alokasi(pion, j, i);
+                    InsertFirst(ML, A);
+                    found = true;
+                }
             }
         }
         if (IsCanEat(warnaBdk, i+1,j+1) || IsCanEat(warnaBdk, i+1, j-1)){
@@ -44,22 +148,26 @@ void scPawn(List *ML, int i, int j, char warnaBdk){
                 found = true;
             }
         }
+        if ((cBoard[i][j+1] == 'p' || cBoard[i][j-1] == 'p') && !found){
+            A = Alokasi(pion, j, i);
+            InsertFirst(ML, A);
+        }
     }
     if ((warnaBdk == 'w') && !found){
-        pion.PName = 'p';
-        if ((i == 6) && !found){
-            if (cBoard[i-2][j] == ' ' ){
-                A = Alokasi(pion, j, i);
-                InsertFirst(ML, A);
-                found = true;
-            }
-        }    
+        pion.PName = 'p';  
         if ((cBoard[i-1][j] == ' ') && !found){
             if (i >= 0){
                 A = Alokasi(pion, j, i);
                 InsertFirst(ML, A);
                 found = true;
             }
+            else if ((i == 6) && !found){
+                if (cBoard[i-2][j] == ' ' ){
+                    A = Alokasi(pion, j, i);
+                    InsertFirst(ML, A);
+                    found = true;
+                }
+            }  
         }
         if (IsCanEat(warnaBdk, i-1,j+1) || IsCanEat(warnaBdk, i-1, j-1)){
             if (!found){
@@ -68,6 +176,11 @@ void scPawn(List *ML, int i, int j, char warnaBdk){
                 found = true;
             }
         }
+        if ((cBoard[i][j+1] == 'P' || cBoard[i][j-1] == 'P') && !found){
+            A = Alokasi(pion, j, i);
+            InsertFirst(ML, A);
+        }
+
     }
     //BLM ADA KASUS KALO DI SERONGYA ADA MUSUH, TRS BISA JALAN KE SITU
     //HRS BIKIN CHECK DULU
@@ -661,63 +774,102 @@ boolean IsCanEat (char input, int row, int col){
     return eat;
 }
 
-void scPromote(List L, List *ML){
-    address P = First(L);
+void scPromote(Piece P, List *ML){
     address A;
-    while (P != Nil) {
-        if (PInfo(P).BInfo.PName == 'P') {
-            if (Y(PInfo(P)) == 6 && cBoard[Y(PInfo(P))+1][X(PInfo(P))] == ' '){
-                A = AlokPiece(PInfo(P));
+    if (P.BInfo.PName == 'P') {
+        if (P.Y == 6 && cBoard[Y(P)+1][X(P)] == ' '){
+                A = AlokPiece(P);
                 InsertFirst(ML, A);
-            }
         }
-        else if (PInfo(P).BInfo.PName == 'p') {
-            if (Y(PInfo(P)) == 1 && cBoard[Y(PInfo(P))-1][X(PInfo(P))] == ' '){
-                A = AlokPiece(PInfo(P));
-                InsertFirst(ML, A);
-            }
-        }
-        else {
-            P = Next(P);
+    }
+    else if (P.BInfo.PName == 'p') {
+        if (Y(P) == 1 && cBoard[Y(P)-1][X(P)] == ' '){
+            A = AlokPiece(P);
+            InsertFirst(ML, A);
         }
     }
 }
 
-void scEnpassant (List L, List *ML){
-    address P = First(L);
+void scEnpassant (Piece P, List *ML){
     address A;
-    while (P != Nil) {
-        if (PInfo(P).BInfo.PName == 'P') {
-            if (cBoard[Y(PInfo(P))][X(PInfo(P))+1] == 'p' || cBoard[Y(PInfo(P))][X(PInfo(P))-1] == 'p'){
-                A = AlokPiece(PInfo(P));
-                InsertFirst(ML, A);
-            }
+    if (P.BInfo.PName == 'P') {
+        if (cBoard[Y(P)][X(P)+1] == 'p' || cBoard[Y(P)][X(P)-1] == 'p'){
+            A = AlokPiece(P);
+            InsertFirst(ML, A);
         }
-        else if (PInfo(P).BInfo.PName == 'p') {
-            if (cBoard[Y(PInfo(P))][X(PInfo(P))+1] == 'P' || cBoard[Y(PInfo(P))][X(PInfo(P))-1] == 'P'){
-                A = AlokPiece(PInfo(P));
-                InsertFirst(ML, A);
-            }
-        }
-        else {
-            P = Next(P);
+    }
+    else if (P.BInfo.PName == 'p') {
+        if (cBoard[Y(P)][X(P)+1] == 'P' || cBoard[Y(P)][X(P)-1] == 'P'){
+            A = AlokPiece(P);
+            InsertFirst(ML, A);
         }
     }
 }
 
-void scCastling (List L, List *ML, Stack S){
-    boolean foundK = false;
+void scCastling (Piece P, List *L, List *ML, Stack S){
+    //if (IsCheckmate(P, *L)){}
+    boolean foundR = false; boolean emptyright = false;
+    boolean foundK = false; boolean emptyleft = false;
+    address A, K;
+    for (int i = 0; !foundR; i++){
+        if (S.T[i].PInfo.BInfo.PName == PName(P)) {
+            foundR = true;
+        }
+    }
     for (int i = 0; !foundK; i++){
-        if (S.T[i].PInfo.BInfo.PType == 'B') {
-            if (S.T[i].PInfo.BInfo.PName == 'K'){
+        if (PName(P) == 'R'){
+            if (S.T[i].PInfo.BInfo.PName == 'K') {
+                K = 
                 foundK = true;
             }
         }
-        else if (S.T[i].PInfo.BInfo.PType == 'w') {
-            if (S.T[i].PInfo.BInfo.PName == 'k'){
+        else if (PName(P) == 'r'){
+            if (S.T[i].PInfo.BInfo.PName == 'k') {
                 foundK = true;
             }
         }
     }
-    
+    if ((!foundK && !foundR)){
+        if (!IsCheckmate(P, *L)){
+            int intv = 1;
+            while (cBoard[P.Y][P.X+intv] == ' ') { //cek kanan
+                if (P.X+intv == 8){break; }
+                else{
+                    emptyright = true;
+                    intv += 1;
+                }
+            }
+            intv = 1;
+            while (cBoard[P.Y][P.X-intv] == ' ') { //cek kiri
+                if (P.X-intv < 0){break; }
+                else{
+                    emptyleft = true;
+                    intv += 1;
+                }
+            }
+            address raja;
+            boolean FoundK = false;
+            raja = First(*L);
+            while ((raja != Nil) && (!FoundK)) {
+                if ((PInfo(raja).BInfo.PName == 'K') || (PInfo(raja).BInfo.PName == 'k')) {
+                    FoundK = true;
+                }
+                else {
+                    raja = Next(raja);
+                }
+            }
+            if(emptyright){
+                if (cBoard[Y(PInfo(raja))][X(PInfo(raja))+3] == 'R' ||cBoard[Y(PInfo(raja))][X(PInfo(raja))+3] == 'r'){
+                    A = AlokPiece(P);
+                    InsertFirst(ML, A);
+                }
+            }
+            else if(emptyleft){
+                if (cBoard[Y(PInfo(raja))][X(PInfo(raja))-4] == 'R' ||cBoard[Y(PInfo(raja))][X(PInfo(raja))-4] == 'r'){
+                    A = AlokPiece(P);
+                    InsertFirst(ML, A);
+                }
+            }
+        }
+    }
 }

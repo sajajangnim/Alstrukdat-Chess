@@ -56,6 +56,8 @@ extern char cBoard[8][8];/* = {
                     { 'r' , 'h' , 'b' , 'k' , 'q' , 'b' , 'h' , 'r' }
                     };
 */
+
+boolean IsCheckmate (Piece P, List ML);
 void scanList(List L, List * ML);
 void scPawn(List *ML, int i, int j, char warnaBdk);
 void scRook(List *ML, int i, int j, char warnaBdk);
@@ -64,8 +66,8 @@ void scBishop (List *ML, int i, int j, char warnaBdk);
 void scKing (List *ML, int i, int j, char warnaBdk);
 void scQueen(List *ML, int i, int j, char warnaBdk);
 boolean IsCanEat (char input, int row, int col);
-void scPromote(List L, List *ML);
-void scEnpassant (List L, List *ML);
-void scCastling (List L, List *ML, Stack S);
+void scPromote(Piece P, List *ML);
+void scEnpassant (Piece P, List *ML);
+void scCastling (Piece P, List *L, List *ML, Stack S);
 
 #endif
