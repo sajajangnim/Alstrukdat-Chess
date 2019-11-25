@@ -5,6 +5,7 @@
 
 extern char cBoard[8][8];
 
+
 //Implementasi fungsi dan prosedur
 
 void moveP(List *ML, Piece P){

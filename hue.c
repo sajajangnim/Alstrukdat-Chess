@@ -13,6 +13,7 @@ void Undo(List *L, List *moveL, List * eatL, List *lawan, Stack *history);
 void Display();
 address ListKeN(List L, int N);
 void PrintLoc(int row, int col);
+int UpdateSkor(char Player);
 char cBoard[8][8] = {
                     { 'R' , 'H' , 'B' , 'K' , 'Q' , 'B' , 'H' , 'R' },
                     { 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' , 'P' },
@@ -33,6 +34,7 @@ List BList, WList;
 List ownB, ownW;
 List moveBl, moveWh;
 List validMove;
+
 int SkorB, SkorW;
 
 
@@ -200,7 +202,9 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     printf("Daftar bidak yang bisa bergerak:\n");
     scanList(*L, moveL);
     PrintInfo(*moveL);
-
+    extern int SkorB, SkorW;
+    SkorB = 0;
+    SkorW = 0;
     int choice; 
     do{
         printf("Pilih bidak yang ingin digerakkan: ");
@@ -255,6 +259,7 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
                         Next(prec) = Next(Next(prec));
                     }
                     InsertFirst(eatL, temp);    //TARO PIECENYA DI LIST OWN
+                    SkorB = SkorB + UpdateSkor(temp->PInfo.BInfo.PName);
                 }
                 if (PType(PInfo(mBidak)) == 'w') {
                     temp = First(*lawan);
@@ -266,8 +271,10 @@ void Move(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
                         Next(prec) = Next(Next(prec));
                     }
                     InsertFirst(eatL, temp);
+                    SkorW = SkorW + UpdateSkor(temp->PInfo.BInfo.PName);
                 }
                 S.prevMove = 'E';
+                
             }
             else{
                 S.prevMove = 'O';
