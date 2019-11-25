@@ -33,6 +33,8 @@ List BList, WList;
 List ownB, ownW;
 List moveBl, moveWh;
 List validMove;
+int SkorB, SkorW;
+
 
 
 int main() {
@@ -98,11 +100,16 @@ void Display() {
     extern char Player1[4];
     extern char Player2[4];
 
-    printf("BLACK: %s", Player1);
-    for (i = 1; i <= 15; i++) {
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("     ");
+
+    printf("%s: %d", Player1, SkorB);
+    for (i = 1; i <= 25; i++) {
         printf(" ");
     }
-    printf("white: %s\n", Player2);
+    printf("%s: %d\n", Player2, SkorW);
     printf("\n");
 
     printf("     ");
@@ -339,3 +346,30 @@ void Undo(List *L, List *moveL, List * eatL, List *lawan, Stack *history){
     printf("Gerakan sampai giliran sebelumnya berhasil dibatalkan.\n");
     PrintInfo(*L); PrintInfo(*lawan);
 }
+
+int UpdateSkor(char Player) {
+    int Skor;
+    Skor = 0;
+        switch (Player)
+        {
+        case ('k'): 
+        case ('K'): Skor = Skor + 10;
+            break;
+        case ('Q'):
+        case ('q'): Skor = Skor + 8;
+            break;
+        case ('B'):
+        case ('b'): Skor = Skor + 4;
+            break;
+        case ('H'):
+        case ('h'): Skor = Skor + 2;
+            break;
+        case ('R'):
+        case ('r'): Skor = Skor + 4;
+            break;
+        case ('P'):
+        case ('p'): Skor = Skor + 1;
+            break;
+         }
+        return Skor;
+    }
