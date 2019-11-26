@@ -412,7 +412,8 @@ void SpecialMove(List *L, List *moveL, List * eatL, List *lawan, Stack *history)
     }
     printf("Daftar gerakan khusus yang bisa dilakukan:\n");
     address print = First(*moveL);
-    for (int i = 0; print != Nil; i++){
+    int i;
+    for (i = 0; print != Nil; i++){
         printf("%d. ", i);
         switch (PName(PInfo(print))){
         case ('K'): case ('k'): printf("Castling\n"); break;
@@ -472,45 +473,91 @@ void SpecialMove(List *L, List *moveL, List * eatL, List *lawan, Stack *history)
     int row, col;
     address temp,prec;
     SInfo S;
+    address benteng;
+    Piece rook;
+    boolean castling = false;
     while ((mainL != Nil) && !done){
         if ((mainL->PInfo.X == move->PInfo.X) && (mainL->PInfo.Y == move->PInfo.Y)) {
-            if (IsCanEat(PType(PInfo(mBidak)), Y(PInfo(mBidak)), X(PInfo(mBidak)))){
-                if (PType(PInfo(mBidak)) == 'B') {
-                    temp = First(*lawan);
-                    while (!IsEqualPiece(PInfo(temp), PInfo(mBidak))){  //CARI PIECE YG MAU DIMAKAN
-                        prec = temp;
-                        temp = Next(temp);
-                    }
-                    if (IsEqualPiece(PInfo(temp), PInfo(mBidak))){  //HAPUS PIECE DR LIST LAWAN
-                        Next(prec) = Next(Next(prec));
-                    }
-                    InsertFirst(eatL, temp);    //TARO PIECENYA DI LIST OWN
-                    SkorB = SkorB + UpdateSkor(temp->PInfo.BInfo.PName);
+            if (PName(PInfo(move)) == 'K' || PName(PInfo(move)) == 'k'){
+                castling = true;
+                row = Y(PInfo(move));col = X(PInfo(move));
+                cBoard[row][col] = ' ';
+                PInfo(mainL) = PInfo(mBidak);
+                cBoard[Y(PInfo(mainL))][X(PInfo(mainL))] = PName(PInfo(mainL));
+                S.PInfo = PInfo(mBidak); S.prevX = col; S.prevY = row;
+                S.prevMove = 's';
+                Push(history, S);
+                int row2, col2;
+                if (X(PInfo(mBidak)) > X(PInfo(move))){
+                    rook.X = X(PInfo(mBidak))+1; rook.Y = Y(PInfo(mBidak)); rook.BInfo.PType = PType(PInfo(mBidak));
+                    if (PType(PInfo(mBidak)) == 'B') {rook.BInfo.PName = 'R';}
+                    else{rook.BInfo.PName = 'R';}
+                    
+                    row2 = Y(PInfo(mBidak));col2 = X(PInfo(mBidak))+1;
+                    cBoard[row2][col2] = ' ';
+                    benteng = SearchPosisi(*L, rook);
+                    X(PInfo(benteng)) = X(PInfo(mBidak))-1;
+                    Y(PInfo(benteng)) = Y(PInfo(mBidak));
+                    cBoard[Y(PInfo(benteng))][X(PInfo(benteng))] = PName(PInfo(benteng));
+                    S.PInfo = PInfo(benteng); S.prevX = col2; S.prevY = row2;
+                    S.prevMove = 's';
+                    Push(history, S);
                 }
-                if (PType(PInfo(mBidak)) == 'w') {
-                    temp = First(*lawan);
-                    while (!IsEqualPiece(PInfo(temp), PInfo(mBidak))){
-                        prec = temp;
-                        temp = Next(temp);
-                    }
-                    if (IsEqualPiece(PInfo(temp), PInfo(mBidak))){
-                        Next(prec) = Next(Next(prec));
-                    }
-                    InsertFirst(eatL, temp);
-                    SkorW = SkorW + UpdateSkor(temp->PInfo.BInfo.PName);
+                else{
+                    rook.X = X(PInfo(mBidak))-2; rook.Y = Y(PInfo(mBidak)); rook.BInfo.PType = PType(PInfo(mBidak));
+                    if (PType(PInfo(mBidak)) == 'B') {rook.BInfo.PName = 'R';}
+                    else{rook.BInfo.PName = 'R';}
+                    
+                    row2 = Y(PInfo(mBidak));col2 = X(PInfo(mBidak))-2;
+                    cBoard[row2][col2] = ' ';
+                    benteng = SearchPosisi(*L, rook);
+                    X(PInfo(benteng)) = X(PInfo(mBidak))+1;
+                    Y(PInfo(benteng)) = Y(PInfo(mBidak));
+                    cBoard[Y(PInfo(benteng))][X(PInfo(benteng))] = PName(PInfo(benteng));
+                    S.PInfo = PInfo(benteng); S.prevX = col2; S.prevY = row2;
+                    Push(history, S);
                 }
-                S.prevMove = 'S';
+                done = true;
             }
             else{
-                S.prevMove = 's';
+                if (IsCanEat(PType(PInfo(mBidak)), Y(PInfo(mBidak)), X(PInfo(mBidak)))){
+                    if (PType(PInfo(mBidak)) == 'B') {
+                        temp = First(*lawan);
+                        while (!IsEqualPiece(PInfo(temp), PInfo(mBidak))){  //CARI PIECE YG MAU DIMAKAN
+                            prec = temp;
+                            temp = Next(temp);
+                        }
+                        if (IsEqualPiece(PInfo(temp), PInfo(mBidak))){  //HAPUS PIECE DR LIST LAWAN
+                            Next(prec) = Next(Next(prec));
+                        }
+                        InsertFirst(eatL, temp);    //TARO PIECENYA DI LIST OWN
+                        SkorB = SkorB + UpdateSkor(temp->PInfo.BInfo.PName);
+                    }
+                    if (PType(PInfo(mBidak)) == 'w') {
+                        temp = First(*lawan);
+                        while (!IsEqualPiece(PInfo(temp), PInfo(mBidak))){
+                            prec = temp;
+                            temp = Next(temp);
+                        }
+                        if (IsEqualPiece(PInfo(temp), PInfo(mBidak))){
+                            Next(prec) = Next(Next(prec));
+                        }
+                        InsertFirst(eatL, temp);
+                        SkorW = SkorW + UpdateSkor(temp->PInfo.BInfo.PName);
+                    }
+                    S.prevMove = 'S';
+                }
+                else{
+                    S.prevMove = 's';
+                }
+                row = Y(PInfo(move));col = X(PInfo(move));
+                cBoard[row][col] = ' ';
+                PInfo(mainL) = PInfo(mBidak);
+                cBoard[Y(PInfo(mainL))][X(PInfo(mainL))] = PName(PInfo(mainL));
+                S.PInfo = PInfo(mBidak); S.prevX = col; S.prevY = row;
+                Push(history, S);
+                done = true;
             }
-            row = Y(PInfo(move));col = X(PInfo(move));
-            cBoard[row][col] = ' ';
-            PInfo(mainL) = PInfo(mBidak);
-            cBoard[Y(PInfo(mainL))][X(PInfo(mainL))] = PName(PInfo(mainL));
-            S.PInfo = PInfo(mBidak); S.prevX = col; S.prevY = row;
-            Push(history, S);
-            done = true;
         }
         else{
             mainL = Next(mainL);
